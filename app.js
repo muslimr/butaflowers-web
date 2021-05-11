@@ -1,12 +1,14 @@
+const mongoose = require('mongoose');
 const express = require('express');
 const config = require('config');
 const path = require('path');
-const mongoose = require('mongoose');
+
 
 const app = express();
 
 app.use(express.json({extended: true}));
 
+app.use('/api/category', require('./routes/category.routes'));
 app.use('/api/auth', require('./routes/auth.routes'));
 app.use('/api/link', require('./routes/link.routes'));
 app.use('/t', require('./routes/redirect.routes'));

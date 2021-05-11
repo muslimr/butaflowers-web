@@ -37,10 +37,10 @@ router.post(
 
 router.get(
     '/',
-    auth,
+    // auth,
     async (req, res) => {
         try {
-            const links = await Link.find({owner: req.user.userId})
+            const links = await Link.find()
             res.json(links);
         } catch(e) {
             res.status(500).json({message: 'Что-то пошло не так'});

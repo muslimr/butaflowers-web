@@ -1,12 +1,9 @@
-@import "~materialize-css/dist/css/materialize.min.css";
+
 
 body {
     height: 100vh;
 }
 
-input.yellow-input:focus {
-    border-bottom: 1px solid #0070af !important;
-}
 
 .animated-logo {
     animation: ease-in-out scaleAnimation 3s infinite;
