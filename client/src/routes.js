@@ -7,44 +7,33 @@ import {AuthPage} from "./layouts/AuthPage";
 import MainPage from "./layouts/MainPage";
 import TestPage1 from "./layouts/TestPage1";
 import TestPage2 from "./layouts/TestPage2";
+import CatalogPage from "./layouts/CatalogPage";
+import PriceListPage from "./layouts/PriceListPage";
+import DeliveryPage from "./layouts/DeliveryPage";
+import ContactsPage from "./layouts/ContactsPage";
+import AboutPage from "./layouts/AboutPage";
 
 
 export const useRoutes = isAuthenticated => {
-    // if (isAuthenticated) {
-    //     return(
-    //         <Switch>
-    //             <Route path="/links">
-    //                 <LinksPage />
-    //             </Route>
-    //             <Route path="/create">
-    //                 <CreatePage />
-    //             </Route>
-    //             <Route path="/detail/:id">
-    //                 <DetailPage />
-    //             </Route>
-    //             <Redirect to="/create"/>
-    //         </Switch>
-    //     );
-    // }
+
+    const pageRoutes = [
+        {path: '/', component: <MainPage />},
+        {path: '/main', component: <MainPage />},
+        {path: '/catalog', component: <CatalogPage />},
+        {path: '/price_list', component: <PriceListPage />},
+        {path: '/delivery', component: <DeliveryPage />},
+        {path: '/contacts', component: <ContactsPage />},
+        {path: '/about', component: <AboutPage />},
+    ];
 
     return(
         <Switch>
-            <Route path="/" exact>
-                <MainPage />
-            </Route>
-            <Route path="/test1" exact>
-                <TestPage1 />
-            </Route>
-            <Route path="/test2" exact>
-                <TestPage2 />
-            </Route>
+            {
+                pageRoutes.map((page, item) =>
+                    <Route path={page.path} exact>{page.component}</Route>
+                )
+            }
 
-            <Route path="/haklahana" exact>
-                <AuthPage />
-            </Route>
-            <Route path="/links">
-                <LinksPage />
-            </Route>
             <Redirect to="/"/>
         </Switch>
     );

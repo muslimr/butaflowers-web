@@ -3,6 +3,7 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
+import {useHistory} from "react-router-dom";
 
 
 const AntTabs = withStyles({
@@ -81,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
         // backgroundColor: 'red'
     },
     padding: {
-        padding: theme.spacing(3),
+        padding: theme.spacing(1),
     },
     demo1: {
         backgroundColor: theme.palette.background.paper,
@@ -92,9 +93,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function MyNavbar() {
+
+export default function MyNavbar(props) {
+    let {pageRoutes} = props;
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
+    const history = useHistory();
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -103,15 +107,14 @@ export default function MyNavbar() {
     return (
         <div className={classes.root}>
             <div className={classes.demo2}>
-                <StyledTabs value={value} onChange={handleChange} aria-label="styled tabs example right">
-                    <StyledTab label="Главная" path={'/test1'}/>
-                    <StyledTab label="Каталог" />
-                    <StyledTab label="Прайс-лист" />
-                    <StyledTab label="Доставка" />
-                    <StyledTab label="О нас" />
-                    <StyledTab label="Контакты" />
-                </StyledTabs>
                 {/*<Typography className={classes.padding} />*/}
+                <StyledTabs value={value} onChange={handleChange} aria-label="styled tabs example right">
+                    {
+                        pageRoutes.map((page, index) =>
+                            <StyledTab label={page.label} onClick={() => history.push(page.route)}/>
+                        )
+                    }
+                </StyledTabs>
             </div>
         </div>
     );

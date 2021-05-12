@@ -1,3 +1,13 @@
 @import "variables";
-@import 'main';
 @import 'custom';
+@import 'catalog';
+@import 'main';
+
+
+body {
+  height: 100vh;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}

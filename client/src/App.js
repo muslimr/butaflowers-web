@@ -20,20 +20,36 @@ function App() {
         return <Loader />
     }
 
+    const pageRoutes = [
+        {label: 'Главная', route: '/main'},
+        {label: 'Каталог', route: '/catalog'},
+        {label: 'Прайс-Лист', route: '/price_list'},
+        {label: 'Доставка', route: '/delivery'},
+        {label: 'Контакты', route: '/contacts'},
+        {label: 'О нас', route: '/about'},
+    ];
+
+
     return(
         <AuthContext.Provider value={{token, login, logout, userId, isAuthenticated}}>
             <Router>
-                <img src={`/assets/buta_flowers_logo.svg`} style={{position: 'absolute', width: 300, marginLeft: 80, marginTop: 50}}/>
-                <div className='d-flex justify-content-end col p-0' style={{position: 'absolute'}}>
-                    <img src={`/assets/buta_large.svg`} style={{width: 620}}/>
-                </div>
-                <div className='d-flex justify-content-center col p-0' style={{position: 'absolute', marginTop: 750, zIndex: -10}}>
-                    <img src={`/assets/buta_group.svg`} style={{width: 600}}/>
-                </div>
+                <div className='no-select'>
+                    <img src={`/assets/buta_flowers_logo.svg`} style={{position: 'absolute', width: 300, marginLeft: 80, marginTop: 50}}/>
+                    <div className='d-flex justify-content-end col p-0' style={{position: 'absolute'}}>
+                        <img src={`/assets/buta_large.svg`} style={{width: 620}}/>
+                    </div>
+                    {/*<div className='d-flex justify-content-center col p-0' style={{position: 'absolute', marginTop: 750, zIndex: -10}}>*/}
+                    {/*    <img src={`/assets/buta_group.svg`} style={{width: 600}}/>*/}
+                    {/*</div>*/}
 
-                {dimensions.width <= 1200 ? <MySidebar/> : <MyNavbar/>}
+                    {
+                        dimensions.width <= 1200
+                            ? <MySidebar pageRoutes={pageRoutes}/>
+                            : <MyNavbar pageRoutes={pageRoutes}/>
+                    }
 
-                {routes}
+                    {routes}
+                </div>
             </Router>
         </AuthContext.Provider>
     );
