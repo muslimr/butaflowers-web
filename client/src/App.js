@@ -23,7 +23,16 @@ function App() {
     return(
         <AuthContext.Provider value={{token, login, logout, userId, isAuthenticated}}>
             <Router>
-                {/*{dimensions.width <= 1200 ? <MySidebar/> : <MyNavbar/>}*/}
+                <img src={`/assets/buta_flowers_logo.svg`} style={{position: 'absolute', width: 300, marginLeft: 80, marginTop: 50}}/>
+                <div className='d-flex justify-content-end col p-0' style={{position: 'absolute'}}>
+                    <img src={`/assets/buta_large.svg`} style={{width: 620}}/>
+                </div>
+                <div className='d-flex justify-content-center col p-0' style={{position: 'absolute', marginTop: 750, zIndex: -10}}>
+                    <img src={`/assets/buta_group.svg`} style={{width: 600}}/>
+                </div>
+
+                {dimensions.width <= 1200 ? <MySidebar/> : <MyNavbar/>}
+
                 {routes}
             </Router>
         </AuthContext.Provider>

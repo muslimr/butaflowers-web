@@ -30,9 +30,6 @@ export const useRoutes = isAuthenticated => {
     return(
         <Switch>
             <Route path="/" exact>
-                <AuthPage />
-            </Route>
-            <Route path="/haklahana" exact>
                 <MainPage />
             </Route>
             <Route path="/test1" exact>

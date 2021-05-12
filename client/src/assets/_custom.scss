@@ -1,0 +1,23 @@
+
+.buta-btn {
+  border-radius: 5px;
+  padding: 10px 50px;
+  margin: 20px;
+  font-size: 22px;
+  font-weight: 500;
+  color: $secondary_color;
+  border: 2px solid $secondary_color;
+  background: transparent;
+  transition: 0.2s ease-in-out;
+
+  &:hover {
+    color: #fff;
+    border: 2px solid $primary_color;
+    background: $primary_color;
+  }
+  &:active {
+    color: #fff;
+    border: 2px solid $secondary_color;
+    background: $secondary_color;
+  }
+}

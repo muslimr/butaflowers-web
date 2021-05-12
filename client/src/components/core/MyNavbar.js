@@ -4,6 +4,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 
+
 const AntTabs = withStyles({
     root: {
         borderBottom: '1px solid #e8e8e8',
@@ -54,7 +55,7 @@ const StyledTabs = withStyles({
         '& > span': {
             maxWidth: 40,
             width: '100%',
-            backgroundColor: '#9e5ee7',
+            backgroundColor: '#7744BD',
         },
     },
 })((props) => <Tabs {...props} TabIndicatorProps={{ children: <span /> }} />);
@@ -62,19 +63,22 @@ const StyledTabs = withStyles({
 const StyledTab = withStyles((theme) => ({
     root: {
         textTransform: 'none',
-        color: '#74389a',
+        color: '#7744BD',
         fontWeight: theme.typography.fontWeightRegular,
-        fontSize: theme.typography.pxToRem(15),
+        fontSize: theme.typography.pxToRem(18),
         marginRight: theme.spacing(1),
         '&:focus': {
             opacity: 1,
+            fontWeight: theme.typography.fontWeightMedium,
         },
     },
 }))((props) => <Tab disableRipple {...props} />);
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        flexGrow: 1,
+        display: 'flex',
+        justifyContent: 'flex-end',
+        // backgroundColor: 'red'
     },
     padding: {
         padding: theme.spacing(3),
@@ -83,6 +87,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.background.paper,
     },
     demo2: {
+        padding: theme.spacing(2),
         // backgroundColor: '#2e1534',
     },
 }));
@@ -98,10 +103,13 @@ export default function MyNavbar() {
     return (
         <div className={classes.root}>
             <div className={classes.demo2}>
-                <StyledTabs value={value} onChange={handleChange} aria-label="styled tabs example">
-                    <StyledTab label="MainPage" path={'/test1'}/>
-                    <StyledTab label="FirstPage" />
-                    <StyledTab label="SecondPage" />
+                <StyledTabs value={value} onChange={handleChange} aria-label="styled tabs example right">
+                    <StyledTab label="Главная" path={'/test1'}/>
+                    <StyledTab label="Каталог" />
+                    <StyledTab label="Прайс-лист" />
+                    <StyledTab label="Доставка" />
+                    <StyledTab label="О нас" />
+                    <StyledTab label="Контакты" />
                 </StyledTabs>
                 {/*<Typography className={classes.padding} />*/}
             </div>

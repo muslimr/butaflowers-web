@@ -74,45 +74,27 @@ const MainPage = () => {
 
 
     return(
-        <div className='overflow-auto p-4'
-             style={{
-                 // height: '90vh',
-                 height: '100vh',
-                 backgroundColor: 'rgb(217 220 226)'
-             }}
-        >
-            {loading && <Loader/>}
-            <div className='d-flex align-items-center justify-content-between mb-3'>
-                <Link to='/'>
-                    <Button type='primary'>
-                        КъулухЪ хъвач
-                    </Button>
-                </Link>
-                <MyModal label={'Add New Category'}
-                         buttonTitle={'Add New Category'}
-                         contentStyle={{minWidth: 500}}
-                         onSave={async () => {
-                             await addCategory(state, setState);
-                             getCategories();
-                         }}
-                >
-                    <MyInput label={'Title'}
-                             value={state.addData.title}
-                             onChange={(e) => setState({...state, addData: {...state.addData, title: e.target.value}})}
-                    />
-                    <MyInput label={'Image'}
-                             value={state.addData.img}
-                             containerStyle={{paddingTop: 15}}
-                             onChange={(e) => setState({...state, addData: {...state.addData, img: e.target.value}})}
-                    />
-                </MyModal>
+        <div className='d-flex p-4 justify-content-center' style={{height: '100vh'}}>
+            <div style={{marginTop: 120}}>
+                <div className='d-flex justify-content-center' style={{fontSize: 35, fontWeight: 300, color: '#776490'}}>
+                    ДОСТАВКА В ДЕНЬ ЗАКАЗА
+                </div>
+                <img src={`/assets/Butaflowers_main.png`} style={{width: '86vw'}}/>
+                <div className='nums-box'>
+                    <div className='mr-4'>8 (926) 262 82 82</div>
+                    <div className='ml-4'>8 (495) 517 95 95</div>
+                </div>
+                <div className='d-flex justify-content-center py-5'>
+                    <button className='buta-btn'>Получить Прайс</button>
+                    <form method="get" action={'https://www.instagram.com/butaflowers24/'}>
+                        <button className='buta-btn' type="submit">Магазин</button>
+                    </form>
+
+                    <button className='buta-btn'>Перейти в Каталог</button>
+                </div>
+
             </div>
-            {/*<Snackbar open={true} autoHideDuration={6000} onClose={handleClose}>*/}
-            {/*    <Alert onClose={handleClose} severity="success">*/}
-            {/*        This is a success message!*/}
-            {/*    </Alert>*/}
-            {/*</Snackbar>*/}
-            <MyTable data={state.listData}/>
+
         </div>
     );
 }
