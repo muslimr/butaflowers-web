@@ -1,8 +1,26 @@
 
-.category-box {
-  background: #FFFFFF;
-  box-shadow: 0px 10px 20px rgba(220, 220, 220, 0.4);
-  border-radius: 25px 63px 25px 63px;
+.category-box-container {
+  text-decoration: none !important;
+
+  .category-box {
+    background: #FFFFFF;
+    box-shadow: 0px 10px 20px rgba(220, 220, 220, 0.4);
+    border-radius: 25px 63px 25px 63px;
+    transition: 0.3s ease-in-out;
+  }
+  .category-image {
+    min-height: 320px;
+    transition: 0.3s ease-in-out;
+  }
+
+  :hover .category-box {
+    box-shadow: 0px 15px 84px #DDDCE0;
+  }
+  //:hover .category-image {
+  //  height: 350px;
+  //}
 }
+
+
 
 

@@ -24,6 +24,8 @@ export const useRoutes = isAuthenticated => {
         {path: '/delivery', component: <DeliveryPage />},
         {path: '/contacts', component: <ContactsPage />},
         {path: '/about', component: <AboutPage />},
+
+        {path: '/catalog/category', component: <AboutPage />},
     ];
 
     return(
