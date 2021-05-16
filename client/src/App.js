@@ -33,7 +33,7 @@ function App() {
     return(
         <AuthContext.Provider value={{token, login, logout, userId, isAuthenticated}}>
             <Router>
-                <div className='no-select'>
+                <div className='no-select' >
                     <img src={`/assets/buta_flowers_logo.svg`} style={{position: 'absolute', width: 300, marginLeft: 80, marginTop: 50}}/>
                     <div className='d-flex justify-content-end col p-0' style={{position: 'absolute'}}>
                         <img src={`/assets/buta_large.svg`} style={{width: 620}}/>
@@ -49,6 +49,8 @@ function App() {
                     }
 
                     {routes}
+
+                    {/*<div style={{minHeight: 50, marginTop: 200, backgroundColor: '#8F73B6'}}>sdfsdf</div>*/}
                 </div>
             </Router>
         </AuthContext.Provider>

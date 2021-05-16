@@ -64,7 +64,7 @@ const DialogActions = withStyles((theme) => ({
 
 
 export default function MyModal(props) {
-    let {children, label, buttonTitle, contentStyle, onSave} = props;
+    let {children, label, saveBtnLabel, button, buttonTitle, contentStyle, onSave} = props;
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
@@ -76,9 +76,14 @@ export default function MyModal(props) {
 
     return (
         <div>
-            <StyledButton variant="contained" onClick={handleClickOpen}>
-                {buttonTitle}
-            </StyledButton>
+            <div onClick={handleClickOpen}>
+                {
+                    button
+                        ? button
+                        : <StyledButton variant="contained">{buttonTitle}</StyledButton>
+                }
+            </div>
+
             <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
                 <DialogTitle id="customized-dialog-title" onClose={handleClose}>
                     {label}
@@ -91,7 +96,7 @@ export default function MyModal(props) {
                             color="primary"
                             onClick={() => {onSave(); handleClose()}}
                     >
-                        Save changes
+                        {saveBtnLabel || 'Save changes'}
                     </Button>
                 </DialogActions>
             </Dialog>

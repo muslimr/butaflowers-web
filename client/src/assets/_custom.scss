@@ -22,6 +22,7 @@
   border: 2px solid $secondary_color;
   background: transparent;
   transition: 0.2s ease-in-out;
+  text-decoration: none !important;
 
   &:hover {
     color: #fff;
