@@ -12,6 +12,7 @@ import PriceListPage from "./layouts/PriceListPage";
 import DeliveryPage from "./layouts/DeliveryPage";
 import ContactsPage from "./layouts/ContactsPage";
 import AboutPage from "./layouts/AboutPage";
+import CategoryPage from "./layouts/CategoryPage";
 
 
 export const useRoutes = isAuthenticated => {
@@ -25,7 +26,7 @@ export const useRoutes = isAuthenticated => {
         {path: '/contacts', component: <ContactsPage />},
         {path: '/about', component: <AboutPage />},
 
-        {path: '/catalog/category', component: <AboutPage />},
+        {path: '/catalog/:category?', component: <CategoryPage />},
     ];
 
     return(
