@@ -23,12 +23,13 @@ const useStyles = makeStyles((theme) =>({
     },
     link: {
         textDecoration: 'none !important' ,
-        color: theme.palette.text.primary,
+        color: '#7744BD',
     }
 }));
 
 
-export default function MySidebar() {
+export default function MySidebar(props) {
+    let {pageRoutes} = props;
     const classes = useStyles();
     const [state, setState] = React.useState({
         top: false,
@@ -55,27 +56,15 @@ export default function MySidebar() {
             onKeyDown={toggleDrawer(anchor, false)}
         >
             <List>
-                <Link to="/" className={classes.link}>
-                    <ListItem button>
-                        <ListItemIcon><InboxIcon/></ListItemIcon>
-                        <ListItemText primary={'MainPage'} />
-                    </ListItem>
-                </Link>
-            </List>
-            <Divider/>
-            <List>
-                <Link to="/test1" className={classes.link}>
-                    <ListItem button>
-                        <ListItemIcon><InboxIcon/></ListItemIcon>
-                        <ListItemText primary={'FirstPage'} />
-                    </ListItem>
-                </Link>
-                <Link to="/test2" className={classes.link}>
-                    <ListItem button>
-                        <ListItemIcon><MailIcon/></ListItemIcon>
-                        <ListItemText primary={'SecondPage'}/>
-                    </ListItem>
-                </Link>
+                {
+                    pageRoutes.map((page, index) =>
+                        <Link to={page.route} className={classes.link}>
+                            <ListItem button>
+                                <ListItemText primary={page.label} />
+                            </ListItem>
+                        </Link>
+                    )
+                }
             </List>
         </div>
     );

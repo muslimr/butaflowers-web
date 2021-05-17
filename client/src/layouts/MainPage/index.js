@@ -174,7 +174,7 @@ const MainPage = () => {
                             />
                         </MyModal>
                         <form method="get" action={'https://www.instagram.com/butaflowers24/'}>
-                            <button className='buta-btn' type="submit">Магазин</button>
+                            <button className='buta-btn' type="submit">Букеты</button>
                         </form>
                         <Link className='buta-btn' to={{pathname: `/catalog`}}>
                             Перейти в Каталог
