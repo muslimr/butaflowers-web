@@ -136,7 +136,7 @@ const MainPage = () => {
         <div className='d-flex p-4 justify-content-center' style={{minHeight: '100vh'}}>
             <div style={{marginTop: 120}}>
                 <div className='d-flex justify-content-center' style={{fontSize: 35, fontWeight: 300, color: '#776490'}}>
-                    ДОСТАВКА В ДЕНЬ ЗАКАЗА
+                    ДОСТАВКА В ДЕНЬ ЗАКАЗА ----------------
                 </div>
 
                 <img src={`/assets/Butaflowers_main.png`} style={{width: '86vw'}}/>
