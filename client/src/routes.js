@@ -13,6 +13,7 @@ import DeliveryPage from "./layouts/DeliveryPage";
 import ContactsPage from "./layouts/ContactsPage";
 import AboutPage from "./layouts/AboutPage";
 import CategoryPage from "./layouts/CategoryPage";
+import PanelPage from "./layouts/Panel/PanelPage";
 
 
 export const useRoutes = isAuthenticated => {
@@ -25,8 +26,9 @@ export const useRoutes = isAuthenticated => {
         {path: '/delivery', component: <DeliveryPage />},
         {path: '/contacts', component: <ContactsPage />},
         {path: '/about', component: <AboutPage />},
-
         {path: '/catalog/:category?', component: <CategoryPage />},
+
+        {path: '/cPanel', component: <PanelPage />},
     ];
 
     return(
