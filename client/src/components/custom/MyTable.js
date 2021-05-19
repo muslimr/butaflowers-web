@@ -298,7 +298,9 @@ export default function MyTable(props) {
                                             <TableCell component="th" id={labelId} scope="row" padding="none">
                                                 {row.title}
                                             </TableCell>
-                                            <TableCell align="right">{row.img}</TableCell>
+                                            <TableCell align="right">
+                                                {row.img}
+                                            </TableCell>
                                         </TableRow>
                                     );
                                 })}

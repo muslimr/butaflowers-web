@@ -22,8 +22,9 @@ const PanelPage = () => {
         addData: {
             img: '',
             title: '',
+            subtitle: '',
         },
-        listData: [],
+        data: [],
         count: 0
     }
 
@@ -38,7 +39,7 @@ const PanelPage = () => {
     const getCategories = useCallback( async () => {
         try {
             const fetched = await request('api/category', "GET", null, {});
-            setState({...state, listData: fetched})
+            setState({...state, data: fetched})
         } catch (e) {}
     }, [token, request]);
 
@@ -75,19 +76,39 @@ const PanelPage = () => {
 
     return(
         <div className='overflow-auto p-4'
-             style={{
-                 // height: '90vh',
-                 height: '100vh',
-                 backgroundColor: 'rgb(217 220 226)'
-             }}
+             style={{height: '100vh', backgroundColor: 'rgb(217 220 226)'}}
         >
+
             {loading && <Loader/>}
+
+            <form method="POST" action="/profile-upload-single" encType="multipart/form-data">
+                <div>
+                    <label>Upload profile picture</label>
+                    <input type="file" name="profile-file" required/>
+                </div>
+                <div>
+                    <input type="submit" value="Upload"/>
+                </div>
+            </form>
+
+
+            {/*<form method="POST" action="/api/category/upload" encType="multipart/form-data">*/}
+            {/*    <div>*/}
+            {/*        <label>Select your profile picture:</label>*/}
+            {/*        <input type="file" name="profile_pic"/>*/}
+            {/*    </div>*/}
+            {/*    <div>*/}
+            {/*        <input type="submit" name="btn_upload_profile_pic" value="Upload"/>*/}
+            {/*    </div>*/}
+            {/*</form>*/}
+
+            {/*<form action="/upload" method="post" encType="multipart/form-data">*/}
+            {/*    <label>Файл</label>*/}
+            {/*    <input type="file" name="filedata"/>*/}
+            {/*    <input type="submit" value="Send"/>*/}
+            {/*</form>*/}
+
             <div className='d-flex align-items-center justify-content-between mb-3'>
-                <Link to='/'>
-                    <Button type='primary'>
-                        КъулухЪ хъвач
-                    </Button>
-                </Link>
                 <MyModal label={'Add New Category'}
                          buttonTitle={'Add New Category'}
                          contentStyle={{minWidth: 500}}
@@ -96,26 +117,57 @@ const PanelPage = () => {
                              getCategories();
                          }}
                 >
-                    <MyInput label={'Title'}
-                             value={state.addData.title}
-                             onChange={(e) => setState({...state, addData: {...state.addData, title: e.target.value}})}
-                    />
                     <MyInput label={'Image'}
                              value={state.addData.img}
                              containerStyle={{paddingTop: 15}}
                              onChange={(e) => setState({...state, addData: {...state.addData, img: e.target.value}})}
                     />
+                    <MyInput label={'Title'}
+                             value={state.addData.title}
+                             onChange={(e) => setState({...state, addData: {...state.addData, title: e.target.value}})}
+                    />
+                    <MyInput label={'Subtitle'}
+                             value={state.addData.subtitle}
+                             onChange={(e) => setState({...state, addData: {...state.addData, subtitle: e.target.value}})}
+                    />
+
+
                 </MyModal>
             </div>
-            {/*<Snackbar open={true} autoHideDuration={6000} onClose={handleClose}>*/}
-            {/*    <Alert onClose={handleClose} severity="success">*/}
-            {/*        This is a success message!*/}
-            {/*    </Alert>*/}
-            {/*</Snackbar>*/}
-            <MyTable data={state.listData}/>
+
+
+
+            {JSON.stringify(state.data)}
+
+            <div className='row col'>
+                {
+                    state.data?.map((category, index) =>
+                        <CategoryBox key={index} category={category} onClick={() => {}}/>
+                    )
+                }
+            </div>
         </div>
     );
 }
 
 export default PanelPage;
+
+
+
+
+const CategoryBox = ({category}) => {
+    return(
+        <div className='col-lg-6 p-2'>
+            <div className='card p-3' style={{backgroundColor: '#fff'}}>
+                <div className='mb-0' style={{fontSize: 20, fontWeight: 500, color: '#8E8E8E'}}>
+                    {category.title}
+                </div>
+                <div className='d-flex w-100' style={{fontSize: 16, color: category.subtitle ? '#8E8E8E' : '#cdcdcd'}}>
+                    {category.subtitle || 'нет в наличии'}
+                </div>
+                <img src={category.img} className='category-image' />
+            </div>
+        </div>
+    );
+}
 

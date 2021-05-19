@@ -9,7 +9,7 @@ import MyModal from "../../components/modals/MyModal";
 import MyInput from "../../components/custom/MyInput";
 import {Snackbar} from "@material-ui/core";
 import {Alert} from "react-bootstrap";
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 // import {Carousel} from '3d-react-carousal';
 
 import Carousel from 'react-spring-3d-carousel';
@@ -136,7 +136,7 @@ const MainPage = () => {
         <div className='d-flex p-4 justify-content-center' style={{minHeight: '100vh'}}>
             <div style={{marginTop: 120}}>
                 <div className='d-flex justify-content-center' style={{fontSize: 35, fontWeight: 300, color: '#776490'}}>
-                    ДОСТАВКА В ДЕНЬ ЗАКАЗА ----------------
+                    ДОСТАВКА В ДЕНЬ ЗАКАЗА
                 </div>
 
                 <img src={`/assets/Butaflowers_main.png`} style={{width: '86vw'}}/>

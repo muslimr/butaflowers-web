@@ -111,7 +111,7 @@ export default function MyNavbar(props) {
                 <StyledTabs value={value} onChange={handleChange} aria-label="styled tabs example right">
                     {
                         pageRoutes.map((page, index) =>
-                            <StyledTab label={page.label} onClick={() => history.push(page.route)}/>
+                            <StyledTab key={index} label={page.label} onClick={() => history.push(page.route)}/>
                         )
                     }
                 </StyledTabs>

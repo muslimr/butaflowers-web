@@ -4,6 +4,19 @@ const shortid = require('shortid');
 const Category = require('../models/Category');
 const auth = require('../middleware/auth.middleware');
 const router = Router();
+const multer = require('multer');
+const path = require('path');
+
+
+let storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './uploads')
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname)
+    }
+})
+let upload = multer({ storage: storage })
 
 
 router.get(
@@ -26,9 +39,9 @@ router.post(
     // auth,
     async (req, res) => {
         try {
-            const {img, title} = req.body.data;
+            const {img, title, subtitle} = req.body.data;
             const category = new Category({
-                img, title
+                img, title, subtitle
             });
 
             await category.save();
@@ -39,6 +52,7 @@ router.post(
         }
     }
 )
+
 
 
 router.post(

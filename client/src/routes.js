@@ -1,12 +1,6 @@
 import React from 'react';
 import {Switch, Route, Redirect} from 'react-router-dom';
-import {LinksPage} from "./layouts/LinksPage";
-import {CreatePage} from "./layouts/CreatePage";
-import {DetailPage} from "./layouts/DetailPage";
-import {AuthPage} from "./layouts/AuthPage";
 import MainPage from "./layouts/MainPage";
-import TestPage1 from "./layouts/TestPage1";
-import TestPage2 from "./layouts/TestPage2";
 import CatalogPage from "./layouts/CatalogPage";
 import PriceListPage from "./layouts/PriceListPage";
 import DeliveryPage from "./layouts/DeliveryPage";
@@ -28,14 +22,14 @@ export const useRoutes = isAuthenticated => {
         {path: '/about', component: <AboutPage />},
         {path: '/catalog/:category?', component: <CategoryPage />},
 
-        {path: '/cPanel', component: <PanelPage />},
+        {path: '/adminPanel', component: <PanelPage />},
     ];
 
     return(
         <Switch>
             {
-                pageRoutes.map((page, item) =>
-                    <Route path={page.path} exact>{page.component}</Route>
+                pageRoutes.map((page, index) =>
+                    <Route key={index} path={page.path} exact>{page.component}</Route>
                 )
             }
 
