@@ -18,7 +18,7 @@
   "author": "Muslim Ragimov <muslim.ragimov@yahoo.com>",
   "license": "ISC",
   "dependencies": {
-    "config": "^3.3.6",
+    "config": "3.3.6",
     "express": "^4.17.1",
     "express-validator": "^6.10.0",
     "jsonwebtoken": "^8.5.1",

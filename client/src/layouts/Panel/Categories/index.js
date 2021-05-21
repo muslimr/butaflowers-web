@@ -10,6 +10,7 @@ import MyInput from "../../../components/custom/MyInput";
 import {Snackbar} from "@material-ui/core";
 import {Alert} from "react-bootstrap";
 import {Link} from "react-router-dom";
+import {getCategoriesList} from "../../../actions";
 
 
 const PanelCategories = () => {
@@ -33,46 +34,37 @@ const PanelCategories = () => {
         return {...prevState, ...newState}
     }, initialState);
 
-
-    const {loading, request} = useHttp();
     const {token} = useContext(AuthContext);
-
-    const getCategories = useCallback( async () => {
-        try {
-            const fetched = await request('api/category', "GET", {});
-            setState({...state, data: fetched})
-        } catch (e) {}
-    }, [token, request]);
 
 
     useEffect(() => {
-        getCategories();
-    }, [getCategories]);
+        getCategoriesList(state, setState);
+    }, []);
 
 
-    const addCategory = async (state, setState) => {
-        try {
-            await request('api/category/add', 'POST', {data: state.addData});
-        } catch (e) {
-
-        }
-    }
-
-    const editCategory = async (state, setState) => {
-        try {
-            await request('/api/category/add', 'POST', {data: state.addData}, {});
-        } catch (e) {
-
-        }
-    }
-
-    const deleteCategory = async (state, setState) => {
-        try {
-            await request('/api/category/add', 'POST', {data: state.addData}, {});
-        } catch (e) {
-
-        }
-    }
+    // const addCategory = async (state, setState) => {
+    //     try {
+    //         await request('api/category/add', 'POST', {data: state.addData});
+    //     } catch (e) {
+    //
+    //     }
+    // }
+    //
+    // const editCategory = async (state, setState) => {
+    //     try {
+    //         await request('/api/category/add', 'POST', {data: state.addData}, {});
+    //     } catch (e) {
+    //
+    //     }
+    // }
+    //
+    // const deleteCategory = async (state, setState) => {
+    //     try {
+    //         await request('/api/category/add', 'POST', {data: state.addData}, {});
+    //     } catch (e) {
+    //
+    //     }
+    // }
 
 
     return(
@@ -80,7 +72,7 @@ const PanelCategories = () => {
              style={{height: '100vh', backgroundColor: 'rgb(217 220 226)'}}
         >
 
-            {loading && <Loader/>}
+            {/*{loading && <Loader/>}*/}
 
             <form method="POST" action="/profile-upload-single" encType="multipart/form-data">
                 <div>
@@ -114,8 +106,8 @@ const PanelCategories = () => {
                          buttonTitle={'Add New Category'}
                          contentStyle={{minWidth: 500}}
                          onSave={async () => {
-                             await addCategory(state, setState);
-                             getCategories();
+                             // await addCategory(state, setState);
+                             // getCategoriesList(state, setState);
                          }}
                 >
                     <MyInput label={'Image'}

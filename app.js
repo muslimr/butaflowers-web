@@ -7,38 +7,14 @@ const multer = require('multer');
 
 
 
-
-
 const app = express();
-
 app.use(express.json({extended: true}));
 
-app.use('/uploads', express.static('upload'));
+// app.use('/uploads', express.static('upload'));
 app.use('/api/auth', require('./routes/auth.routes'));
 app.use('/api/category', require('./routes/category.routes'));
+app.use('/api/subcategory', require('./routes/subcategory.routes'));
 
-
-
-let storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './upload')
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.originalname)
-    }
-})
-let upload = multer({ storage: storage })
-
-
-app.post('/profile-upload-single', upload.single('profile-file'), function (req, res, next) {
-    // req.file is the `profile-file` file
-    // req.body will hold the text fields, if there were any
-    console.log(JSON.stringify(req.file))
-    let response = '<a href="/">Home</a><br>'
-    response += "Files uploaded successfully.<br>"
-    response += `<img src="${req.file.path}" /><br>`
-    return res.send(response)
-})
 
 
 if (process.env.NODE_ENV === 'production') {

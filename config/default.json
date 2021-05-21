@@ -2,5 +2,5 @@
   "port": 5000,
   "jwtSecret": "",
   "mongoUri": "mongodb://80.249.145.75:27017/?readPreference=primary&appname=MongoDB%20Compass&ssl=false",
-  "baseUrl": "http://localhost:5000"
+  "baseUrl": "http://localhost:5000/"
 }

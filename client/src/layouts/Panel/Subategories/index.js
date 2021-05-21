@@ -10,6 +10,8 @@ import MyInput from "../../../components/custom/MyInput";
 import {Snackbar} from "@material-ui/core";
 import {Alert} from "react-bootstrap";
 import {Link, useLocation, useParams} from "react-router-dom";
+import {getCategoriesList} from "../../../actions";
+import {getSubCategoriesList} from "../../../actions/subcategories";
 
 
 
@@ -45,18 +47,18 @@ const PanelSubcategories = (props) => {
     const {token} = useContext(AuthContext);
 
 
-    const getCategories = useCallback( async () => {
-        try {
-            const fetched = await request('/api/category', "GET", {data: {id: state.categoryId}});
-            setState({...state, data: fetched})
-        } catch (e) {}
-    }, [token, request]);
+    // const getCategories = useCallback( async () => {
+    //     try {
+    //         const fetched = await request('/api/category', "GET", {data: {id: state.categoryId}});
+    //         setState({...state, data: fetched})
+    //     } catch (e) {}
+    // }, [token, request]);
 
 
 
     useEffect(() => {
-        getCategories();
-    }, [getCategories]);
+        getSubCategoriesList(state, setState);
+    }, []);
 
 
     const addCategory = async (state, setState) => {
@@ -100,7 +102,7 @@ const PanelSubcategories = (props) => {
                          contentStyle={{minWidth: 500}}
                          onSave={async () => {
                              await addCategory(state, setState);
-                             getCategories();
+                             getSubCategoriesList(state, setState);
                          }}
                 >
                     <MyInput label={'Image'}

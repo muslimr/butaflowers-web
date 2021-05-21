@@ -2,7 +2,6 @@ const {Router} = require('express');
 const config = require('config');
 const shortid = require('shortid');
 const Category = require('../models/Category');
-const Subcategory = require('../models/Subcategory');
 const auth = require('../middleware/auth.middleware');
 const router = Router();
 const multer = require('multer');
@@ -16,18 +15,14 @@ router.get(
     // auth,
     async (req, res) => {
         try {
-            let categories;
-            let ID = req.query?.data?.id;
-            if (ID) {
-                categories = await Subcategory.find({parentId: ID})
-            } else {
-                categories = await Category.find()
-            }
+            let data = await Category.find();
 
-            res.json(categories.reverse());
-            // res.status(201).json({message: 'SUCCESS !'});
+            res.json({status: 'success', data});
+            // res.json({data: data});
+            res.status(200).json();
         } catch(e) {
-            res.status(500).json({message: 'Something went wrong'});
+            // res.json({description: 'Please wait a few minutes before you try again'});
+            res.status(500).json();
         }
     }
 )
@@ -38,40 +33,11 @@ router.post(
     // auth,
     async (req, res) => {
         try {
-            console.log('QUERY', req.query)
-            const {img, title, subtitle, parentId} = req.query.data;
-
-            let category;
-            if (parentId) {
-                category = new Subcategory({img, title, subtitle, parentId});
-            } else {
-                category = new Category({img, title, subtitle});
-            }
+            const {img, title, subtitle} = req.query.data;
+            let category = new Category({img, title, subtitle});
 
             await category.save();
-
             res.status(200).json({category, message: 'Added Successfully'});
-        } catch(e) {
-            res.status(500).json({message: 'Something went wrong'});
-        }
-    }
-)
-
-
-
-router.post(
-    '/delete',
-    // auth,
-    async (req, res) => {
-        try {
-            const {id} = req.body.data;
-            // const category = new Category({
-            //     img, title
-            // });
-            //
-            // await category.save();
-
-            // res.status(201).json({category});
         } catch(e) {
             res.status(500).json({message: 'Something went wrong'});
         }
