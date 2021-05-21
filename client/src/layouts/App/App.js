@@ -25,7 +25,7 @@ function Main() {
     return(
         <div className='no-select'>
             {
-                location.pathname !== '/adminPanel' &&
+                location.pathname.split('/')[1] !== 'adminPanel' &&
                 <>
                     <img src={`/assets/buta_flowers_logo.svg`} style={{position: 'absolute', width: 300, marginLeft: 80, marginTop: 50}}/>
                     <div className='d-flex justify-content-end col p-0' style={{position: 'absolute'}}>

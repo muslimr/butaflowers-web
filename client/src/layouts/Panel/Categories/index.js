@@ -12,7 +12,7 @@ import {Alert} from "react-bootstrap";
 import {Link} from "react-router-dom";
 
 
-const PanelPage = () => {
+const PanelCategories = () => {
 
     const initialState = {
         loading: false,
@@ -150,14 +150,14 @@ const PanelPage = () => {
     );
 }
 
-export default PanelPage;
+export default PanelCategories;
 
 
 
 
 const CategoryBox = ({category}) => {
     return(
-        <div className='col-lg-6 p-2'>
+        <Link className='col-lg-6 p-2' to={{pathname: `/adminPanel/category/${category._id}`}}>
             <div className='card p-3' style={{backgroundColor: '#fff'}}>
                 <div className='mb-0' style={{fontSize: 20, fontWeight: 500, color: '#8E8E8E'}}>
                     {category.title}
@@ -167,7 +167,7 @@ const CategoryBox = ({category}) => {
                 </div>
                 <img src={category.img} className='category-image' />
             </div>
-        </div>
+        </Link>
     );
 }
 
