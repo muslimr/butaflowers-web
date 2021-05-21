@@ -12,6 +12,10 @@ import {Alert} from "react-bootstrap";
 import {Link, useLocation, useParams} from "react-router-dom";
 
 
+
+
+
+
 const PanelSubcategories = (props) => {
 
     // let params = useParams();
@@ -26,6 +30,7 @@ const PanelSubcategories = (props) => {
             img: '',
             title: '',
             subtitle: '',
+            parentId: useParams().categoryId,
         },
         data: [],
         count: 0
@@ -39,12 +44,14 @@ const PanelSubcategories = (props) => {
     const {loading, request} = useHttp();
     const {token} = useContext(AuthContext);
 
+
     const getCategories = useCallback( async () => {
         try {
-            const fetched = await request('api/category', "GET", null, {});
+            const fetched = await request('/api/category', "GET", {data: {id: state.categoryId}});
             setState({...state, data: fetched})
         } catch (e) {}
     }, [token, request]);
+
 
 
     useEffect(() => {
@@ -54,7 +61,7 @@ const PanelSubcategories = (props) => {
 
     const addCategory = async (state, setState) => {
         try {
-            await request('/api/category/add', 'POST', {data: state.addData}, {});
+            await request('/api/category/add', 'POST', {data: state.addData});
         } catch (e) {
 
         }
@@ -76,9 +83,6 @@ const PanelSubcategories = (props) => {
         }
     }
 
-
-
-    console.log('LOCATION', state.categoryId)
 
     return(
         <div className='overflow-auto p-4'

@@ -23,6 +23,7 @@ const PanelCategories = () => {
             img: '',
             title: '',
             subtitle: '',
+            parentId: ''
         },
         data: [],
         count: 0
@@ -38,7 +39,7 @@ const PanelCategories = () => {
 
     const getCategories = useCallback( async () => {
         try {
-            const fetched = await request('api/category', "GET", null, {});
+            const fetched = await request('api/category', "GET", {});
             setState({...state, data: fetched})
         } catch (e) {}
     }, [token, request]);
@@ -51,7 +52,7 @@ const PanelCategories = () => {
 
     const addCategory = async (state, setState) => {
         try {
-            await request('/api/category/add', 'POST', {data: state.addData}, {});
+            await request('api/category/add', 'POST', {data: state.addData});
         } catch (e) {
 
         }

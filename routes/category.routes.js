@@ -2,21 +2,13 @@ const {Router} = require('express');
 const config = require('config');
 const shortid = require('shortid');
 const Category = require('../models/Category');
+const Subcategory = require('../models/Subcategory');
 const auth = require('../middleware/auth.middleware');
 const router = Router();
 const multer = require('multer');
 const path = require('path');
 
 
-let storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './uploads')
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.originalname)
-    }
-})
-let upload = multer({ storage: storage })
 
 
 router.get(
@@ -24,9 +16,16 @@ router.get(
     // auth,
     async (req, res) => {
         try {
-            const categories = await Category.find()
+            let categories;
+            let ID = req.query?.data?.id;
+            if (ID) {
+                categories = await Subcategory.find({parentId: ID})
+            } else {
+                categories = await Category.find()
+            }
+
             res.json(categories.reverse());
-            // console.log(catalog)
+            // res.status(201).json({message: 'SUCCESS !'});
         } catch(e) {
             res.status(500).json({message: 'Something went wrong'});
         }
@@ -39,14 +38,19 @@ router.post(
     // auth,
     async (req, res) => {
         try {
-            const {img, title, subtitle} = req.body.data;
-            const category = new Category({
-                img, title, subtitle
-            });
+            console.log('QUERY', req.query)
+            const {img, title, subtitle, parentId} = req.query.data;
+
+            let category;
+            if (parentId) {
+                category = new Subcategory({img, title, subtitle, parentId});
+            } else {
+                category = new Category({img, title, subtitle});
+            }
 
             await category.save();
 
-            res.status(201).json({category});
+            res.status(200).json({category, message: 'Added Successfully'});
         } catch(e) {
             res.status(500).json({message: 'Something went wrong'});
         }
