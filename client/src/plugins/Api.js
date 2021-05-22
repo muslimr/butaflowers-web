@@ -20,7 +20,7 @@ export class Api {
 
     static async request(url, method = "GET", params) {
         return await fetch(
-            `${url}/${serialize(params)}`,
+            method === "POST" ? `${url}?${serialize(params)}` : `${url}?${serialize(params)}`,
             {
                 method,
                 mode: "cors",
@@ -33,12 +33,12 @@ export class Api {
             }
         )
             .then(async (res) => {
-                // const response = await res.json();
-                // if (response.error_code === 1001) {
-                //     //   Auth.logOut();
-                //     return;
-                // }
-                return res.json();
+                let response = await res.json();
+                if (response.status === 'error') {
+                    //   Auth.logOut();
+                    return;
+                }
+                return response;
             })
             .catch((err) => {
                 // throw new Error(err);

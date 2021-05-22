@@ -11,17 +11,19 @@ const path = require('path');
 
 
 router.get(
-    '/',
+    '/list',
     // auth,
     async (req, res) => {
         try {
-            let data = await Category.find();
+            let et = await Category.find();
+            let categories = et.reverse();
 
-            res.json({status: 'success', data});
+            res.json({status: 'success', data: categories});
             // res.json({data: data});
             res.status(200).json();
         } catch(e) {
-            // res.json({description: 'Please wait a few minutes before you try again'});
+            res.json({description: 'Please wait a few minutes before you try again'});
+            console.log(e)
             res.status(500).json();
         }
     }
@@ -37,8 +39,11 @@ router.post(
             let category = new Category({img, title, subtitle});
 
             await category.save();
+            let data = await Category.find();
+            res.json({status: 'success', data, description: 'Added successfully'});
             res.status(200).json({category, message: 'Added Successfully'});
         } catch(e) {
+            // res.json({status: 'error', description: 'Invalid data. PLease try again.'});
             res.status(500).json({message: 'Something went wrong'});
         }
     }

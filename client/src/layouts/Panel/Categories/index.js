@@ -10,7 +10,7 @@ import MyInput from "../../../components/custom/MyInput";
 import {Snackbar} from "@material-ui/core";
 import {Alert} from "react-bootstrap";
 import {Link} from "react-router-dom";
-import {getCategoriesList} from "../../../actions";
+import {addCategory, getCategoriesList} from "../../../actions";
 
 
 const PanelCategories = () => {
@@ -24,7 +24,6 @@ const PanelCategories = () => {
             img: '',
             title: '',
             subtitle: '',
-            parentId: ''
         },
         data: [],
         count: 0
@@ -36,10 +35,19 @@ const PanelCategories = () => {
 
     const {token} = useContext(AuthContext);
 
+    const refresh = async () => {
+        await getCategoriesList(state, setState);
+    }
 
     useEffect(() => {
-        getCategoriesList(state, setState);
+        refresh();
     }, []);
+
+
+    const onSave = async () => {
+        await addCategory(state, setState);
+        await refresh();
+    }
 
 
     // const addCategory = async (state, setState) => {
@@ -74,15 +82,15 @@ const PanelCategories = () => {
 
             {/*{loading && <Loader/>}*/}
 
-            <form method="POST" action="/profile-upload-single" encType="multipart/form-data">
-                <div>
-                    <label>Upload profile picture</label>
-                    <input type="file" name="profile-file" required/>
-                </div>
-                <div>
-                    <input type="submit" value="Upload"/>
-                </div>
-            </form>
+            {/*<form method="POST" action="/profile-upload-single" encType="multipart/form-data">*/}
+            {/*    <div>*/}
+            {/*        <label>Upload profile picture</label>*/}
+            {/*        <input type="file" name="profile-file" required/>*/}
+            {/*    </div>*/}
+            {/*    <div>*/}
+            {/*        <input type="submit" value="Upload"/>*/}
+            {/*    </div>*/}
+            {/*</form>*/}
 
 
             {/*<form method="POST" action="/api/category/upload" encType="multipart/form-data">*/}
@@ -105,10 +113,7 @@ const PanelCategories = () => {
                 <MyModal label={'Add New Category'}
                          buttonTitle={'Add New Category'}
                          contentStyle={{minWidth: 500}}
-                         onSave={async () => {
-                             // await addCategory(state, setState);
-                             // getCategoriesList(state, setState);
-                         }}
+                         onSave={onSave}
                 >
                     <MyInput label={'Image'}
                              value={state.addData.img}
