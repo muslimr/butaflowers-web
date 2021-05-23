@@ -43,5 +43,6 @@ export async function deleteSubCategory (state, setState, id) {
             success: result.data?.message,
             loading: false,
         });
+        await getSubCategoriesList(state, setState);
     }
 }

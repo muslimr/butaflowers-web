@@ -24,7 +24,7 @@ const styles = (theme) => ({
 
 const StyledButton = withStyles({
     root: {
-        background: 'linear-gradient(45deg, #003168 30%, #0551A8 90%)',
+        background: '#0c539a',
         borderRadius: 5,
         border: 0,
         color: 'white',

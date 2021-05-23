@@ -14,7 +14,8 @@ router.get(
     // auth,
     async (req, res) => {
         try {
-            let categories = await Category.find();
+            let data = await Category.find();
+            let categories = data.reverse();
 
             res.json({categories});
             res.status(200).json();

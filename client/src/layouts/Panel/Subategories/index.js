@@ -10,8 +10,10 @@ import MyInput from "../../../components/custom/MyInput";
 import {Snackbar} from "@material-ui/core";
 import {Alert} from "react-bootstrap";
 import {Link, useLocation, useParams} from "react-router-dom";
-import {getCategoriesList} from "../../../actions";
+import {deleteCategory, getCategoriesList} from "../../../actions";
 import {addSubCategory, deleteSubCategory, getSubCategoriesList} from "../../../actions/subcategories";
+import InlineLoader from "../../../components/custom/InlineLoader";
+import {Alerts} from "../../../plugins/Alerts";
 
 
 
@@ -90,8 +92,8 @@ const PanelSubcategories = (props) => {
         <div className='overflow-auto p-4'
              style={{height: '100vh', backgroundColor: 'rgb(217 220 226)'}}
         >
+            {state.loading && <InlineLoader style={{backgroundColor: 'rgba(255,255,255,0.8)'}}/>}
 
-            {loading && <Loader/>}
 
             <div>{JSON.stringify(state.categoryId)}</div>
 
@@ -105,21 +107,16 @@ const PanelSubcategories = (props) => {
                              getSubCategoriesList(state, setState);
                          }}
                 >
-                    <MyInput label={'Image'}
-                             value={state.addData.img}
-                             containerStyle={{paddingTop: 15}}
-                             onChange={(e) => setState({...state, addData: {...state.addData, img: e.target.value}})}
-                    />
                     <MyInput label={'Title'}
                              value={state.addData.title}
+                             containerStyle={{paddingTop: 15}}
                              onChange={(e) => setState({...state, addData: {...state.addData, title: e.target.value}})}
                     />
                     <MyInput label={'Subtitle'}
                              value={state.addData.subtitle}
+                             containerStyle={{paddingTop: 15}}
                              onChange={(e) => setState({...state, addData: {...state.addData, subtitle: e.target.value}})}
                     />
-
-
                 </MyModal>
             </div>
 
@@ -142,7 +139,6 @@ export default PanelSubcategories;
 
 
 
-
 const CategoryBox = ({category, state, setState}) => {
     return(
         <div className='col-lg-6 p-2'>
@@ -157,7 +153,9 @@ const CategoryBox = ({category, state, setState}) => {
                         </div>
                     </div>
                     {/*<img src={category.img} className='category-image' />*/}
-                    <div onClick={() => deleteSubCategory(state, setState, category._id)}>
+                    <div onClick={() =>
+                        Alerts.askModal(() => deleteSubCategory(state, setState, category._id), () => {})
+                    }>
                         <span className="material-icons md-24">delete</span>
                     </div>
 

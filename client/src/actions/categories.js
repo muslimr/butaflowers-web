@@ -47,6 +47,7 @@ export async function deleteCategory (state, setState, id) {
             success: result.data?.message,
             loading: false,
         });
+        await getCategoriesList(state, setState)
     }
 }
 
