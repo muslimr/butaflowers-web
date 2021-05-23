@@ -1,15 +1,22 @@
 import {Api} from "../plugins/Api";
+import axios from "axios";
 
 
 export async function getCategoriesList (state, setState) {
-    let response = await Api.get("api/category/list");
+    let result = false;
+    setState({loading: true});
+    await axios.get('/api/category/list')
+        .catch(error => setState({error: error, loading: false}))
+        .then(response => {
+            result = response;
+        });
 
-    // console.log(response);
-
-    if (response.status === 'success') {
-        setState({data: response.data, loading: false});
-    } else {
-        setState({error: response.description, loading: false});
+    if (result) {
+        setState({
+            data: result.data?.categories,
+            count: result.data?.count,
+            loading: false,
+        });
     }
 }
 

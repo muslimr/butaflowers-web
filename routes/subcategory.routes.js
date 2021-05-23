@@ -11,19 +11,15 @@ const path = require('path');
 
 
 router.get(
-    '/',
+    '/list',
     // auth,
     async (req, res) => {
         try {
-            let data;
-            let ID = req.query?.data?.id;
-            if (ID) {
-                data = await Subcategory.find({parentId: ID})
-            } else {
-                data = await Category.find()
-            }
-
-            res.json({data, status: 'success'});
+            console.log('ererer', req)
+            // let ID = req.query?.data?.id;
+            let data = await Subcategory.find();
+            //
+            res.json({data});
             res.status(200).json();
         } catch(e) {
             res.json({status: 'error', description: 'Please wait a few minutes before you try again'});
@@ -38,19 +34,19 @@ router.post(
     // auth,
     async (req, res) => {
         try {
-            console.log('QUERY', req.query)
-            const {img, title, subtitle, parentId} = req.query.data;
-
-            let category;
-            if (parentId) {
-                category = new Subcategory({img, title, subtitle, parentId});
-            } else {
-                category = new Category({img, title, subtitle});
-            }
-
-            await category.save();
-
-            res.status(200).json({category, message: 'Added Successfully'});
+            // console.log('QUERY', req.query)
+            // const {img, title, subtitle, parentId} = req.query.data;
+            //
+            // let category;
+            // if (parentId) {
+            //     category = new Subcategory({img, title, subtitle, parentId});
+            // } else {
+            //     category = new Category({img, title, subtitle});
+            // }
+            //
+            // await category.save();
+            //
+            // res.status(200).json({category, message: 'Added Successfully'});
         } catch(e) {
             res.status(500).json({message: 'Something went wrong'});
         }

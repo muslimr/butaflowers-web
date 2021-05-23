@@ -11,6 +11,7 @@ import {Snackbar} from "@material-ui/core";
 import {Alert} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import {addCategory, getCategoriesList} from "../../../actions";
+import axios from "axios";
 
 
 const PanelCategories = () => {
@@ -37,6 +38,7 @@ const PanelCategories = () => {
 
     const refresh = async () => {
         await getCategoriesList(state, setState);
+        // axios.get('/api/category/list').then(response => console.log('AXIOS RESPONSE', response));
     }
 
     useEffect(() => {

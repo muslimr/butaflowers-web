@@ -32,14 +32,8 @@ export class Api {
                 body: method !== "GET" ? JSON.stringify(params) : null,
             }
         )
-            .then(async (res) => {
-                let response = await res.json();
-                if (response.status === 'error') {
-                    //   Auth.logOut();
-                    return;
-                }
-                return response;
-            })
+            .then(async (res) =>  await res.json())
+            .then(async (response) => response)
             .catch((err) => {
                 // throw new Error(err);
             });
