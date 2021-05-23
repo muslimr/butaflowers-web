@@ -11,7 +11,7 @@ import {Snackbar} from "@material-ui/core";
 import {Alert} from "react-bootstrap";
 import {Link, useLocation, useParams} from "react-router-dom";
 import {getCategoriesList} from "../../../actions";
-import {getSubCategoriesList} from "../../../actions/subcategories";
+import {addSubCategory, deleteSubCategory, getSubCategoriesList} from "../../../actions/subcategories";
 
 
 
@@ -101,7 +101,7 @@ const PanelSubcategories = (props) => {
                          buttonTitle={'Add New Category'}
                          contentStyle={{minWidth: 500}}
                          onSave={async () => {
-                             await addCategory(state, setState);
+                             await addSubCategory(state, setState);
                              getSubCategoriesList(state, setState);
                          }}
                 >
@@ -130,7 +130,7 @@ const PanelSubcategories = (props) => {
             <div className='row col'>
                 {
                     state.data?.map((category, index) =>
-                        <CategoryBox key={index} category={category} onClick={() => {}}/>
+                        <CategoryBox key={index} state={state} category={category} setState={setState} onClick={() => {}}/>
                     )
                 }
             </div>
@@ -143,18 +143,29 @@ export default PanelSubcategories;
 
 
 
-const CategoryBox = ({category}) => {
+const CategoryBox = ({category, state, setState}) => {
     return(
         <div className='col-lg-6 p-2'>
-            <div className='card p-3' style={{backgroundColor: '#fff'}}>
-                <div className='mb-0' style={{fontSize: 20, fontWeight: 500, color: '#8E8E8E'}}>
-                    {category.title}
+            <div className='card p-3'>
+                <div className='d-flex justify-content-between'>
+                    <div>
+                        <div className='mb-0' style={{fontSize: 20, fontWeight: 500, color: '#8E8E8E'}}>
+                            {category.title}
+                        </div>
+                        <div style={{fontSize: 16, color: category.subtitle ? '#8E8E8E' : '#cdcdcd'}}>
+                            {category.subtitle || 'нет в наличии'}
+                        </div>
+                    </div>
+                    {/*<img src={category.img} className='category-image' />*/}
+                    <div onClick={() => deleteSubCategory(state, setState, category._id)}>
+                        <span className="material-icons md-24">delete</span>
+                    </div>
+
+
+                    {/*<span className="material-icons md-light md-inactive">face</span>*/}
                 </div>
-                <div className='d-flex w-100' style={{fontSize: 16, color: category.subtitle ? '#8E8E8E' : '#cdcdcd'}}>
-                    {category.subtitle || 'нет в наличии'}
-                </div>
-                <img src={category.img} className='category-image' />
             </div>
+
         </div>
     );
 }

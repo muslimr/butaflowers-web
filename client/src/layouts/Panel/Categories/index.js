@@ -10,8 +10,7 @@ import MyInput from "../../../components/custom/MyInput";
 import {Snackbar} from "@material-ui/core";
 import {Alert} from "react-bootstrap";
 import {Link} from "react-router-dom";
-import {addCategory, getCategoriesList} from "../../../actions";
-import axios from "axios";
+import {addCategory, deleteCategory, getCategoriesList} from "../../../actions";
 
 
 const PanelCategories = () => {
@@ -38,7 +37,6 @@ const PanelCategories = () => {
 
     const refresh = async () => {
         await getCategoriesList(state, setState);
-        // axios.get('/api/category/list').then(response => console.log('AXIOS RESPONSE', response));
     }
 
     useEffect(() => {
@@ -50,31 +48,6 @@ const PanelCategories = () => {
         await addCategory(state, setState);
         await refresh();
     }
-
-
-    // const addCategory = async (state, setState) => {
-    //     try {
-    //         await request('api/category/add', 'POST', {data: state.addData});
-    //     } catch (e) {
-    //
-    //     }
-    // }
-    //
-    // const editCategory = async (state, setState) => {
-    //     try {
-    //         await request('/api/category/add', 'POST', {data: state.addData}, {});
-    //     } catch (e) {
-    //
-    //     }
-    // }
-    //
-    // const deleteCategory = async (state, setState) => {
-    //     try {
-    //         await request('/api/category/add', 'POST', {data: state.addData}, {});
-    //     } catch (e) {
-    //
-    //     }
-    // }
 
 
     return(
@@ -142,7 +115,7 @@ const PanelCategories = () => {
             <div className='row col'>
                 {
                     state.data?.map((category, index) =>
-                        <CategoryBox key={index} category={category} onClick={() => {}}/>
+                        <CategoryBox key={index} state={state} category={category} setState={setState} onClick={() => {}}/>
                     )
                 }
             </div>
@@ -154,20 +127,30 @@ export default PanelCategories;
 
 
 
-
-const CategoryBox = ({category}) => {
+const CategoryBox = ({category, state, setState}) => {
     return(
-        <Link className='col-lg-6 p-2' to={{pathname: `/adminPanel/category/${category._id}`}}>
-            <div className='card p-3' style={{backgroundColor: '#fff'}}>
-                <div className='mb-0' style={{fontSize: 20, fontWeight: 500, color: '#8E8E8E'}}>
-                    {category.title}
+        <div className='col-lg-6 p-2'>
+            <div className='card p-3'>
+                <div className='d-flex justify-content-between'>
+                    <Link to={{pathname: `/adminPanel/category/${category._id}`}}>
+                        <div className='mb-0' style={{fontSize: 20, fontWeight: 500, color: '#8E8E8E'}}>
+                            {category.title}
+                        </div>
+                        <div style={{fontSize: 16, color: category.subtitle ? '#8E8E8E' : '#cdcdcd'}}>
+                            {category.subtitle || 'нет в наличии'}
+                        </div>
+                    </Link>
+                    {/*<img src={category.img} className='category-image' />*/}
+                    <div onClick={() => deleteCategory(state, setState, category._id)}>
+                        <span className="material-icons md-24">delete</span>
+                    </div>
+
+
+                    {/*<span className="material-icons md-light md-inactive">face</span>*/}
                 </div>
-                <div className='d-flex w-100' style={{fontSize: 16, color: category.subtitle ? '#8E8E8E' : '#cdcdcd'}}>
-                    {category.subtitle || 'нет в наличии'}
-                </div>
-                <img src={category.img} className='category-image' />
             </div>
-        </Link>
+
+        </div>
     );
 }
 

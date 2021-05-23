@@ -9,23 +9,17 @@ const multer = require('multer');
 const path = require('path');
 
 
-
-
 router.get(
     '/list',
     // auth,
     async (req, res) => {
         try {
-            let et = await Category.find();
-            // let subcategories = await Subcategory.find({parentId: })
-            let categories = et.reverse();
+            let categories = await Category.find();
 
             res.json({categories});
-            // res.json({data: data});
             res.status(200).json();
         } catch(e) {
             res.json({description: 'Please wait a few minutes before you try again'});
-            console.log(e)
             res.status(500).json();
         }
     }
@@ -37,7 +31,7 @@ router.post(
     // auth,
     async (req, res) => {
         try {
-            const {img, title, subtitle} = req.query.data;
+            const {img, title, subtitle} = req.body?.params;
             let category = new Category({img, title, subtitle});
 
             await category.save();
@@ -45,6 +39,23 @@ router.post(
             res.status(200).json({category, message: 'Added Successfully'});
         } catch(e) {
             // res.json({status: 'error', description: 'Invalid data. PLease try again.'});
+            res.status(500).json({message: 'Something went wrong'});
+        }
+    }
+)
+
+
+router.delete(
+    '/delete',
+    // auth,
+    async (req, res) => {
+        try {
+            const {id} = req.query;
+            await Category.findOneAndDelete({_id: id});
+            await Subcategory.deleteMany({parentId: id});
+
+            res.status(200).json({message: 'Deleted Successfully!'});
+        } catch(e) {
             res.status(500).json({message: 'Something went wrong'});
         }
     }

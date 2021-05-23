@@ -15,10 +15,9 @@ router.get(
     // auth,
     async (req, res) => {
         try {
-            console.log('ererer', req)
-            // let ID = req.query?.data?.id;
-            let data = await Subcategory.find();
-            //
+            let ID = req.query.id;
+            let data = await Subcategory.find({parentId: ID});
+
             res.json({data});
             res.status(200).json();
         } catch(e) {
@@ -34,19 +33,11 @@ router.post(
     // auth,
     async (req, res) => {
         try {
-            // console.log('QUERY', req.query)
-            // const {img, title, subtitle, parentId} = req.query.data;
-            //
-            // let category;
-            // if (parentId) {
-            //     category = new Subcategory({img, title, subtitle, parentId});
-            // } else {
-            //     category = new Category({img, title, subtitle});
-            // }
-            //
-            // await category.save();
-            //
-            // res.status(200).json({category, message: 'Added Successfully'});
+            const {img, title, subtitle, parentId} = req.body?.params;
+            let category = new Subcategory({img, title, subtitle, parentId});
+            await category.save();
+
+            res.status(200).json({category, message: 'Added Successfully'});
         } catch(e) {
             res.status(500).json({message: 'Something went wrong'});
         }
@@ -55,19 +46,15 @@ router.post(
 
 
 
-router.post(
+router.delete(
     '/delete',
     // auth,
     async (req, res) => {
         try {
-            const {id} = req.body.data;
-            // const category = new Category({
-            //     img, title
-            // });
-            //
-            // await category.save();
+            const {id} = req.query;
+            await Subcategory.findOneAndDelete({_id: id});
 
-            // res.status(201).json({category});
+            res.status(200).json({message: 'Deleted Successfully!'});
         } catch(e) {
             res.status(500).json({message: 'Something went wrong'});
         }
