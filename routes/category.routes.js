@@ -27,6 +27,28 @@ router.get(
 )
 
 
+router.get(
+    '/info',
+    // auth,
+    async (req, res) => {
+        try {
+            let ID = req.query?.id;
+            if(ID) {
+                let categoryInfo = await Category.find({_id: ID});
+                let data = categoryInfo[0];
+
+                res.json({data});
+                res.status(200).json();
+            }
+            else return;
+        } catch(e) {
+            res.json({description: 'Please wait a few minutes before you try again'});
+            res.status(500).json();
+        }
+    }
+)
+
+
 router.post(
     '/add',
     // auth,
@@ -38,6 +60,26 @@ router.post(
             await category.save();
             // res.json({status: 'success', data, description: 'Added successfully'});
             res.status(200).json({category, message: 'Added Successfully'});
+        } catch(e) {
+            // res.json({status: 'error', description: 'Invalid data. PLease try again.'});
+            res.status(500).json({message: 'Something went wrong'});
+        }
+    }
+)
+
+
+router.put(
+    '/edit',
+    // auth,
+    async (req, res) => {
+        try {
+            let {id, data} = req.body;
+            let category = await Category.find({_id: id});
+            if (!category) return;
+            let updated = await Category.updateOne({_id: id}, {$set: data});
+
+            res.json({updated, description: 'Added successfully'});
+            res.status(200).json({message: 'Updated Successfully'});
         } catch(e) {
             // res.json({status: 'error', description: 'Invalid data. PLease try again.'});
             res.status(500).json({message: 'Something went wrong'});

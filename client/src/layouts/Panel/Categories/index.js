@@ -9,7 +9,7 @@ import MyModal from "../../../components/modals/MyModal";
 import MyInput from "../../../components/custom/MyInput";
 import {Snackbar} from "@material-ui/core";
 import {Link} from "react-router-dom";
-import {addCategory, deleteCategory, getCategoriesList} from "../../../actions";
+import {addCategory, deleteCategory, editCategory, getCategoriesList, getCategoryInfo} from "../../../actions";
 import Swal from 'sweetalert2';
 import {Alerts} from "../../../plugins/Alerts";
 import InlineLoader from "../../../components/custom/InlineLoader";
@@ -22,12 +22,14 @@ const PanelCategories = () => {
         refreshing: false,
         success: false,
         error: false,
+        id: '',
         addData: {
             img: '',
             title: '',
             subtitle: '',
         },
         data: [],
+        categoryInfo: false,
         count: 0
     }
 
@@ -44,6 +46,10 @@ const PanelCategories = () => {
     useEffect(() => {
         refresh();
     }, []);
+
+    useEffect(() => {
+        getCategoryInfo(state, setState)
+    }, [state.id]);
 
 
     const onSave = async () => {
@@ -82,7 +88,7 @@ const PanelCategories = () => {
             <div className='row col p-0 m-0'>
                 {
                     state.data?.map((category, index) =>
-                        <CategoryBox key={index} state={state} category={category} setState={setState} onClick={() => {}}/>
+                        <CategoryBox key={index} state={state} category={category} setState={setState} refresh={refresh} onClick={() => {}}/>
                     )
                 }
             </div>
@@ -94,7 +100,7 @@ export default PanelCategories;
 
 
 
-const CategoryBox = ({category, state, setState}) => {
+const CategoryBox = ({category, state, setState, refresh}) => {
 
     const deleteThisCategory = async () => {
         Alerts.askModal(
@@ -107,6 +113,12 @@ const CategoryBox = ({category, state, setState}) => {
                 cancelButtonText: 'НЕТ, не удалять !!'
             }
         )
+    }
+
+
+    const editThisCategory = async () => {
+        await editCategory(state, setState);
+        refresh();
     }
 
 
@@ -126,27 +138,38 @@ const CategoryBox = ({category, state, setState}) => {
 
                         <div className='d-flex'>
                             <MyModal
-                                label={'Получить прайс'}
-                                saveBtnLabel={'Отправить'}
+                                label={'Отредактировать'}
+                                saveBtnLabel={'Сохранить'}
                                 button={
-                                    <div className='d-flex'>
+                                    <div className='d-flex' onClick={() => setState({...state, id: category._id})}>
                                         <span className="material-icons md-24">edit</span>
                                         <div>Редактировать</div>
                                     </div>
                                 }
                                 contentStyle={{padding: 20, minWidth: 500}}
-                                onSave={() => {}}
+                                onSave={editThisCategory}
                             >
-                                <MyInput label={'Телефон'}
-                                    // value={state.addData.phone}
-                                         containerStyle={{paddingTop: 15}}
-                                    // onChange={(e) => setState({...state, addData: {...state.addData, phone: e.target.value}})}
-                                />
-                                <MyInput label={'Email'}
-                                    // value={state.addData.email}
-                                         containerStyle={{paddingTop: 15}}
-                                    // onChange={(e) => setState({...state, addData: {...state.addData, email: e.target.value}})}
-                                />
+                                <form onSubmit={editThisCategory}>
+                                    {JSON.stringify(state.categoryInfo)}
+
+                                    <MyInput label={'Название'}
+                                             defaultValue={state.categoryInfo?.title}
+                                             value={state.categoryInfo?.title}
+                                             containerStyle={{paddingTop: 15}}
+                                             onChange={(e) => setState({...state,
+                                                 categoryInfo: {...state.categoryInfo, title: e.target.value}
+                                             })}
+                                    />
+                                    <MyInput label={'Количество'}
+                                             defaultValue={state.categoryInfo?.subtitle}
+                                             value={state.categoryInfo?.subtitle}
+                                             containerStyle={{paddingTop: 15}}
+                                             onChange={(e) => setState({...state,
+                                                 categoryInfo: {...state.categoryInfo, subtitle: e.target.value}
+                                             })}
+                                    />
+                                </form>
+
 
                                 {/*<div style={{zIndex: 20}} onClick={() =>*/}
                                 {/*    Alerts.askModal(() => deleteCategory(state, setState, category._id), () => {})*/}
