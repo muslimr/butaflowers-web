@@ -33,7 +33,7 @@ router.post(
     // auth,
     async (req, res) => {
         try {
-            const {img, title, subtitle, parentId} = req.body?.params;
+            const {img, title, subtitle, parentId} = req.body.params;
             let category = new Subcategory({img, title, subtitle, parentId});
             await category.save();
 
