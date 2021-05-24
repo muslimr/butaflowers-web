@@ -32,7 +32,7 @@ router.get(
     // auth,
     async (req, res) => {
         try {
-            let ID = req.query?.id;
+            let ID = req.query.id;
             if(ID) {
                 let categoryInfo = await Category.find({_id: ID});
                 let data = categoryInfo[0];
