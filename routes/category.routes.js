@@ -54,14 +54,14 @@ router.post(
     // auth,
     async (req, res) => {
         try {
-            const {img, title, subtitle} = req.body.params;
-            let category = new Category({img, title, subtitle});
+            const {img, title, subtitle, description} = req.body.params;
+            let category = new Category({img, title, subtitle, description});
 
             await category.save();
-            // res.json({status: 'success', data, description: 'Added successfully'});
+            res.json({description: 'Added successfully'});
             res.status(200).json({category, message: 'Added Successfully'});
         } catch(e) {
-            // res.json({status: 'error', description: 'Invalid data. PLease try again.'});
+            res.json({description: 'Invalid data. PLease try again.'});
             res.status(500).json({message: 'Something went wrong'});
         }
     }
@@ -78,10 +78,10 @@ router.put(
             if (!category) return;
             let updated = await Category.updateOne({_id: id}, {$set: data});
 
-            res.json({updated, description: 'Added successfully'});
+            res.json({updated, description: 'Updated successfully'});
             res.status(200).json({message: 'Updated Successfully'});
         } catch(e) {
-            // res.json({status: 'error', description: 'Invalid data. PLease try again.'});
+            res.json({description: 'Invalid data. PLease try again.'});
             res.status(500).json({message: 'Something went wrong'});
         }
     }

@@ -18,6 +18,7 @@
   "author": "Muslim Ragimov <muslim.ragimov@yahoo.com>",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.913.0",
     "axios": "^0.21.1",
     "config": "3.3.6",
     "express": "^4.17.1",

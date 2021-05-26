@@ -27,6 +27,7 @@ const PanelCategories = () => {
             img: '',
             title: '',
             subtitle: '',
+            description: '',
         },
         data: [],
         categoryInfo: false,
@@ -71,15 +72,20 @@ const PanelCategories = () => {
                          onSave={onSave}
                 >
                     <form onSubmit={onSave}>
-                        <MyInput label={'Title'}
+                        <MyInput label={'Название'}
                                  value={state.addData.title}
                                  containerStyle={{paddingTop: 15}}
                                  onChange={(e) => setState({...state, addData: {...state.addData, title: e.target.value}})}
                         />
-                        <MyInput label={'Subtitle'}
+                        <MyInput label={'Количество'}
                                  value={state.addData.subtitle}
                                  containerStyle={{paddingTop: 15}}
                                  onChange={(e) => setState({...state, addData: {...state.addData, subtitle: e.target.value}})}
+                        />
+                        <MyInput label={'Описание'}
+                                 value={state.addData.description}
+                                 containerStyle={{paddingTop: 15}}
+                                 onChange={(e) => setState({...state, addData: {...state.addData, description: e.target.value}})}
                         />
                     </form>
                 </MyModal>
@@ -127,12 +133,15 @@ const CategoryBox = ({category, state, setState, refresh}) => {
             <div className='card p-3' style={{borderRadius: 10}}>
                 <div className='d-flex'>
                     <div className='d-flex w-100 flex-column justify-content-between'>
-                        <Link className='col' to={{pathname: `/adminPanel/category/${category._id}`}}>
-                            <div className='mb-0' style={{fontSize: 20, fontWeight: 500, color: '#8E8E8E'}}>
+                        <Link className='col p-2' to={{pathname: `/adminPanel/category/${category._id}`}}>
+                            <div className='mb-0' style={{fontSize: 20, lineHeight: 1, fontWeight: 500, color: '#8E8E8E'}}>
                                 {category.title}
                             </div>
                             <div style={{fontSize: 16, color: category.subtitle ? '#8E8E8E' : '#cdcdcd'}}>
                                 {category.subtitle || 'нет в наличии'}
+                            </div>
+                            <div style={{fontSize: 14, wordBreak: 'break-all', whiteSpace: 'pre-wrap', color: '#cdcdcd'}}>
+                                {!!category.description && category.description}
                             </div>
                         </Link>
 
@@ -141,17 +150,15 @@ const CategoryBox = ({category, state, setState, refresh}) => {
                                 label={'Отредактировать'}
                                 saveBtnLabel={'Сохранить'}
                                 button={
-                                    <div className='d-flex' onClick={() => setState({...state, id: category._id})}>
+                                    <Button className='m-2' variant="contained" color="primary" onClick={() => setState({...state, id: category._id})}>
                                         <span className="material-icons md-24">edit</span>
                                         <div>Редактировать</div>
-                                    </div>
+                                    </Button>
                                 }
                                 contentStyle={{padding: 20, minWidth: 500}}
                                 onSave={editThisCategory}
                             >
                                 <form onSubmit={editThisCategory}>
-                                    {JSON.stringify(state.categoryInfo)}
-
                                     <MyInput label={'Название'}
                                              defaultValue={state.categoryInfo?.title}
                                              value={state.categoryInfo?.title}
@@ -168,38 +175,35 @@ const CategoryBox = ({category, state, setState, refresh}) => {
                                                  categoryInfo: {...state.categoryInfo, subtitle: e.target.value}
                                              })}
                                     />
+                                    <MyInput label={'Описание'}
+                                             defaultValue={state.categoryInfo?.description}
+                                             value={state.categoryInfo?.description}
+                                             containerStyle={{paddingTop: 15}}
+                                             onChange={(e) => setState({...state,
+                                                 categoryInfo: {...state.categoryInfo, description: e.target.value}
+                                             })}
+                                    />
                                 </form>
-
-
-                                {/*<div style={{zIndex: 20}} onClick={() =>*/}
-                                {/*    Alerts.askModal(() => deleteCategory(state, setState, category._id), () => {})*/}
-                                {/*    // deleteCategory(state, setState, category._id)*/}
-                                {/*}>*/}
-                                {/*    <span className="material-icons md-24">delete</span>*/}
-                                {/*</div>*/}
                             </MyModal>
 
-                            <div
-                                className='d-flex'
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                className='d-flex m-2'
                                 onClick={() =>
                                 Alerts.askModal(() => deleteThisCategory(), () => {})
-                                // deleteCategory(state, setState, category._id)
                             }>
                                 <span className="material-icons md-24">delete</span>
                                 <div>Удалить</div>
-                            </div>
+                            </Button>
                         </div>
-
                     </div>
-
-                    {/*<div>*/}
-                    {/*    <img src={'/assets/xrizantema.png'} style={{height: 200}}/>*/}
-                    {/*</div>*/}
 
                     <div>
                         <div className='d-flex align-items-center justify-content-center'
-                             style={{width: 150, height: 150, borderRadius: 10, backgroundColor: '#d9d9d9'}}
+                             style={{width: 170, height: 170, borderRadius: 10, overflow: 'hidden', backgroundColor: '#d9d9d9'}}
                         >
+                            {/*<img src={'/assets/xrizantema.png'} style={{height: 170}}/>*/}
                             <span className="material-icons" style={{fontSize: 100, color: '#fff'}}>photo</span>
                         </div>
                     </div>
