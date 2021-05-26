@@ -9,6 +9,7 @@ import AboutPage from "./layouts/AboutPage";
 import CategoryPage from "./layouts/CategoryPage";
 import PanelCategories from "./layouts/Panel/Categories";
 import PanelSubcategories from "./layouts/Panel/Subategories";
+import PanelArticles from "./layouts/Panel/Articles";
 
 
 export const useRoutes = isAuthenticated => {
@@ -26,6 +27,7 @@ export const useRoutes = isAuthenticated => {
         {path: '/adminPanel', component: <PanelCategories />},
         {path: '/adminPanel/categories', component: <PanelCategories />},
         {path: '/adminPanel/category/:categoryId?', component: <PanelSubcategories />},
+        {path: '/adminPanel/category/:categoryId?/subCategory/:subCategoryId?', component: <PanelArticles />},
     ];
 
     return(

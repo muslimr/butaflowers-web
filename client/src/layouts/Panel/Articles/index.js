@@ -8,54 +8,67 @@ import {Loader} from "../../../components/Loader";
 import MyModal from "../../../components/modals/MyModal";
 import MyInput from "../../../components/custom/MyInput";
 import {Snackbar} from "@material-ui/core";
-import {Link} from "react-router-dom";
+import {Alert} from "react-bootstrap";
+import {Link, useHistory, useLocation, useParams} from "react-router-dom";
 import {addCategory, deleteCategory, editCategory, getCategoriesList, getCategoryInfo} from "../../../actions";
-import Swal from 'sweetalert2';
-import {Alerts} from "../../../plugins/Alerts";
+import {
+    addSubCategory,
+    deleteSubCategory,
+    editSubCategory,
+    getSubCategoriesList,
+    getSubCategoryInfo
+} from "../../../actions/subcategories";
 import InlineLoader from "../../../components/custom/InlineLoader";
+import {Alerts} from "../../../plugins/Alerts";
+import {addArticle, getArticlesList} from "../../../actions/articles";
 
 
-const PanelCategories = () => {
+
+const PanelArticles = (props) => {
+
+    // let params = useParams();
 
     const initialState = {
         loading: false,
         refreshing: false,
         success: false,
         error: false,
+        categoryId: useParams().categoryId,
+        subCategoryId: useParams().subCategoryId,
         id: '',
         addData: {
+            parentId: useParams().subCategoryId,
             img: '',
             title: '',
             subtitle: '',
             description: '',
         },
         data: [],
-        categoryInfo: false,
         count: 0
     }
 
     const [state, setState] = useReducer((prevState, newState) => {
         return {...prevState, ...newState}
     }, initialState);
-
-    const {token} = useContext(AuthContext);
+    const history = useHistory();
 
     const refresh = async () => {
-        await getCategoriesList(state, setState);
+        await getArticlesList(state, setState);
     }
 
     useEffect(() => {
         refresh();
     }, []);
 
+
     useEffect(() => {
-        getCategoryInfo(state, setState)
+        getSubCategoryInfo(state, setState);
     }, [state.id]);
 
 
     const onSave = async () => {
-        await addCategory(state, setState);
-        refresh();
+        await addArticle(state, setState);
+        await refresh();
     }
 
 
@@ -65,9 +78,18 @@ const PanelCategories = () => {
         >
             {state.loading && <InlineLoader style={{backgroundColor: 'rgba(255,255,255,0.8)'}}/>}
 
-            <div className='d-flex align-items-center justify-content-end mb-3 mr-2'>
-                <MyModal label={'Добавить Новую Категорию'}
-                         buttonTitle={'Новая Категория'}
+            <div className='d-flex align-items-center justify-content-between mb-3 mr-2'>
+                <Button
+                    className='d-flex m-2 px-4'
+                    style={{minHeight: 45}}
+                    onClick={() => history.goBack()}
+                >
+                    <span className="material-icons md-24">arrow_back_ios</span>
+                    <div>Назад</div>
+                </Button>
+
+                <MyModal label={'Добавить Новую Податегорию'}
+                         buttonTitle={'Новая Подкатегория'}
                          contentStyle={{minWidth: 500}}
                          onSave={onSave}
                 >
@@ -95,7 +117,7 @@ const PanelCategories = () => {
             <div className='row col p-0 m-0'>
                 {
                     state.data?.map((category, index) =>
-                        <CategoryBox key={index} state={state} category={category} setState={setState} refresh={refresh} onClick={() => {}}/>
+                        <ArticleBox key={index} state={state} category={category} setState={setState} refresh={refresh} onClick={() => {}}/>
                     )
                 }
             </div>
@@ -103,15 +125,15 @@ const PanelCategories = () => {
     );
 }
 
-export default PanelCategories;
+export default PanelArticles;
 
 
 
-const CategoryBox = ({category, state, setState, refresh}) => {
+const ArticleBox = ({category, state, setState, refresh}) => {
 
     const deleteThisCategory = async () => {
         Alerts.askModal(
-            async () => await deleteCategory(state, setState, category._id),
+            async () => await deleteSubCategory(state, setState, category._id),
             () => {
             },
             {
@@ -124,7 +146,7 @@ const CategoryBox = ({category, state, setState, refresh}) => {
 
 
     const editThisCategory = async () => {
-        await editCategory(state, setState);
+        await editSubCategory(state, setState);
         refresh();
     }
 
@@ -134,7 +156,7 @@ const CategoryBox = ({category, state, setState, refresh}) => {
             <div className='card p-3' style={{borderRadius: 10}}>
                 <div className='d-flex'>
                     <div className='d-flex w-100 flex-column justify-content-between' style={{maxHeight: 170}}>
-                        <Link className='col p-2' to={{pathname: `/adminPanel/category/${category._id}`}}>
+                        <div className='col p-2'>
                             <div className='mb-0' style={{fontSize: 20, lineHeight: 1, fontWeight: 500, color: '#8E8E8E'}}>
                                 {category.title}
                             </div>
@@ -144,7 +166,7 @@ const CategoryBox = ({category, state, setState, refresh}) => {
                             <div style={{fontSize: 14, overflow: 'hidden', maxHeight: 60, wordBreak: 'break-all', color: '#cdcdcd'}}>
                                 {!!category.description && category.description}
                             </div>
-                        </Link>
+                        </div>
 
                         <div className='d-flex'>
                             <MyModal
@@ -195,9 +217,8 @@ const CategoryBox = ({category, state, setState, refresh}) => {
                                 variant="contained"
                                 color="secondary"
                                 className='d-flex m-2'
-                                onClick={() =>
-                                Alerts.askModal(() => deleteThisCategory(), () => {})
-                            }>
+                                onClick={() => Alerts.askModal(() => deleteThisCategory(), () => {})}
+                            >
                                 <span className="material-icons md-24">delete</span>
                                 <div>Удалить</div>
                             </Button>
@@ -213,7 +234,6 @@ const CategoryBox = ({category, state, setState, refresh}) => {
                         </div>
                     </div>
                 </div>
-
 
             </div>
         </div>

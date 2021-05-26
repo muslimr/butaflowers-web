@@ -8,4 +8,4 @@ const schema = new Schema({
     description: {type: String},
 }, { versionKey: null });
 
-module.exports = model('Subcategory', schema);
+module.exports = model('Article', schema);

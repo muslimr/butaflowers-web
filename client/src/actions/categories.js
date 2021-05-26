@@ -23,7 +23,7 @@ export async function getCategoryInfo (state, setState) {
     // setState({loading: true});
     await axios.get('/api/category/info', {params: {id: state.id}})
         .catch(error => setState({error: error, loading: false}))
-        .then(response => result = response);
+        .then(response => result = response)
 
     if (result) {
         console.log('RESULT', result)
@@ -58,7 +58,7 @@ export async function editCategory (state, setState) {
     setState({loading: true});
     await axios.put('/api/category/edit', {id: state.id, data: state.categoryInfo})
         .catch(error => setState({error: error, loading: false}))
-        .then(response => result = response);
+        .then(response => (result = response))
 
     if (result) {
         setState({

@@ -11,9 +11,10 @@ const app = express();
 app.use(express.json({extended: true}));
 
 // app.use('/uploads', express.static('upload'));
-app.use('/api/auth', require('./routes/auth.routes'));
+// app.use('/api/auth', require('./routes/auth.routes'));
 app.use('/api/category', require('./routes/category.routes'));
 app.use('/api/subcategory', require('./routes/subcategory.routes'));
+app.use('/api/article', require('./routes/article.routes'));
 
 
 
