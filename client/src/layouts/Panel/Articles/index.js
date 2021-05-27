@@ -216,11 +216,10 @@ const ArticleBox = ({article, state, setState, refresh}) => {
                                 }
                             </MyModal>
 
-                            <Button
-                                variant="contained"
-                                color="secondary"
-                                className='d-flex m-2'
-                                onClick={() => Alerts.askModal(() => deleteThisArticle(), () => {})}
+                            <Button variant="contained"
+                                    color="secondary"
+                                    className='d-flex m-2'
+                                    onClick={() => Alerts.askModal(() => deleteThisArticle(), () => {})}
                             >
                                 <span className="material-icons md-24">delete</span>
                                 <div>Удалить</div>

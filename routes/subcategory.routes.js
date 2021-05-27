@@ -2,6 +2,7 @@ const {Router} = require('express');
 const config = require('config');
 const shortid = require('shortid');
 const Subcategory = require('../models/Subcategory');
+const Article = require('../models/Article');
 const auth = require('../middleware/auth.middleware');
 const router = Router();
 const multer = require('multer');
@@ -91,6 +92,7 @@ router.delete(
         try {
             const {id} = req.query;
             await Subcategory.findOneAndDelete({_id: id});
+            await Article.deleteMany({subcategory_id: id});
 
             res.status(200).json({description: 'Deleted Successfully!'});
         } catch(e) {
