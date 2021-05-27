@@ -1,7 +1,9 @@
 const {Schema, model, Types} = require('mongoose');
 
 const schema = new Schema({
-    parentId: {type: String, required: true},
+    category_id: {type: String, required: true},
+    subcategory_id: {type: String, required: true},
+    article_num: {type: String},
     img: {type: String, default: false},
     title: {type: String, required: true},
     subtitle: {type: String},

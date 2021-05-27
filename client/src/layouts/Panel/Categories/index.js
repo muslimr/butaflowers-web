@@ -30,7 +30,7 @@ const PanelCategories = () => {
             description: '',
         },
         data: [],
-        categoryInfo: false,
+        category_info: false,
         count: 0
     }
 
@@ -68,7 +68,7 @@ const PanelCategories = () => {
             <div className='d-flex align-items-center justify-content-end mb-3 mr-2'>
                 <MyModal label={'Добавить Новую Категорию'}
                          buttonTitle={'Новая Категория'}
-                         contentStyle={{minWidth: 500}}
+                         contentStyle={{padding: 25, minWidth: 500}}
                          onSave={onSave}
                 >
                     <form onSubmit={onSave}>
@@ -134,14 +134,14 @@ const CategoryBox = ({category, state, setState, refresh}) => {
             <div className='card p-3' style={{borderRadius: 10}}>
                 <div className='d-flex'>
                     <div className='d-flex w-100 flex-column justify-content-between' style={{maxHeight: 170}}>
-                        <Link className='col p-2' to={{pathname: `/adminPanel/category/${category._id}`}}>
-                            <div className='mb-0' style={{fontSize: 20, lineHeight: 1, fontWeight: 500, color: '#8E8E8E'}}>
+                        <Link className='col p-2 touchable-text' to={{pathname: `/adminPanel/category/${category._id}`}}>
+                            <div className='mb-0 touchable-title' style={{fontSize: 20, lineHeight: 1, fontWeight: 500}}>
                                 {category.title}
                             </div>
-                            <div style={{fontSize: 16, color: category.subtitle ? '#8E8E8E' : '#cdcdcd'}}>
+                            <div className='touchable-subtitle' style={{fontSize: 16}}>
                                 {category.subtitle || 'нет в наличии'}
                             </div>
-                            <div style={{fontSize: 14, overflow: 'hidden', maxHeight: 60, wordBreak: 'break-all', color: '#cdcdcd'}}>
+                            <div className='touchable-subtitle' style={{fontSize: 14, overflow: 'hidden', maxHeight: 60, wordBreak: 'break-all', color: '#cdcdcd'}}>
                                 {!!category.description && category.description}
                             </div>
                         </Link>
@@ -156,39 +156,36 @@ const CategoryBox = ({category, state, setState, refresh}) => {
                                         <div>Редактировать</div>
                                     </Button>
                                 }
-                                contentStyle={{padding: 20, minWidth: 500}}
+                                contentStyle={{padding: 25, minWidth: 500}}
                                 onSave={editThisCategory}
                             >
-                                {
-                                    state.categoryInfo &&
-                                    <form onSubmit={editThisCategory}>
-                                        <MyInput label={'Название'}
-                                                 defaultValue={state.categoryInfo?.title}
-                                                 value={state.categoryInfo?.title}
-                                                 containerStyle={{paddingTop: 5}}
-                                                 onChange={(e) => setState({...state,
-                                                     categoryInfo: {...state.categoryInfo, title: e.target.value}
-                                                 })}
-                                        />
-                                        <MyInput label={'Количество'}
-                                                 defaultValue={state.categoryInfo?.subtitle}
-                                                 value={state.categoryInfo?.subtitle}
-                                                 containerStyle={{paddingTop: 15}}
-                                                 onChange={(e) => setState({...state,
-                                                     categoryInfo: {...state.categoryInfo, subtitle: e.target.value}
-                                                 })}
-                                        />
-                                        <MyInput label={'Описание'}
-                                                 multiline={true}
-                                                 defaultValue={state.categoryInfo?.description}
-                                                 value={state.categoryInfo?.description}
-                                                 containerStyle={{paddingTop: 15}}
-                                                 onChange={(e) => setState({...state,
-                                                     categoryInfo: {...state.categoryInfo, description: e.target.value}
-                                                 })}
-                                        />
-                                    </form>
-                                }
+                                <form onSubmit={editThisCategory}>
+                                    <MyInput label={'Название'}
+                                             defaultValue={state.category_info?.title}
+                                             value={state.category_info?.title}
+                                             containerStyle={{paddingTop: 5}}
+                                             onChange={(e) => setState({...state,
+                                                 category_info: {...state.category_info, title: e.target.value}
+                                             })}
+                                    />
+                                    <MyInput label={'Количество'}
+                                             defaultValue={state.category_info?.subtitle}
+                                             value={state.category_info?.subtitle}
+                                             containerStyle={{paddingTop: 15}}
+                                             onChange={(e) => setState({...state,
+                                                 category_info: {...state.category_info, subtitle: e.target.value}
+                                             })}
+                                    />
+                                    <MyInput label={'Описание'}
+                                             multiline={true}
+                                             defaultValue={state.category_info?.description}
+                                             value={state.category_info?.description}
+                                             containerStyle={{paddingTop: 15}}
+                                             onChange={(e) => setState({...state,
+                                                 category_info: {...state.category_info, description: e.target.value}
+                                             })}
+                                    />
+                                </form>
                             </MyModal>
 
                             <Button

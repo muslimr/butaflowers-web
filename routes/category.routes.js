@@ -92,7 +92,7 @@ router.delete(
         try {
             const {id} = req.query;
             await Category.findOneAndDelete({_id: id});
-            await Subcategory.deleteMany({parentId: id});
+            await Subcategory.deleteMany({category_id: id});
 
             res.status(200).json({description: 'Deleted Successfully!'});
         } catch(e) {

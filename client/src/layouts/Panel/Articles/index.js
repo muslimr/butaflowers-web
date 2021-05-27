@@ -20,30 +20,30 @@ import {
 } from "../../../actions/subcategories";
 import InlineLoader from "../../../components/custom/InlineLoader";
 import {Alerts} from "../../../plugins/Alerts";
-import {addArticle, getArticlesList} from "../../../actions/articles";
+import {addArticle, deleteArticle, editArticle, getArticleInfo, getArticlesList} from "../../../actions/articles";
 
 
 
 const PanelArticles = (props) => {
-
-    // let params = useParams();
 
     const initialState = {
         loading: false,
         refreshing: false,
         success: false,
         error: false,
-        categoryId: useParams().categoryId,
-        subCategoryId: useParams().subCategoryId,
+        category_id: useParams().categoryId,
+        subcategory_id: useParams().subCategoryId,
         id: '',
         addData: {
-            parentId: useParams().subCategoryId,
+            category_id: useParams().categoryId,
+            subcategory_id: useParams().subCategoryId,
             img: '',
             title: '',
             subtitle: '',
             description: '',
         },
         data: [],
+        article_info: false,
         count: 0
     }
 
@@ -62,7 +62,7 @@ const PanelArticles = (props) => {
 
 
     useEffect(() => {
-        getSubCategoryInfo(state, setState);
+        getArticleInfo(state, setState);
     }, [state.id]);
 
 
@@ -88,9 +88,9 @@ const PanelArticles = (props) => {
                     <div>Назад</div>
                 </Button>
 
-                <MyModal label={'Добавить Новую Податегорию'}
-                         buttonTitle={'Новая Подкатегория'}
-                         contentStyle={{minWidth: 500}}
+                <MyModal label={'Добавить Новый Продукт'}
+                         buttonTitle={'Новый Продукт'}
+                         contentStyle={{padding: 25, minWidth: 500}}
                          onSave={onSave}
                 >
                     <form onSubmit={onSave}>
@@ -116,8 +116,8 @@ const PanelArticles = (props) => {
 
             <div className='row col p-0 m-0'>
                 {
-                    state.data?.map((category, index) =>
-                        <ArticleBox key={index} state={state} category={category} setState={setState} refresh={refresh} onClick={() => {}}/>
+                    state.data?.map((article, index) =>
+                        <ArticleBox key={index} state={state} article={article} setState={setState} refresh={refresh} onClick={() => {}}/>
                     )
                 }
             </div>
@@ -129,11 +129,11 @@ export default PanelArticles;
 
 
 
-const ArticleBox = ({category, state, setState, refresh}) => {
+const ArticleBox = ({article, state, setState, refresh}) => {
 
-    const deleteThisCategory = async () => {
+    const deleteThisArticle = async () => {
         Alerts.askModal(
-            async () => await deleteSubCategory(state, setState, category._id),
+            async () => await deleteArticle(state, setState, article._id),
             () => {
             },
             {
@@ -145,8 +145,8 @@ const ArticleBox = ({category, state, setState, refresh}) => {
     }
 
 
-    const editThisCategory = async () => {
-        await editSubCategory(state, setState);
+    const editThisArticle = async () => {
+        await editArticle(state, setState);
         refresh();
     }
 
@@ -158,13 +158,16 @@ const ArticleBox = ({category, state, setState, refresh}) => {
                     <div className='d-flex w-100 flex-column justify-content-between' style={{maxHeight: 170}}>
                         <div className='col p-2'>
                             <div className='mb-0' style={{fontSize: 20, lineHeight: 1, fontWeight: 500, color: '#8E8E8E'}}>
-                                {category.title}
+                                {article.title}
                             </div>
-                            <div style={{fontSize: 16, color: category.subtitle ? '#8E8E8E' : '#cdcdcd'}}>
-                                {category.subtitle || 'нет в наличии'}
+                            <div style={{fontSize: 16, color: article.subtitle ? '#8E8E8E' : '#cdcdcd'}}>
+                                {article.subtitle || 'нет в наличии'}
+                            </div>
+                            <div style={{fontSize: 16, color: '#cdcdcd'}}>
+                                {article.article_num}
                             </div>
                             <div style={{fontSize: 14, overflow: 'hidden', maxHeight: 60, wordBreak: 'break-all', color: '#cdcdcd'}}>
-                                {!!category.description && category.description}
+                                {!!article.description && article.description}
                             </div>
                         </div>
 
@@ -173,40 +176,40 @@ const ArticleBox = ({category, state, setState, refresh}) => {
                                 label={'Отредактировать'}
                                 saveBtnLabel={'Сохранить'}
                                 button={
-                                    <Button className='m-2' variant="contained" color="primary" onClick={() => setState({...state, id: category._id})}>
+                                    <Button className='m-2' variant="contained" color="primary" onClick={() => setState({...state, id: article._id})}>
                                         <span className="material-icons md-24">edit</span>
                                         <div>Редактировать</div>
                                     </Button>
                                 }
-                                contentStyle={{padding: 20, minWidth: 500}}
-                                onSave={editThisCategory}
+                                contentStyle={{padding: 25, minWidth: 500}}
+                                onSave={editThisArticle}
                             >
                                 {
-                                    state.categoryInfo &&
-                                    <form onSubmit={editThisCategory}>
+                                    state.article_info &&
+                                    <form onSubmit={editThisArticle}>
                                         <MyInput label={'Название'}
-                                                 defaultValue={state.categoryInfo?.title}
-                                                 value={state.categoryInfo?.title}
+                                                 defaultValue={state.article_info?.title}
+                                                 value={state.article_info?.title}
                                                  containerStyle={{paddingTop: 5}}
                                                  onChange={(e) => setState({...state,
-                                                     categoryInfo: {...state.categoryInfo, title: e.target.value}
+                                                     article_info: {...state.article_info, title: e.target.value}
                                                  })}
                                         />
                                         <MyInput label={'Количество'}
-                                                 defaultValue={state.categoryInfo?.subtitle}
-                                                 value={state.categoryInfo?.subtitle}
+                                                 defaultValue={state.article_info?.subtitle}
+                                                 value={state.article_info?.subtitle}
                                                  containerStyle={{paddingTop: 15}}
                                                  onChange={(e) => setState({...state,
-                                                     categoryInfo: {...state.categoryInfo, subtitle: e.target.value}
+                                                     article_info: {...state.article_info, subtitle: e.target.value}
                                                  })}
                                         />
                                         <MyInput label={'Описание'}
                                                  multiline={true}
-                                                 defaultValue={state.categoryInfo?.description}
-                                                 value={state.categoryInfo?.description}
+                                                 defaultValue={state.article_info?.description}
+                                                 value={state.article_info?.description}
                                                  containerStyle={{paddingTop: 15}}
                                                  onChange={(e) => setState({...state,
-                                                     categoryInfo: {...state.categoryInfo, description: e.target.value}
+                                                     article_info: {...state.article_info, description: e.target.value}
                                                  })}
                                         />
                                     </form>
@@ -217,7 +220,7 @@ const ArticleBox = ({category, state, setState, refresh}) => {
                                 variant="contained"
                                 color="secondary"
                                 className='d-flex m-2'
-                                onClick={() => Alerts.askModal(() => deleteThisCategory(), () => {})}
+                                onClick={() => Alerts.askModal(() => deleteThisArticle(), () => {})}
                             >
                                 <span className="material-icons md-24">delete</span>
                                 <div>Удалить</div>

@@ -4,7 +4,7 @@ import axios from "axios";
 export async function getSubCategoriesList(state, setState) {
     let result = false;
     setState({loading: true});
-    await axios.get('/api/subcategory/list', {params: {id: state.categoryId}})
+    await axios.get('/api/subcategory/list', {params: {id: state.category_id}})
         .catch(error => setState({error: error, loading: false}))
         .then(response => result = response);
 
@@ -23,7 +23,7 @@ export async function getSubCategoryInfo (state, setState) {
 
     if (result) {
         setState({
-            categoryInfo: result.data?.data,
+            subcategory_info: result.data?.data,
             // count: result.data?.count,
             loading: false,
         });
@@ -51,7 +51,7 @@ export async function addSubCategory (state, setState) {
 export async function editSubCategory (state, setState) {
     let result = false;
     setState({loading: true});
-    await axios.put('/api/subcategory/edit', {id: state.id, data: state.categoryInfo})
+    await axios.put('/api/subcategory/edit', {id: state.id, data: state.subcategory_info})
         .catch(error => setState({error: error, loading: false}))
         .then(response => result = response);
 

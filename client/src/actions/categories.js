@@ -27,8 +27,8 @@ export async function getCategoryInfo (state, setState) {
 
     if (result) {
         console.log('RESULT', result)
-        setState({
-            categoryInfo: result.data?.data,
+        await setState({
+            category_info: result.data?.data,
             // count: result.data?.count,
             loading: false,
         });
@@ -56,7 +56,7 @@ export async function addCategory (state, setState) {
 export async function editCategory (state, setState) {
     let result = false;
     setState({loading: true});
-    await axios.put('/api/category/edit', {id: state.id, data: state.categoryInfo})
+    await axios.put('/api/category/edit', {id: state.id, data: state.category_info})
         .catch(error => setState({error: error, loading: false}))
         .then(response => (result = response))
 

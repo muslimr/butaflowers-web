@@ -37,3 +37,22 @@
 }
 
 
+.touchable-text {
+  text-decoration: none !important;
+  .touchable-title {
+    color: #8E8E8E;
+  }
+
+  .touchable-subtitle {
+    color: #8E8E8E;
+  }
+
+  &:hover {
+    .touchable-title, .touchable-subtitle {
+      text-decoration: none !important;
+      color: #2583F0;
+    }
+  }
+}
+
+
