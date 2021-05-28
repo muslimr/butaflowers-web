@@ -17,6 +17,10 @@ router.get(
         try {
             let data = await Category.find();
             let categories = data.reverse();
+            for (let index in categories) {
+                let articles = await Article.find({category_id: categories[index]._id})
+                categories[index].articles_count = articles.length;
+            }
 
             res.status(200).json({categories});
         } catch(e) {
@@ -55,7 +59,7 @@ router.post(
         try {
             const {img, title, subtitle, description} = req.body.params;
             if (title) {
-                let category = new Category({img, title, subtitle, description});
+                let category = new Category({img, title, subtitle, description, articles_count: null});
                 await category.save();
                 res.status(200).json({category, description: 'Added successfully'});
             } else {

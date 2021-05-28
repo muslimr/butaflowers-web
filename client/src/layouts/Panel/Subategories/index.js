@@ -163,7 +163,11 @@ const SubCategoryBox = ({subCategory, state, setState, refresh}) => {
                                 {subCategory.title}
                             </div>
                             <div className='touchable-subtitle' style={{fontSize: 16}}>
-                                {subCategory.subtitle || 'нет в наличии'}
+                                {
+                                    !!subCategory.articles_count
+                                        ? `${subCategory.articles_count} товара`
+                                        : 'нет в наличии'
+                                }
                             </div>
                             <div className='touchable-subtitle' style={{fontSize: 14, overflow: 'hidden', maxHeight: 60, wordBreak: 'break-all', color: '#cdcdcd'}}>
                                 {!!subCategory.description && subCategory.description}

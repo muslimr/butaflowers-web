@@ -139,7 +139,11 @@ const CategoryBox = ({category, state, setState, refresh}) => {
                                 {category.title}
                             </div>
                             <div className='touchable-subtitle' style={{fontSize: 16}}>
-                                {category.subtitle || 'нет в наличии'}
+                                {
+                                    !!category.articles_count
+                                        ? `${category.articles_count} товара`
+                                        : 'нет в наличии'
+                                }
                             </div>
                             <div className='touchable-subtitle' style={{fontSize: 14, overflow: 'hidden', maxHeight: 60, wordBreak: 'break-all', color: '#cdcdcd'}}>
                                 {!!category.description && category.description}

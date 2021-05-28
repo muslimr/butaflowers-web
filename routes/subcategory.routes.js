@@ -19,6 +19,10 @@ router.get(
             let ID = req.query.id;
             let subcategories = await Subcategory.find({category_id: ID});
             let data = subcategories.reverse();
+            for (let index in subcategories) {
+                let articles = await Article.find({subcategory_id: subcategories[index]._id})
+                subcategories[index].articles_count = articles.length;
+            }
 
             res.status(200).json({data});
         } catch(e) {
@@ -56,7 +60,7 @@ router.post(
     async (req, res) => {
         try {
             const {category_id, img, title, subtitle, description} = req.body.params;
-            let category = new Subcategory({category_id, img, title, subtitle, description});
+            let category = new Subcategory({category_id, img, title, subtitle, description, articles_count: null});
             await category.save();
 
             res.status(200).json({category, description: 'Added Successfully'});
