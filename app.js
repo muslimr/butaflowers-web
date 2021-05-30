@@ -2,8 +2,13 @@ const mongoose = require('mongoose');
 const express = require('express');
 const config = require('config');
 const path = require('path');
+
 const multer = require('multer');
+const upload = multer({dest: 'uploads/'})
 // const path = require('path');
+
+const {uploadFile} = require('./s3');
+
 
 
 
@@ -11,11 +16,28 @@ const app = express();
 app.use(express.json({extended: true}));
 
 // app.use('/uploads', express.static('upload'));
-// app.use('/api/auth', require('./routes/auth.routes'));
+app.use('/api/auth', require('./routes/auth.routes'));
 app.use('/api/category', require('./routes/category.routes'));
 app.use('/api/subcategory', require('./routes/subcategory.routes'));
 app.use('/api/article', require('./routes/article.routes'));
 
+
+app.post(
+    '/images',
+    upload.single('image'),
+    async (req, res) => {
+        const file = req.file;
+        console.log(req);
+
+        const result = await uploadFile(file);
+        console.log(result);
+
+        // await unlinkFile(file.path)
+
+        const description = req.body.description;
+        res.send("sdsdsd")
+    }
+)
 
 
 if (process.env.NODE_ENV === 'production') {

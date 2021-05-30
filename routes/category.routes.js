@@ -6,8 +6,31 @@ const Subcategory = require('../models/Subcategory');
 const Article = require('../models/Article');
 const auth = require('../middleware/auth.middleware');
 const router = Router();
-const multer = require('multer');
 const path = require('path');
+
+
+const multer = require('multer');
+const upload = multer({dest: 'uploads/'})
+
+const {uploadFile} = require('../s3');
+
+
+router.post(
+    '/images',
+    upload.single('image'),
+    async (req, res) => {
+        const file = req.file;
+        console.log(req);
+
+        const result = await uploadFile(file);
+        console.log(result);
+
+        // await unlinkFile(file.path)
+
+        const description = req.body.description;
+        res.send("sdsdsd")
+    }
+)
 
 
 router.get(

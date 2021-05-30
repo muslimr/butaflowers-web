@@ -74,7 +74,7 @@ const PanelArticles = (props) => {
 
     return(
         <div className='overflow-auto p-4'
-             style={{height: '100vh', backgroundColor: 'rgb(217 220 226)'}}
+             style={{marginLeft: 240, height: '100vh', backgroundColor: 'rgb(217 220 226)'}}
         >
             {state.loading && <InlineLoader style={{backgroundColor: 'rgba(255,255,255,0.8)'}}/>}
 

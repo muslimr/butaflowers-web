@@ -1,9 +1,9 @@
 import axios from "axios";
 
 
-export async function getCategoriesList (state, setState) {
+export async function getCategoriesList(state, setState) {
     let result = false;
-    setState({loading: true});
+    await setState({loading: true});
     await axios.get('/api/category/list')
         .catch(error => setState({error: error, loading: false}))
         .then(response => result = response);

@@ -13,6 +13,17 @@ import {addCategory, deleteCategory, editCategory, getCategoriesList, getCategor
 import Swal from 'sweetalert2';
 import {Alerts} from "../../../plugins/Alerts";
 import InlineLoader from "../../../components/custom/InlineLoader";
+import axios from "axios";
+
+
+async function postImage({image, description}) {
+    const formData = new FormData();
+    formData.append("image", image)
+    formData.append("description", description)
+
+    const result = await axios.post('/images', formData, { headers: {'Content-Type': 'multipart/form-data'}})
+    return result.data
+}
 
 
 const PanelCategories = () => {
@@ -40,8 +51,8 @@ const PanelCategories = () => {
 
     const {token} = useContext(AuthContext);
 
-    const refresh = async () => {
-        await getCategoriesList(state, setState);
+    const refresh = () => {
+        getCategoriesList(state, setState);
     }
 
     useEffect(() => {
@@ -59,11 +70,29 @@ const PanelCategories = () => {
     }
 
 
+    const [file, setFile] = useState()
+    const [description, setDescription] = useState("")
+    const [images, setImages] = useState([])
+
+    const submit = async event => {
+        event.preventDefault()
+        const result = await postImage({image: file, description})
+        setImages([result.image, ...images])
+    }
+
+    const fileSelected = event => {
+        const file = event.target.files[0]
+        setFile(file)
+    }
+
+
     return(
         <div className='overflow-auto p-4'
-             style={{height: '100vh', backgroundColor: 'rgb(217 220 226)'}}
+             style={{marginLeft: 240, height: '100vh', backgroundColor: 'rgb(217 220 226)'}}
         >
-            {state.loading && <InlineLoader style={{backgroundColor: 'rgba(255,255,255,0.8)'}}/>}
+            {
+                state.loading && <InlineLoader style={{backgroundColor: 'rgba(255,255,255,0.8)'}}/>
+            }
 
             <div className='d-flex align-items-center justify-content-end mb-3 mr-2'>
                 <MyModal label={'Добавить Новую Категорию'}
@@ -91,6 +120,12 @@ const PanelCategories = () => {
                     </form>
                 </MyModal>
             </div>
+
+            <form onSubmit={submit}>
+                <input onChange={fileSelected} type="file" accept="image/*"></input>
+                <input value={description} onChange={e => setDescription(e.target.value)} type="text"></input>
+                <button type="submit">Submit</button>
+            </form>
 
             <div className='row col p-0 m-0'>
                 {

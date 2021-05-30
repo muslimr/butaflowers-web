@@ -10,6 +10,7 @@ import CategoryPage from "./layouts/CategoryPage";
 import PanelCategories from "./layouts/Panel/Categories";
 import PanelSubcategories from "./layouts/Panel/Subategories";
 import PanelArticles from "./layouts/Panel/Articles";
+import PanelLogin from "./layouts/Panel/Login";
 
 
 export const useRoutes = isAuthenticated => {
@@ -24,20 +25,30 @@ export const useRoutes = isAuthenticated => {
         {path: '/about', component: <AboutPage />},
         {path: '/catalog/:category?', component: <CategoryPage />},
 
-        {path: '/adminPanel', component: <PanelCategories />},
-        {path: '/adminPanel/categories', component: <PanelCategories />},
-        {path: '/adminPanel/category/:categoryId?', component: <PanelSubcategories />},
-        {path: '/adminPanel/category/:categoryId?/subCategory/:subCategoryId?', component: <PanelArticles />},
+        {path: '/adminPanel/categories', component: isAuthenticated && <PanelCategories />},
+        {path: '/adminPanel/category/:categoryId?', component: !!isAuthenticated && <PanelSubcategories />},
+        {path: '/adminPanel/category/:categoryId?/subCategory/:subCategoryId?', component: !!isAuthenticated && <PanelArticles />},
     ];
+
+
+    const authRoutes = [
+        {path: '/adminPanel', component: <PanelLogin />},
+    ];
+
 
     return(
         <Switch>
+            {
+                !isAuthenticated &&
+                authRoutes.map((page, index) =>
+                    <Route key={index} path={page.path} exact>{page.component}</Route>
+                )
+            }
             {
                 pageRoutes.map((page, index) =>
                     <Route key={index} path={page.path} exact>{page.component}</Route>
                 )
             }
-
             <Redirect to="/"/>
         </Switch>
     );

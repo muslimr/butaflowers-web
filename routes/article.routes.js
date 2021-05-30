@@ -58,14 +58,8 @@ router.post(
     async (req, res) => {
         try {
             const {category_id, subcategory_id, img, title, subtitle, description} = req.body.params;
-            let categories = await Category.find();
-            let category_index = categories.length;
-            let subcategories = await Subcategory.find();
-            let subcategory_index = subcategories.length;
-            let articles = await Article.find();
 
-            let article_num = category_index + "" + subcategory_index + "" + articles.length;
-            let article = new Article({category_id, subcategory_id, article_num, img, title, subtitle, description});
+            let article = new Article({category_id, subcategory_id, article_num: null, img, title, subtitle, description});
             await article.save();
 
             res.status(200).json({article, description: 'Added Successfully'});

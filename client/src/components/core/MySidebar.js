@@ -1,5 +1,5 @@
-import React from 'react';
-import {Link} from "react-router-dom";
+import React, {useContext} from 'react';
+import {Link, useHistory, useLocation} from "react-router-dom";
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -12,6 +12,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
+import {AuthContext} from "../../context/AuthContext";
 
 
 const useStyles = makeStyles((theme) =>({
@@ -37,6 +38,16 @@ export default function MySidebar(props) {
         bottom: false,
         right: false,
     });
+
+    let history = useHistory();
+    let location = useLocation();
+    const auth = useContext(AuthContext);
+
+    const logoutHandler = event => {
+        event.preventDefault()
+        auth.logout()
+        history.push('/adminPanel')
+    }
 
     const toggleDrawer = (anchor, open) => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {

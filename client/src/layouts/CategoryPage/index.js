@@ -4,11 +4,10 @@ import {SUBCATEGORIES} from "../../arrays/arrays";
 
 
 const CategoryPage = (props) => {
+
     const history = useHistory();
+    let category = history.location.pathname.split('/')[2].toUpperCase();
 
-    console.log('dfdfdf', history.location.pathname.split('/')[2])
-
-    let category = history.location.pathname.split('/')[2].toUpperCase()
 
     return(
         <div className='col' style={{padding: '0 80px'}}>
