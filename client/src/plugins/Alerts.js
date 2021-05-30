@@ -26,8 +26,8 @@ export class Alerts {
     static askModal(func, elseFunc, labels = {}) {
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
-                confirmButton: "blue-button fs-14 fw-500 m-2 px-4",
-                cancelButton: "white-button fs-14 fw-500 m-2 px-4",
+                confirmButton: "primary fs-14 fw-500 m-2 px-4",
+                cancelButton: "fs-14 fw-500 m-2 px-4",
                 title: "fs-30 mt-3 mb-0",
             },
             buttonsStyling: false,

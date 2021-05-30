@@ -9,7 +9,15 @@ import MyModal from "../../../components/modals/MyModal";
 import MyInput from "../../../components/custom/MyInput";
 import {Snackbar} from "@material-ui/core";
 import {Link} from "react-router-dom";
-import {addCategory, deleteCategory, editCategory, getCategoriesList, getCategoryInfo} from "../../../actions";
+import {
+    addCategory, addCategoryImage,
+    deleteCategory,
+    deleteCategoryImage,
+    editCategory,
+    getCategoriesList,
+    getCategoryInfo,
+    getTest
+} from "../../../actions";
 import Swal from 'sweetalert2';
 import {Alerts} from "../../../plugins/Alerts";
 import InlineLoader from "../../../components/custom/InlineLoader";
@@ -49,30 +57,32 @@ const PanelCategories = () => {
         return {...prevState, ...newState}
     }, initialState);
 
+    const [file, setFile] = useState("")
+    const [description, setDescription] = useState("")
+    const [images, setImages] = useState([])
+
     const {token} = useContext(AuthContext);
 
     const refresh = () => {
         getCategoriesList(state, setState);
+        // getTest(state, setState);
     }
 
     useEffect(() => {
         refresh();
-    }, []);
+    }, [state.refreshing]);
 
     useEffect(() => {
         getCategoryInfo(state, setState)
     }, [state.id]);
 
 
-    const onSave = async () => {
-        await addCategory(state, setState);
+    const onSave = async (event) => {
+        // event.preventDefault()
+        await addCategory(state, setState, {file, description});
         refresh();
     }
 
-
-    const [file, setFile] = useState()
-    const [description, setDescription] = useState("")
-    const [images, setImages] = useState([])
 
     const submit = async event => {
         event.preventDefault()
@@ -91,7 +101,8 @@ const PanelCategories = () => {
              style={{marginLeft: 240, height: '100vh', backgroundColor: 'rgb(217 220 226)'}}
         >
             {
-                state.loading && <InlineLoader style={{backgroundColor: 'rgba(255,255,255,0.8)'}}/>
+                state.loading &&
+                <InlineLoader style={{backgroundColor: 'rgba(255,255,255,0.8)'}}/>
             }
 
             <div className='d-flex align-items-center justify-content-end mb-3 mr-2'>
@@ -101,12 +112,14 @@ const PanelCategories = () => {
                          onSave={onSave}
                 >
                     <form onSubmit={onSave}>
+                        <input className='primary-btn' onChange={(e) => fileSelected(e)} type="file" accept="image/*"/>
+
                         <MyInput label={'Название'}
                                  value={state.addData.title}
                                  containerStyle={{paddingTop: 5}}
                                  onChange={(e) => setState({...state, addData: {...state.addData, title: e.target.value}})}
                         />
-                        <MyInput label={'Количество'}
+                        <MyInput label={'Название (Англ.)'}
                                  value={state.addData.subtitle}
                                  containerStyle={{paddingTop: 15}}
                                  onChange={(e) => setState({...state, addData: {...state.addData, subtitle: e.target.value}})}
@@ -121,16 +134,15 @@ const PanelCategories = () => {
                 </MyModal>
             </div>
 
-            <form onSubmit={submit}>
-                <input onChange={fileSelected} type="file" accept="image/*"></input>
-                <input value={description} onChange={e => setDescription(e.target.value)} type="text"></input>
-                <button type="submit">Submit</button>
-            </form>
-
             <div className='row col p-0 m-0'>
                 {
                     state.data?.map((category, index) =>
-                        <CategoryBox key={index} state={state} category={category} setState={setState} refresh={refresh} onClick={() => {}}/>
+                        <CategoryBox key={index}
+                                     state={state}
+                                     category={category}
+                                     setState={setState}
+                                     refresh={refresh}
+                        />
                     )
                 }
             </div>
@@ -142,7 +154,17 @@ export default PanelCategories;
 
 
 
-const CategoryBox = ({category, state, setState, refresh}) => {
+const CategoryBox = (props) => {
+
+    let {
+        category,
+        state,
+        setState,
+        refresh,
+    } = props;
+
+    const [file, setFile] = useState()
+    const [description, setDescription] = useState("")
 
     const deleteThisCategory = async () => {
         Alerts.askModal(
@@ -163,6 +185,23 @@ const CategoryBox = ({category, state, setState, refresh}) => {
         refresh();
     }
 
+    // const onUploadImage = async () => {
+    //     await addCategoryImage(state, setState, {file, description})
+    //     // await addCategory(state, setState, {file, description});
+    // }
+
+    const fileSelected = event => {
+        const file = event.target.files[0]
+        setFile(file)
+    }
+
+    let articlesCountText;
+
+    switch(category.articles_count) {
+        case 1: articlesCountText = 'товар'; break;
+        case 2:
+    }
+
 
     return(
         <div className='col-lg-6 p-2'>
@@ -173,6 +212,9 @@ const CategoryBox = ({category, state, setState, refresh}) => {
                             <div className='mb-0 touchable-title' style={{fontSize: 20, lineHeight: 1, fontWeight: 500}}>
                                 {category.title}
                             </div>
+                            <div className='mb-2 mt-1 touchable-title' style={{fontSize: 20, lineHeight: 1, fontWeight: 500, color: '#C1C9A9'}}>
+                                {category.subtitle}
+                            </div>
                             <div className='touchable-subtitle' style={{fontSize: 16}}>
                                 {
                                     !!category.articles_count
@@ -180,7 +222,7 @@ const CategoryBox = ({category, state, setState, refresh}) => {
                                         : 'нет в наличии'
                                 }
                             </div>
-                            <div className='touchable-subtitle' style={{fontSize: 14, overflow: 'hidden', maxHeight: 60, wordBreak: 'break-all', color: '#cdcdcd'}}>
+                            <div className='touchable-subtitle' style={{fontSize: 14, overflow: 'hidden', maxHeight: 35, wordBreak: 'break-all', color: '#cdcdcd'}}>
                                 {!!category.description && category.description}
                             </div>
                         </Link>
@@ -198,32 +240,86 @@ const CategoryBox = ({category, state, setState, refresh}) => {
                                 contentStyle={{padding: 25, minWidth: 500}}
                                 onSave={editThisCategory}
                             >
-                                <form onSubmit={editThisCategory}>
-                                    <MyInput label={'Название'}
-                                             defaultValue={state.category_info?.title}
-                                             value={state.category_info?.title}
-                                             containerStyle={{paddingTop: 5}}
-                                             onChange={(e) => setState({...state,
-                                                 category_info: {...state.category_info, title: e.target.value}
-                                             })}
-                                    />
-                                    <MyInput label={'Количество'}
-                                             defaultValue={state.category_info?.subtitle}
-                                             value={state.category_info?.subtitle}
-                                             containerStyle={{paddingTop: 15}}
-                                             onChange={(e) => setState({...state,
-                                                 category_info: {...state.category_info, subtitle: e.target.value}
-                                             })}
-                                    />
-                                    <MyInput label={'Описание'}
-                                             multiline={true}
-                                             defaultValue={state.category_info?.description}
-                                             value={state.category_info?.description}
-                                             containerStyle={{paddingTop: 15}}
-                                             onChange={(e) => setState({...state,
-                                                 category_info: {...state.category_info, description: e.target.value}
-                                             })}
-                                    />
+                                <form onSubmit={editThisCategory} className='d-flex'>
+                                    <div>
+                                        <div className='d-flex align-items-center justify-content-center'
+                                             style={{width: 170, height: 170, borderRadius: 10, overflow: 'hidden', backgroundColor: '#d9d9d9'}}
+                                        >
+                                            {
+                                                !!state.category_info?.img
+                                                    ?
+                                                    <img src={`/api/category/images/${state.category_info?.img}`} style={{height: 170}}/>
+                                                    :
+                                                    <span className="material-icons" style={{fontSize: 100, color: '#fff'}}>photo</span>
+                                            }
+                                        </div>
+
+                                        {
+                                            !!state.category_info?.img
+                                                ?
+                                                <Button
+                                                    variant="contained"
+                                                    color="secondary"
+                                                    className='d-flex col mt-3'
+                                                    onClick={() =>
+                                                        Alerts.askModal(async () => await deleteCategoryImage(state, setState, category._id), () => {})
+                                                    }>
+                                                    <span className="material-icons md-24">delete</span>
+                                                    <div>Удалить</div>
+                                                </Button>
+                                                :
+                                                // <form onSubmit={}>
+                                                //
+                                                // </form>
+                                                <div>
+                                                    <input className='primary-btn' onChange={(e) => fileSelected(e)} type="file" accept="image/*"/>
+                                                    <div onClick={
+                                                        async() => await addCategoryImage(state, setState, {file, description}, category._id)
+                                                        }
+                                                    >sdsdsdsd</div>
+                                                </div>
+
+
+                                                // <Button
+                                                //     variant="contained"
+                                                //     color="primary"
+                                                //     className='d-flex col mt-3'
+                                                //     onClick={() => {}
+                                                //         // Alerts.askModal(async () => await deleteCategoryImage(state, setState, category._id), () => {})
+                                                //     }>
+                                                //     <div>Загрузить</div>
+                                                // </Button>
+                                        }
+
+                                    </div>
+
+                                    <div className='col p-0 ml-4'>
+                                        <MyInput label={'Название'}
+                                                 defaultValue={state.category_info?.title}
+                                                 value={state.category_info?.title}
+                                                 containerStyle={{paddingTop: 5}}
+                                                 onChange={(e) => setState({...state,
+                                                     category_info: {...state.category_info, title: e.target.value}
+                                                 })}
+                                        />
+                                        <MyInput label={'Название (Англ.)'}
+                                                 defaultValue={state.category_info?.subtitle}
+                                                 value={state.category_info?.subtitle}
+                                                 containerStyle={{paddingTop: 15}}
+                                                 onChange={(e) => setState({...state,
+                                                     category_info: {...state.category_info, subtitle: e.target.value}
+                                                 })}
+                                        />
+                                        <MyInput label={'Описание'}
+                                                 multiline={true}
+                                                 defaultValue={state.category_info?.description}
+                                                 value={state.category_info?.description}
+                                                 containerStyle={{paddingTop: 15}}
+                                                 onChange={(e) => setState({...state,
+                                                     category_info: {...state.category_info, description: e.target.value}
+                                                 })}
+                                        />
+                                    </div>
                                 </form>
                             </MyModal>
 
@@ -231,9 +327,8 @@ const CategoryBox = ({category, state, setState, refresh}) => {
                                 variant="contained"
                                 color="secondary"
                                 className='d-flex m-2'
-                                onClick={() =>
-                                Alerts.askModal(() => deleteThisCategory(), () => {})
-                            }>
+                                onClick={() => Alerts.askModal(() => deleteThisCategory(), () => {})}
+                            >
                                 <span className="material-icons md-24">delete</span>
                                 <div>Удалить</div>
                             </Button>
@@ -244,8 +339,13 @@ const CategoryBox = ({category, state, setState, refresh}) => {
                         <div className='d-flex align-items-center justify-content-center'
                              style={{width: 170, height: 170, borderRadius: 10, overflow: 'hidden', backgroundColor: '#d9d9d9'}}
                         >
-                            {/*<img src={'/assets/xrizantema.png'} style={{height: 170}}/>*/}
-                            <span className="material-icons" style={{fontSize: 100, color: '#fff'}}>photo</span>
+                            {
+                                !!category.img
+                                    ?
+                                    <img src={`/api/category/images/${category.img}`} style={{height: 170}}/>
+                                    :
+                                    <span className="material-icons" style={{fontSize: 100, color: '#fff'}}>photo</span>
+                            }
                         </div>
                     </div>
                 </div>

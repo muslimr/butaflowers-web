@@ -77,7 +77,7 @@ export default function MyStaticSidebar(props) {
                 <List>
                     {
                         pageRoutes.map((page, index) =>
-                            <Link to={page.route} className={classes.link}>
+                            <Link key={index} to={page.route} className={classes.link}>
                                 <ListItem button>
                                     <ListItemText primary={page.label} />
                                 </ListItem>

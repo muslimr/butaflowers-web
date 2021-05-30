@@ -31,5 +31,28 @@ exports.uploadFile = uploadFile
 
 
 // downloads a file from S3
+function getFileStream(fileKey) {
+    const downloadParams = {
+        Key: fileKey,
+        Bucket: bucketName
+    }
+
+    return s3.getObject(downloadParams).createReadStream();
+    // return s3.getObject(downloadParams);
+}
+exports.getFileStream = getFileStream;
 
 
+// deletes a file from S3
+function deleteFileStream(filename) {
+    const deleteParams = {
+        Bucket: bucketName,
+        Key: filename,
+    }
+
+    s3.deleteObject(deleteParams, function (err, data) {
+        if (err) console.log(err);
+        else console.log("Successfully deleted file from bucket");
+    });
+}
+exports.deleteFileStream = deleteFileStream;

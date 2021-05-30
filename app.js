@@ -2,13 +2,15 @@ const mongoose = require('mongoose');
 const express = require('express');
 const config = require('config');
 const path = require('path');
+const fs = require('fs');
+const util = require('util');
+const unlinkFile = util.promisify(fs.unlink);
 
 const multer = require('multer');
 const upload = multer({dest: 'uploads/'})
 // const path = require('path');
 
-const {uploadFile} = require('./s3');
-
+const {uploadFile, getFileStream} = require('./s3');
 
 
 
@@ -22,6 +24,13 @@ app.use('/api/subcategory', require('./routes/subcategory.routes'));
 app.use('/api/article', require('./routes/article.routes'));
 
 
+// app.get('/images/:key', async (req, res) => {
+//     const key = req.params.key;
+//     const readStream = await getFileStream(key);
+//
+//     await readStream.pipe(res);
+// })
+
 app.post(
     '/images',
     upload.single('image'),
@@ -32,10 +41,12 @@ app.post(
         const result = await uploadFile(file);
         console.log(result);
 
+        await unlinkFile(file.path);
+
         // await unlinkFile(file.path)
 
         const description = req.body.description;
-        res.send("sdsdsd")
+        res.send({imagePath: `/images/${result.Key}`})
     }
 )
 
