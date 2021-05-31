@@ -9,7 +9,8 @@ export async function getSubCategoriesList(state, setState) {
         .then(response => result = response);
 
     if (result) {
-        setState({data: result.data?.data, loading: false});
+        setState({data: result.data?.data});
+        setTimeout(() => setState({loading: false}), 2000)
     }
 }
 

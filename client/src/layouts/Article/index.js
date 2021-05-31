@@ -3,7 +3,7 @@ import {Link, useHistory} from "react-router-dom";
 import {SUBCATEGORIES} from "../../arrays/arrays";
 
 
-const CategoryPage = (props) => {
+const Article = (props) => {
 
     const history = useHistory();
     let category = history.location.pathname.split('/')[2].toUpperCase();
@@ -35,7 +35,7 @@ const CategoryPage = (props) => {
     );
 }
 
-export default CategoryPage;
+export default Article;
 
 
 

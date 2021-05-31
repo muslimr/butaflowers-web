@@ -11,10 +11,11 @@ export async function getCategoriesList(state, setState) {
 
     if (result) {
         setState({
-            data: result.data?.categories,
+            data: result.data.categories,
             // count: result.data?.count,
-            loading: false,
+            // loading: false,
         });
+        setTimeout(() => setState({loading: false}), 3000)
     }
 }
 

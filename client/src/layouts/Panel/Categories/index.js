@@ -185,21 +185,35 @@ const CategoryBox = (props) => {
         refresh();
     }
 
-    // const onUploadImage = async () => {
-    //     await addCategoryImage(state, setState, {file, description})
-    //     // await addCategory(state, setState, {file, description});
-    // }
+    const uploadNewImage = async () => {
+        // await addCategoryImage(state, setState, {file, description})
+
+        await addCategoryImage(state, setState, {file, description}, category._id)
+        // await addCategory(state, setState, {file, description});
+    }
 
     const fileSelected = event => {
         const file = event.target.files[0]
         setFile(file)
     }
 
-    let articlesCountText;
 
-    switch(category.articles_count) {
-        case 1: articlesCountText = 'товар'; break;
-        case 2:
+    const getArticlesCountText = () => {
+        let count = category.articles_count;
+        let countLastDigit = category.articles_count?.toString().split('').pop();
+
+        switch (countLastDigit) {
+            case '1': return `${count} товар`;
+            case '2':
+            case '3':
+            case '4': return `${count} товара`;
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+            case '0': return `${count} товаров`;
+        }
     }
 
 
@@ -218,7 +232,7 @@ const CategoryBox = (props) => {
                             <div className='touchable-subtitle' style={{fontSize: 16}}>
                                 {
                                     !!category.articles_count
-                                        ? `${category.articles_count} товара`
+                                        ? `${getArticlesCountText()}`
                                         : 'нет в наличии'
                                 }
                             </div>
@@ -267,28 +281,19 @@ const CategoryBox = (props) => {
                                                     <span className="material-icons md-24">delete</span>
                                                     <div>Удалить</div>
                                                 </Button>
+
                                                 :
-                                                // <form onSubmit={}>
-                                                //
-                                                // </form>
                                                 <div>
-                                                    <input className='primary-btn' onChange={(e) => fileSelected(e)} type="file" accept="image/*"/>
-                                                    <div onClick={
-                                                        async() => await addCategoryImage(state, setState, {file, description}, category._id)
-                                                        }
-                                                    >sdsdsdsd</div>
+                                                    <input onChange={(e) => fileSelected(e)} type="file" accept="image/*"/>
+
+                                                    <Button variant="contained"
+                                                            color="primary"
+                                                            className='d-flex col mt-3'
+                                                            onClick={uploadNewImage}
+                                                    >
+                                                        <div>Загрузить</div>
+                                                    </Button>
                                                 </div>
-
-
-                                                // <Button
-                                                //     variant="contained"
-                                                //     color="primary"
-                                                //     className='d-flex col mt-3'
-                                                //     onClick={() => {}
-                                                //         // Alerts.askModal(async () => await deleteCategoryImage(state, setState, category._id), () => {})
-                                                //     }>
-                                                //     <div>Загрузить</div>
-                                                // </Button>
                                         }
 
                                     </div>
