@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link, useHistory} from "react-router-dom";
-import {SUBCATEGORIES} from "../../arrays/arrays";
+import {SUBCATEGORIES} from "../../../arrays/arrays";
 
 
 const Article = (props) => {

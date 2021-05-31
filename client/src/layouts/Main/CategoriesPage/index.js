@@ -1,21 +1,23 @@
 import React, {useEffect, useReducer} from 'react';
 import {Link} from "react-router-dom";
-import {CATEGORIES} from "../../arrays/arrays";
-import {getCategoriesList} from "../../actions";
-import InlineLoader from "../../components/custom/InlineLoader";
+import {CATEGORIES} from "../../../arrays/arrays";
+import {getCategoriesList, getCategoryImage} from "../../../actions";
+import InlineLoader from "../../../components/custom/InlineLoader";
 
 
 const CategoriesPage = () => {
 
     const initialState = {
         loading: false,
+        image_loading: false,
         refreshing: false,
         success: false,
         error: false,
         id: '',
         data: [],
         category_info: {},
-        count: 0
+        count: 0,
+
     }
 
     const [state, setState] = useReducer((prevState, newState) => {
@@ -34,14 +36,14 @@ const CategoriesPage = () => {
 
 
     return(
-        <div className='row col' style={{padding: '200px 80px'}}>
+        <div className='row col' style={{padding: '250px 80px'}}>
             {state.loading && <InlineLoader style={{backgroundColor: 'rgba(255,255,255,0.4)'}}/>}
 
             {
                 !!state.data?.length &&
                 state.data?.map((category, index) =>
                     <Link className='category-box-container col-4 px-5' style={{textDecoration: 'none', marginBottom: 100}} to={{pathname: `/catalog/category/${category._id}`, data: category}}>
-                        <CategoryBox category={category} onClick={() => {}}/>
+                        <CategoryBox state={state} setState={setState} category={category} onClick={() => {}}/>
                     </Link>
                 )
             }
@@ -54,7 +56,9 @@ export default CategoriesPage;
 
 
 
-const CategoryBox = ({category}) => {
+const CategoryBox = (props) => {
+
+    let {category, state, setState} = props;
 
     const getArticlesCountText = () => {
         let count = category.articles_count;
@@ -73,6 +77,11 @@ const CategoryBox = ({category}) => {
             case '0': return `${count} товаров`;
         }
     }
+
+    // useEffect(() => {
+    //     getCategoryImage(category._id)
+    // }, []);
+
 
     return(
         <div style={{position: 'relative'}}>

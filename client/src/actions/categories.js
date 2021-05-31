@@ -20,6 +20,7 @@ export async function getCategoriesList(state, setState) {
 }
 
 
+
 export async function getCategoryInfo (state, setState) {
     let result = false;
     // setState({loading: true});

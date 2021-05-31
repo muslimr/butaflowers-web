@@ -2,58 +2,20 @@ const mongoose = require('mongoose');
 const express = require('express');
 const config = require('config');
 const path = require('path');
-const fs = require('fs');
-const util = require('util');
-const unlinkFile = util.promisify(fs.unlink);
-
-const multer = require('multer');
-const upload = multer({dest: 'uploads/'})
-// const path = require('path');
-
-const {uploadFile, getFileStream} = require('./s3');
-
 
 
 const app = express();
 app.use(express.json({extended: true}));
 
-// app.use('/uploads', express.static('upload'));
-app.use('/api/auth', require('./routes/auth.routes'));
-app.use('/api/category', require('./routes/category.routes'));
-app.use('/api/subcategory', require('./routes/subcategory.routes'));
-app.use('/api/article', require('./routes/article.routes'));
+app.use('/api/auth', require('./server/routes/Auth/auth.routes'));
+app.use('/api/category', require('./server/routes/Catalog/category.routes'));
+app.use('/api/subcategory', require('./server/routes/Catalog/subcategory.routes'));
+app.use('/api/article', require('./server/routes/Catalog/article.routes'));
 
-
-// app.get('/images/:key', async (req, res) => {
-//     const key = req.params.key;
-//     const readStream = await getFileStream(key);
-//
-//     await readStream.pipe(res);
-// })
-
-app.post(
-    '/images',
-    upload.single('image'),
-    async (req, res) => {
-        const file = req.file;
-        console.log(req);
-
-        const result = await uploadFile(file);
-        console.log(result);
-
-        await unlinkFile(file.path);
-
-        // await unlinkFile(file.path)
-
-        const description = req.body.description;
-        res.send({imagePath: `/images/${result.Key}`})
-    }
-)
 
 
 if (process.env.NODE_ENV === 'production') {
     app.use('/', express.static(path.join(__dirname, 'client', 'build')));
-
     app.get('*', (req, res) => {
         res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
     })

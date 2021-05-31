@@ -6,7 +6,7 @@ import MySidebar from "../../components/core/MySidebar";
 import MyNavbar from "../../components/core/MyNavbar";
 import "../../assets/index.scss";
 import {AuthContext} from "../../context/AuthContext";
-import {useRoutes} from "../../routes";
+import {useRoutes} from "../../config/routes";
 import MyStaticSidebar from "../../components/core/MyStaticSidebar";
 
 
@@ -61,7 +61,13 @@ function Main() {
 
                     :
                     <>
-                        <img src={`/assets/buta_flowers_logo.svg`} style={{position: 'absolute', width: 300, marginLeft: 80, marginTop: 50}}/>
+                        <div className='d-flex justify-content-start'>
+                            <div className='nums-box justify-content-between' style={{marginLeft: 40, position: 'absolute'}}>
+                                <div>8 (926) 262 82 82</div>
+                                <div>8 (495) 517 95 95</div>
+                            </div>
+                        </div>
+                        <img src={`/assets/buta_flowers_logo.svg`} style={{position: 'absolute', width: 300, marginLeft: 80, marginTop: 70}}/>
                         <div className='d-flex justify-content-end col p-0' style={{position: 'absolute'}}>
                             <img src={`/assets/buta_large.svg`} style={{width: 620}}/>
                         </div>

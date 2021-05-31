@@ -1,6 +1,6 @@
 import React from 'react';
 import {BrowserRouter as Router, useHistory, useLocation} from 'react-router-dom';
-import {useRoutes} from "./routes";
+import {useRoutes} from "./config/routes";
 import {useAuth, useWindowDimensions} from "./hooks";
 import {AuthContext} from "./context/AuthContext";
 import 'bootstrap/dist/css/bootstrap.min.css';

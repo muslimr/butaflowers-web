@@ -1,22 +1,16 @@
 const {Router} = require('express');
-const config = require('config');
-const shortid = require('shortid');
-const Category = require('../models/Category');
-const Subcategory = require('../models/Subcategory');
-const Article = require('../models/Article');
-const auth = require('../middleware/auth.middleware');
+const Category = require('../../models/Catalog/Category');
+const Subcategory = require('../../models/Catalog/Subcategory');
+const Article = require('../../models/Catalog/Article');
 const router = Router();
-const path = require('path');
 
 const fs = require('fs');
 const util = require('util');
 const unlinkFile = util.promisify(fs.unlink);
-
-
 const multer = require('multer');
 const upload = multer({dest: 'uploads/'})
 
-const {uploadFile, getFileStream, deleteFileStream} = require('../s3');
+const {uploadFile, getFileStream, deleteFileStream} = require('../../../s3');
 
 
 
@@ -27,8 +21,8 @@ router.get(
             const key = req.params.key;
             const readStream = await getFileStream(key);
 
-            // console.log('asasas', readStream)
             readStream.pipe(res);
+            // res.write(readStream,'binary');
         } catch (e) {
             res.status(500).json({description: 'Please wait a few minutes before you try again'});
         }
@@ -38,7 +32,6 @@ router.get(
 
 router.get(
     '/list',
-    // auth,
     async (req, res) => {
         try {
             let data = await Category.find();
@@ -58,7 +51,6 @@ router.get(
 
 router.get(
     '/info',
-    // auth,
     async (req, res) => {
         try {
             let ID = req.query.id;
@@ -88,8 +80,8 @@ router.post(
 
             await uploadFile(file);
             await unlinkFile(file.path);
-
             await Category.updateOne({_id: id}, {img: file.filename});
+
             res.status(200).json({description: 'Изображение Добавлено!'});
         } catch(e) {
             res.status(500).json({description: 'Invalid data. PLease try again'});
@@ -105,22 +97,33 @@ router.post(
         try {
             const {img, title, subtitle, description} = req.query;
 
-
             if (req.file.filename) {
                 const file = req.file;
                 let image_id = req.file.filename;
 
-                const result = await uploadFile(file);
-                console.log(result);
-
+                await uploadFile(file);
                 await unlinkFile(file.path);
 
-                let category = new Category({img: image_id, title, subtitle, description, articles_count: null});
+                let category = new Category({
+                    img: image_id,
+                    title,
+                    subtitle,
+                    description,
+                    articles_count: null,
+                });
                 await category.save();
+
                 res.status(200).json({category, description: 'Категория Создана!'});
             } else {
-                let category = new Category({img: '', title, subtitle, description, articles_count: null});
+                let category = new Category({
+                    img: '',
+                    title,
+                    subtitle,
+                    description,
+                    articles_count: null,
+                });
                 await category.save();
+
                 res.status(200).json({category, description: 'Категория Создана!'});
             }
         } catch(e) {
@@ -132,7 +135,6 @@ router.post(
 
 router.put(
     '/edit',
-    // auth,
     async (req, res) => {
         try {
             let {id, data} = req.body;
@@ -150,7 +152,6 @@ router.put(
 
 router.delete(
     '/image/delete',
-    // auth,
     async (req, res) => {
         try {
             const {id} = req.query;
@@ -169,14 +170,12 @@ router.delete(
 
 router.delete(
     '/delete',
-    // auth,
     async (req, res) => {
         try {
             const {id} = req.query;
             let category = await Category.find({_id: id});
-            // console.log('cat', category)
-            await deleteFileStream(category[0].img)
 
+            await deleteFileStream(category[0].img);
             await Category.findOneAndDelete({_id: id});
             await Subcategory.deleteMany({category_id: id});
             await Article.deleteMany({category_id: id});

@@ -1,10 +1,10 @@
 import React, {useEffect, useReducer} from 'react';
 import {Link, useHistory, useParams} from "react-router-dom";
-import {SUBCATEGORIES} from "../../arrays/arrays";
-import {getSubCategoriesList, getSubCategoryInfo} from "../../actions/subcategories";
-import {getCategoryInfo} from "../../actions";
-import InlineLoader from "../../components/custom/InlineLoader";
-import {Alerts} from "../../plugins/Alerts";
+import {SUBCATEGORIES} from "../../../arrays/arrays";
+import {getSubCategoriesList, getSubCategoryInfo} from "../../../actions/subcategories";
+import {getCategoryInfo} from "../../../actions";
+import InlineLoader from "../../../components/custom/InlineLoader";
+import {Alerts} from "../../../plugins/Alerts";
 import Button from "@material-ui/core/Button";
 
 
@@ -50,7 +50,7 @@ const SubcategoriesPage = (props) => {
             <div className='row mb-5'>
                 <div className='col d-flex flex-column align-items-end' style={{paddingTop: 180, color: '#8D8D8D'}}>
                     <Button
-                        className='d-flex m-2 px-4'
+                        className='d-flex m-2 px-4 mr-auto'
                         style={{minHeight: 45}}
                         onClick={() => history.goBack()}
                     >
@@ -63,13 +63,19 @@ const SubcategoriesPage = (props) => {
                         {state.category_info?.description}
                     </p>
                 </div>
-                <img src={`/api/category/images/${state.category_info?.img}`} className='category-image' style={{minHeight: 450}}/>
+                {
+                    !!state.category_info?.img
+                        ?
+                        <img src={`/api/category/images/${state.category_info?.img}`} className='category-image' style={{minHeight: 450}}/>
+                        :
+                        <div className='category-image' style={{minWidth: 400, minHeight: 450}}/>
+                }
             </div>
             <div className='row'>
                 {
-                    state.data?.map((category, index) =>
-                        <Link className='category-box-container col-4 px-5' style={{marginBottom: 100}} to={{pathname: '/catalog/category/'}}>
-                            <CategoryBox category={category} onClick={() => {}}/>
+                    state.data?.map((subCategory, index) =>
+                        <Link className='category-box-container col-4 px-5' style={{marginBottom: 100}} to={{pathname: `/catalog/category/${state.category_id}/subCategory/${subCategory._id}`}}>
+                            <CategoryBox category={subCategory} onClick={() => {}}/>
                         </Link>
                     )
                 }

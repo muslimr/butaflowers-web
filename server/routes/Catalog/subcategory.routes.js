@@ -1,27 +1,21 @@
 const {Router} = require('express');
-const config = require('config');
-const shortid = require('shortid');
-const Subcategory = require('../models/Subcategory');
-const Article = require('../models/Article');
-const auth = require('../middleware/auth.middleware');
+const Subcategory = require('../../models/Catalog/Subcategory');
+const Article = require('../../models/Catalog/Article');
 const router = Router();
-const multer = require('multer');
-const path = require('path');
-
 
 
 
 router.get(
     '/list',
-    // auth,
     async (req, res) => {
         try {
             let ID = req.query.id;
+
             let subcategories = await Subcategory.find({category_id: ID});
             let data = subcategories.reverse();
-            for (let index in subcategories) {
-                let articles = await Article.find({subcategory_id: subcategories[index]._id})
-                subcategories[index].articles_count = articles.length;
+            for (let key in subcategories) {
+                let articles = await Article.find({subcategory_id: subcategories[key]._id})
+                subcategories[key].articles_count = articles.length;
             }
 
             res.status(200).json({data});
@@ -34,10 +28,10 @@ router.get(
 
 router.get(
     '/info',
-    // auth,
     async (req, res) => {
         try {
             let ID = req.query.id;
+
             let data;
             if (ID) {
                 let categoryInfo = await Subcategory.find({_id: ID});
@@ -56,11 +50,24 @@ router.get(
 
 router.post(
     '/add',
-    // auth,
     async (req, res) => {
         try {
-            const {category_id, img, title, subtitle, description} = req.body.params;
-            let category = new Subcategory({category_id, img, title, subtitle, description, articles_count: null});
+            const {
+                category_id,
+                img,
+                title,
+                subtitle,
+                description,
+            } = req.body.params;
+
+            let category = new Subcategory({
+                category_id,
+                img,
+                title,
+                subtitle,
+                description,
+                articles_count: null,
+            });
             await category.save();
 
             res.status(200).json({category, description: 'Added Successfully'});
@@ -73,10 +80,10 @@ router.post(
 
 router.put(
     '/edit',
-    // auth,
     async (req, res) => {
         try {
             let {id, data} = req.body;
+
             let category = await Subcategory.find({_id: id});
             if (!category) return;
             let updated = await Subcategory.updateOne({_id: id}, {$set: data});
@@ -91,10 +98,10 @@ router.put(
 
 router.delete(
     '/delete',
-    // auth,
     async (req, res) => {
         try {
             const {id} = req.query;
+
             await Subcategory.findOneAndDelete({_id: id});
             await Article.deleteMany({subcategory_id: id});
 

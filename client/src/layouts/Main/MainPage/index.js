@@ -1,12 +1,12 @@
 import React, {useCallback, useContext, useEffect, useReducer, useState} from 'react';
 import Container from '@material-ui/core/Container';
-import {useHttp} from "../../hooks";
-import {AuthContext} from "../../context/AuthContext";
+import {useHttp} from "../../../hooks";
+import {AuthContext} from "../../../context/AuthContext";
 import Button from "@material-ui/core/Button";
-import MyTable from "../../components/custom/MyTable";
-import {Loader} from "../../components/Loader";
-import MyModal from "../../components/modals/MyModal";
-import MyInput from "../../components/custom/MyInput";
+import MyTable from "../../../components/custom/MyTable";
+import {Loader} from "../../../components/Loader";
+import MyModal from "../../../components/modals/MyModal";
+import MyInput from "../../../components/custom/MyInput";
 import {Snackbar} from "@material-ui/core";
 import {Alert} from "react-bootstrap";
 import {Link, useLocation} from "react-router-dom";
@@ -141,10 +141,10 @@ const MainPage = () => {
 
                 <img src={`/assets/Butaflowers_main.png`} style={{width: '86vw'}}/>
 
-                <div className='nums-box'>
-                    <div className='mr-4'>8 (926) 262 82 82</div>
-                    <div className='ml-4'>8 (495) 517 95 95</div>
-                </div>
+                {/*<div className='nums-box'>*/}
+                {/*    <div className='mr-4'>8 (926) 262 82 82</div>*/}
+                {/*    <div className='ml-4'>8 (495) 517 95 95</div>*/}
+                {/*</div>*/}
 
                 <div className='d-flex justify-content-center'>
                     <div className='d-flex justify-content-center col p-0' style={{position: 'absolute', zIndex: -10}}>

@@ -1,20 +1,10 @@
 const {Router} = require('express');
-const config = require('config');
-const shortid = require('shortid');
-const Category = require('../models/Category');
-const Subcategory = require('../models/Subcategory');
-const Article = require('../models/Article');
-const auth = require('../middleware/auth.middleware');
+const Article = require('../../models/Catalog/Article');
 const router = Router();
-const multer = require('multer');
-const path = require('path');
-
-
 
 
 router.get(
     '/list',
-    // auth,
     async (req, res) => {
         try {
             let ID = req.query.id;
@@ -31,7 +21,6 @@ router.get(
 
 router.get(
     '/info',
-    // auth,
     async (req, res) => {
         try {
             let ID = req.query.id;
@@ -54,12 +43,26 @@ router.get(
 
 router.post(
     '/add',
-    // auth,
     async (req, res) => {
         try {
-            const {category_id, subcategory_id, img, title, subtitle, description} = req.body.params;
+            const {
+                category_id,
+                subcategory_id,
+                img,
+                title,
+                subtitle,
+                description
+            } = req.body.params;
 
-            let article = new Article({category_id, subcategory_id, article_num: null, img, title, subtitle, description});
+            let article = new Article({
+                category_id,
+                subcategory_id,
+                article_num: null,
+                img,
+                title,
+                subtitle,
+                description
+            });
             await article.save();
 
             res.status(200).json({article, description: 'Added Successfully'});
@@ -72,7 +75,6 @@ router.post(
 
 router.put(
     '/edit',
-    // auth,
     async (req, res) => {
         try {
             let {id, data} = req.body;
@@ -90,7 +92,6 @@ router.put(
 
 router.delete(
     '/delete',
-    // auth,
     async (req, res) => {
         try {
             const {id} = req.query;
