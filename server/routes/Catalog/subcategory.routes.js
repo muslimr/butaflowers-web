@@ -3,6 +3,39 @@ const Subcategory = require('../../models/Catalog/Subcategory');
 const Article = require('../../models/Catalog/Article');
 const router = Router();
 
+const fs = require('fs');
+const util = require('util');
+const unlinkFile = util.promisify(fs.unlink);
+const multer = require('multer');
+const upload = multer({dest: 'uploads/'});
+const sharp = require('sharp');
+
+const {uploadFile, getFileStream, deleteFileStream, getImage} = require('../../../s3');
+
+
+router.get(
+    '/images/:key',
+    async (req, res) => {
+        try {
+            const key = req.params.key;
+            const readStream = await getFileStream(key);
+
+            readStream.pipe(res)
+
+            // console.log('$$$$$', readStream)
+
+            // let file = await sharp(readStream.Body)
+            //     .resize(320, 240)
+            //     .toFile(`${key}.png`, (err, info) => { console.log('ERROR', err) })
+            //     .then(response => console.log('@@@@', response))
+
+            // res.status(200).json({file})
+        } catch (e) {
+            res.status(500).json({description: 'Please wait a few minutes before you try again'});
+        }
+
+    }
+);
 
 
 router.get(
@@ -49,7 +82,28 @@ router.get(
 
 
 router.post(
+    '/image/add',
+    upload.single('image'),
+    async (req, res) => {
+        try {
+            const {id} = req.query;
+            const file = req.file;
+
+            await uploadFile(file);
+            await unlinkFile(file.path);
+            await Subcategory.updateOne({_id: id}, {img: file.filename});
+
+            res.status(200).json({description: 'Изображение Добавлено!'});
+        } catch(e) {
+            res.status(500).json({description: 'Invalid data. PLease try again'});
+        }
+    }
+)
+
+
+router.post(
     '/add',
+    upload.single('image'),
     async (req, res) => {
         try {
             const {
@@ -58,24 +112,47 @@ router.post(
                 title,
                 subtitle,
                 description,
-            } = req.body.params;
+            } = req.query;
 
-            let category = new Subcategory({
-                category_id,
-                img,
-                title,
-                subtitle,
-                description,
-                articles_count: null,
-            });
-            await category.save();
 
-            res.status(200).json({category, description: 'Added Successfully'});
+            if (req.file.filename) {
+                const file = req.file;
+
+                let image_id = req.file.filename;
+
+                await uploadFile(file);
+                await unlinkFile(file.path);
+
+                let category = new Subcategory({
+                    category_id,
+                    img: image_id,
+                    title,
+                    subtitle,
+                    description,
+                    articles_count: null,
+                });
+                await category.save();
+
+                res.status(200).json({category, description: 'Подкатегория Создана!'});
+            } else {
+                let category = new Subcategory({
+                    category_id,
+                    img: '',
+                    title,
+                    subtitle,
+                    description,
+                    articles_count: null,
+                });
+                await category.save();
+
+                res.status(200).json({category, description: 'Подкатегория Создана!'});
+            }
         } catch(e) {
             res.status(500).json({description: 'Something went wrong'});
         }
     }
 )
+
 
 
 router.put(
@@ -91,6 +168,24 @@ router.put(
             res.status(200).json({updated, description: 'Updated successfully'});
         } catch(e) {
             res.status(500).json({description: 'Invalid data. PLease try again.'});
+        }
+    }
+)
+
+
+router.delete(
+    '/image/delete',
+    async (req, res) => {
+        try {
+            const {id} = req.query;
+            let category = await Subcategory.find({_id: id});
+
+            await deleteFileStream(category[0].img);
+            await Subcategory.updateOne({_id: id}, {img: ''});
+
+            res.status(200).json({description: 'Изображение Удалено!'});
+        } catch(e) {
+            res.status(500).json({description: 'Something went wrong'});
         }
     }
 )

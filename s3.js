@@ -37,6 +37,20 @@ function getFileStream(fileKey) {
         Bucket: bucketName
     }
 
+    // const data =  s3.getObject(
+    //     {
+    //         Key: fileKey,
+    //         Bucket: bucketName
+    //     }
+    //
+    // ).promise();
+    //
+    //
+    // console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@', data)
+    //
+    // return data;
+
+
     return s3.getObject(downloadParams).createReadStream();
 }
 exports.getFileStream = getFileStream;

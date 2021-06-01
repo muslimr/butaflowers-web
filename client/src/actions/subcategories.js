@@ -1,4 +1,6 @@
 import axios from "axios";
+import {Alerts} from "../plugins/Alerts";
+import {getCategoryInfo} from "./categories";
 
 
 export async function getSubCategoriesList(state, setState) {
@@ -30,15 +32,23 @@ export async function getSubCategoryInfo (state, setState) {
 }
 
 
-export async function addSubCategory (state, setState) {
+export async function addSubCategory (state, setState, params) {
     let result = false;
     setState({loading: true});
-    await axios.post('/api/subcategory/add', {params: state.addData})
+    const formData = new FormData();
+
+    formData.append("image", params.file)
+    formData.append("description", params.description)
+
+    await axios.post('/api/subcategory/add', formData,{params: state.addData, headers: {'Content-Type': 'multipart/form-data'}})
         .catch(error => setState({error: error, loading: false}))
         .then(response => result = response);
 
     if (result) {
+        await Alerts.successModal(result.data?.description)
         setState({
+            success: result.data?.description,
+            // count: result.data?.count,
             loading: false,
         });
     }
@@ -73,5 +83,48 @@ export async function deleteSubCategory (state, setState, id) {
             loading: false,
         });
         await getSubCategoriesList(state, setState);
+    }
+}
+
+
+export async function addSubCategoryImage (state, setState, params, ID) {
+    let result = false;
+    setState({loading: true});
+    const formData = new FormData();
+
+    formData.append("image", params.file)
+    formData.append("description", params.description)
+
+    await axios.post('/api/subcategory/image/add', formData,{params: {id: ID}, headers: {'Content-Type': 'multipart/form-data'}})
+        .catch(error => setState({error: error, loading: false}))
+        .then(response => result = response);
+
+    if (result) {
+        await getSubCategoryInfo(state, setState);
+        setState({
+            success: result.data?.description,
+            // count: result.data?.count,
+            loading: false,
+            refreshing: !state.refreshing,
+        });
+    }
+}
+
+
+export async function deleteSubCategoryImage(state, setState, id) {
+    let result = false;
+    setState({loading: true});
+    await axios.delete('/api/subcategory/image/delete', {params: {id: id}})
+        .catch(error => setState({error: error, loading: false}))
+        .then(response => result = response);
+
+    if (result) {
+        setState({
+            success: result.data?.message,
+            loading: false,
+            refreshing: !state.refreshing,
+        });
+        // await getCategoriesList(state, setState);
+        await getSubCategoryInfo(state, setState);
     }
 }

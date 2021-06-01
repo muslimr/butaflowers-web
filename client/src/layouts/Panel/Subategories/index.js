@@ -10,14 +10,21 @@ import MyInput from "../../../components/custom/MyInput";
 import {Snackbar} from "@material-ui/core";
 import {Alert} from "react-bootstrap";
 import {Link, useHistory, useLocation, useParams} from "react-router-dom";
-import {addCategory, deleteCategory, editCategory, getCategoriesList, getCategoryInfo} from "../../../actions";
 import {
-    addSubCategory,
+    addCategory,
+    addCategoryImage,
+    deleteCategory, deleteCategoryImage, deleteSubCategoryImage,
+    editCategory,
+    getCategoriesList,
+    getCategoryInfo
+} from "../../../actions";
+import {
+    addSubCategory, addSubCategoryImage,
     deleteSubCategory,
     editSubCategory,
     getSubCategoriesList,
     getSubCategoryInfo
-} from "../../../actions/subcategories";
+} from "../../../actions";
 import InlineLoader from "../../../components/custom/InlineLoader";
 import {Alerts} from "../../../plugins/Alerts";
 
@@ -52,6 +59,10 @@ const PanelSubcategories = (props) => {
     const [state, setState] = useReducer((prevState, newState) => {
         return {...prevState, ...newState}
     }, initialState);
+
+    const [file, setFile] = useState("")
+    const [description, setDescription] = useState("")
+    const [images, setImages] = useState([])
     const history = useHistory();
 
     const refresh = async () => {
@@ -60,16 +71,23 @@ const PanelSubcategories = (props) => {
 
     useEffect(() => {
         refresh();
-    }, []);
+    }, [state.refreshing]);
 
     useEffect(() => {
         getSubCategoryInfo(state, setState);
     }, [state.id]);
 
 
-    const onSave = async () => {
-        await addSubCategory(state, setState);
-        await refresh();
+    const onSave = async (event) => {
+        // event.preventDefault()
+        await addSubCategory(state, setState, {file, description});
+        refresh();
+    }
+
+
+    const fileSelected = event => {
+        const file = event.target.files[0]
+        setFile(file)
     }
 
 
@@ -90,18 +108,20 @@ const PanelSubcategories = (props) => {
                 </Button>
 
 
-                <MyModal label={'Добавить Новую Податегорию'}
+                <MyModal label={'Добавить Новую Подкатегорию'}
                          buttonTitle={'Новая Подкатегория'}
                          contentStyle={{padding: 25, minWidth: 500}}
                          onSave={onSave}
                 >
                     <form onSubmit={onSave}>
+                        <input className='primary-btn' onChange={(e) => fileSelected(e)} type="file" accept="image/*"/>
+
                         <MyInput label={'Название'}
                                  value={state.addData.title}
                                  containerStyle={{paddingTop: 5}}
                                  onChange={(e) => setState({...state, addData: {...state.addData, title: e.target.value}})}
                         />
-                        <MyInput label={'Количество'}
+                        <MyInput label={'Название (Англ.)'}
                                  value={state.addData.subtitle}
                                  containerStyle={{paddingTop: 15}}
                                  onChange={(e) => setState({...state, addData: {...state.addData, subtitle: e.target.value}})}
@@ -119,7 +139,13 @@ const PanelSubcategories = (props) => {
             <div className='row col p-0 m-0'>
                 {
                     state.data?.map((subCategory, index) =>
-                        <SubCategoryBox key={index} state={state} subCategory={subCategory} setState={setState} refresh={refresh} onClick={() => {}}/>
+                        <SubCategoryBox key={index}
+                                        state={state}
+                                        subCategory={subCategory}
+                                        setState={setState}
+                                        refresh={refresh}
+                                        onClick={() => {}}
+                        />
                     )
                 }
             </div>
@@ -132,6 +158,9 @@ export default PanelSubcategories;
 
 
 const SubCategoryBox = ({subCategory, state, setState, refresh}) => {
+
+    const [file, setFile] = useState();
+    const [description, setDescription] = useState("");
 
     const deleteThisSubCategory = async () => {
         Alerts.askModal(
@@ -153,6 +182,38 @@ const SubCategoryBox = ({subCategory, state, setState, refresh}) => {
     }
 
 
+    const uploadNewImage = async () => {
+        // await addCategoryImage(state, setState, {file, description})
+
+        await addSubCategoryImage(state, setState, {file, description}, subCategory._id)
+        // await addCategory(state, setState, {file, description});
+    }
+
+    const fileSelected = event => {
+        const file = event.target.files[0]
+        setFile(file)
+    }
+
+
+    const getArticlesCountText = () => {
+        let count = subCategory.articles_count;
+        let countLastDigit = subCategory.articles_count?.toString().split('').pop();
+
+        switch (countLastDigit) {
+            case '1': return `${count} товар`;
+            case '2':
+            case '3':
+            case '4': return `${count} товара`;
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+            case '0': return `${count} товаров`;
+        }
+    }
+
+
     return(
         <div className='col-lg-6 p-2'>
             <div className='card p-3' style={{borderRadius: 10}}>
@@ -165,7 +226,7 @@ const SubCategoryBox = ({subCategory, state, setState, refresh}) => {
                             <div className='touchable-subtitle' style={{fontSize: 16}}>
                                 {
                                     !!subCategory.articles_count
-                                        ? `${subCategory.articles_count} товара`
+                                        ? `${getArticlesCountText()}`
                                         : 'нет в наличии'
                                 }
                             </div>
@@ -187,22 +248,66 @@ const SubCategoryBox = ({subCategory, state, setState, refresh}) => {
                                 contentStyle={{padding: 25, minWidth: 500}}
                                 onSave={editThisSubCategory}
                             >
-                                {
-                                    state.subcategory_info &&
-                                    <form onSubmit={editThisSubCategory}>
+                                <form onSubmit={editThisSubCategory} className='d-flex'>
+                                    <div>
+                                        <div className='d-flex align-items-center justify-content-center'
+                                             style={{width: 170, height: 170, borderRadius: 10, overflow: 'hidden', backgroundColor: '#d9d9d9'}}
+                                        >
+                                            {
+                                                !!state.subcategory_info?.img
+                                                    ?
+                                                    <img src={`/api/subcategory/images/${state.subcategory_info?.img}`} style={{height: 170}}/>
+                                                    :
+                                                    <span className="material-icons" style={{fontSize: 100, color: '#fff'}}>photo</span>
+                                            }
+                                        </div>
+
+                                        {
+                                            !!state.subcategory_info?.img
+                                                ?
+                                                <Button
+                                                    variant="contained"
+                                                    color="secondary"
+                                                    className='d-flex col mt-3'
+                                                    onClick={() =>
+                                                        Alerts.askModal(async () => await deleteSubCategoryImage(state, setState, subCategory._id), () => {})
+                                                    }>
+                                                    <span className="material-icons md-24">delete</span>
+                                                    <div>Удалить</div>
+                                                </Button>
+
+                                                :
+                                                <div>
+                                                    <input onChange={(e) => fileSelected(e)} type="file" accept="image/*"/>
+
+                                                    <Button variant="contained"
+                                                            color="primary"
+                                                            className='d-flex col mt-3'
+                                                            onClick={uploadNewImage}
+                                                    >
+                                                        <div>Загрузить</div>
+                                                    </Button>
+                                                </div>
+                                        }
+
+                                    </div>
+
+                                    <div className='col p-0 ml-4'>
                                         <MyInput label={'Название'}
                                                  defaultValue={state.subcategory_info?.title}
                                                  value={state.subcategory_info?.title}
                                                  containerStyle={{paddingTop: 5}}
-                                                 onChange={(e) => setState({...state,
+                                                 onChange={(e) => setState({
+                                                     ...state,
                                                      subcategory_info: {...state.subcategory_info, title: e.target.value}
                                                  })}
                                         />
-                                        <MyInput label={'Количество'}
+                                        <MyInput label={'Название (Англ.)'}
                                                  defaultValue={state.subcategory_info?.subtitle}
                                                  value={state.subcategory_info?.subtitle}
                                                  containerStyle={{paddingTop: 15}}
-                                                 onChange={(e) => setState({...state,
+                                                 onChange={(e) => setState({
+                                                     ...state,
                                                      subcategory_info: {...state.subcategory_info, subtitle: e.target.value}
                                                  })}
                                         />
@@ -211,12 +316,16 @@ const SubCategoryBox = ({subCategory, state, setState, refresh}) => {
                                                  defaultValue={state.subcategory_info?.description}
                                                  value={state.subcategory_info?.description}
                                                  containerStyle={{paddingTop: 15}}
-                                                 onChange={(e) => setState({...state,
-                                                     subcategory_info: {...state.subcategory_info, description: e.target.value}
+                                                 onChange={(e) => setState({
+                                                     ...state,
+                                                     subcategory_info: {
+                                                         ...state.subcategory_info,
+                                                         description: e.target.value
+                                                     }
                                                  })}
                                         />
-                                    </form>
-                                }
+                                    </div>
+                                </form>
                             </MyModal>
 
                             <Button
@@ -235,8 +344,13 @@ const SubCategoryBox = ({subCategory, state, setState, refresh}) => {
                         <div className='d-flex align-items-center justify-content-center'
                              style={{width: 170, height: 170, borderRadius: 10, overflow: 'hidden', backgroundColor: '#d9d9d9'}}
                         >
-                            <img src={'/assets/xrizantema.png'} style={{height: 170}}/>
-                            {/*<span className="material-icons" style={{fontSize: 100, color: '#fff'}}>photo</span>*/}
+                            {
+                                !!subCategory.img
+                                    ?
+                                    <img src={`/api/subcategory/images/${subCategory.img}`} style={{height: 170}}/>
+                                    :
+                                    <span className="material-icons" style={{fontSize: 100, color: '#fff'}}>photo</span>
+                            }
                         </div>
                     </div>
                 </div>
@@ -246,37 +360,3 @@ const SubCategoryBox = ({subCategory, state, setState, refresh}) => {
         </div>
     );
 }
-
-
-
-
-
-// const CategoryBox = ({category, state, setState}) => {
-//     return(
-//         <div className='col-lg-6 p-2'>
-//             <div className='card p-3'>
-//                 <div className='d-flex justify-content-between'>
-//                     <div>
-//                         <div className='mb-0' style={{fontSize: 20, fontWeight: 500, color: '#8E8E8E'}}>
-//                             {category.title}
-//                         </div>
-//                         <div style={{fontSize: 16, color: category.subtitle ? '#8E8E8E' : '#cdcdcd'}}>
-//                             {category.subtitle || 'нет в наличии'}
-//                         </div>
-//                     </div>
-//                     {/*<img src={category.img} className='category-image' />*/}
-//                     <div onClick={() =>
-//                         Alerts.askModal(() => deleteSubCategory(state, setState, category._id), () => {})
-//                     }>
-//                         <span className="material-icons md-24">delete</span>
-//                     </div>
-//
-//
-//                     {/*<span className="material-icons md-light md-inactive">face</span>*/}
-//                 </div>
-//             </div>
-//
-//         </div>
-//     );
-// }
-

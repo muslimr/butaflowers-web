@@ -24,14 +24,14 @@ import InlineLoader from "../../../components/custom/InlineLoader";
 import axios from "axios";
 
 
-async function postImage({image, description}) {
-    const formData = new FormData();
-    formData.append("image", image)
-    formData.append("description", description)
-
-    const result = await axios.post('/images', formData, { headers: {'Content-Type': 'multipart/form-data'}})
-    return result.data
-}
+// async function postImage({image, description}) {
+//     const formData = new FormData();
+//     formData.append("image", image)
+//     formData.append("description", description)
+//
+//     const result = await axios.post('/images', formData, { headers: {'Content-Type': 'multipart/form-data'}})
+//     return result.data
+// }
 
 
 const PanelCategories = () => {
@@ -83,12 +83,6 @@ const PanelCategories = () => {
         refresh();
     }
 
-
-    const submit = async event => {
-        event.preventDefault()
-        const result = await postImage({image: file, description})
-        setImages([result.image, ...images])
-    }
 
     const fileSelected = event => {
         const file = event.target.files[0]
@@ -215,6 +209,18 @@ const CategoryBox = (props) => {
             case '0': return `${count} товаров`;
         }
     }
+
+
+    // const getImage = async () => {
+    //     await axios.get(`/api/category/images/${category.img}`)
+    //         .catch(error => setState({error: error, loading: false}))
+    //         .then(response => console.log('REEEEEEEEES', response));
+    // }
+    //
+    //
+    // useEffect(() => {
+    //     getImage();
+    // }, [])
 
 
     return(

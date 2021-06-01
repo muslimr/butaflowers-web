@@ -8,7 +8,9 @@ const fs = require('fs');
 const util = require('util');
 const unlinkFile = util.promisify(fs.unlink);
 const multer = require('multer');
-const upload = multer({dest: 'uploads/'})
+const upload = multer({dest: 'uploads/'});
+const sharp = require('sharp');
+
 
 const {uploadFile, getFileStream, deleteFileStream, getImage} = require('../../../s3');
 
@@ -21,12 +23,21 @@ router.get(
             const key = req.params.key;
             const readStream = await getFileStream(key);
 
-            readStream.pipe(res);
+            readStream.pipe(res)
+
+            // console.log('$$$$$', readStream)
+
+            // let file = await sharp(readStream.Body)
+            //     .resize(320, 240)
+            //     .toFile(`${key}.png`, (err, info) => { console.log('ERROR', err) })
+            //     .then(response => console.log('@@@@', response))
+
+            // res.status(200).json({file})
         } catch (e) {
             res.status(500).json({description: 'Please wait a few minutes before you try again'});
         }
 
-})
+});
 
 const {Buffer} = require('buffer');
 
@@ -38,7 +49,7 @@ function getImgBuffer(base64) {
 const getImageUrl = async (type, base64Image) => {
     const buffer = getImgBuffer(base64Image);
     const currentTime = new Date().getTime();
-    return `${type}/${currentTime}.jpeg`
+    return `${type}/${currentTime}.jpeg`;
 }
 
 
@@ -49,7 +60,7 @@ router.get(
             let data = await Category.find();
             let categories = data.reverse();
             for (let index in categories) {
-                let articles = await Article.find({category_id: categories[index]._id})
+                let articles = await Article.find({category_id: categories[index]._id});
                 categories[index].articles_count = articles.length;
             }
 
@@ -71,7 +82,7 @@ router.get(
                 let categoryInfo = await Category.find({_id: ID});
                 data = categoryInfo[0];
             } else {
-                data = {}
+                data = {};
             }
 
             res.status(200).json({data});
@@ -111,6 +122,7 @@ router.post(
 
             if (req.file.filename) {
                 const file = req.file;
+
                 let image_id = req.file.filename;
 
                 await uploadFile(file);

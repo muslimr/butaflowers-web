@@ -10,7 +10,15 @@ import MyInput from "../../../components/custom/MyInput";
 import {Snackbar} from "@material-ui/core";
 import {Alert} from "react-bootstrap";
 import {Link, useHistory, useLocation, useParams} from "react-router-dom";
-import {addCategory, deleteCategory, editCategory, getCategoriesList, getCategoryInfo} from "../../../actions";
+import {
+    addArticleImage,
+    addCategory,
+    addSubCategoryImage,
+    deleteCategory, deleteSubCategoryImage,
+    editCategory,
+    getCategoriesList,
+    getCategoryInfo
+} from "../../../actions";
 import {
     addSubCategory,
     deleteSubCategory,
@@ -20,8 +28,7 @@ import {
 } from "../../../actions/subcategories";
 import InlineLoader from "../../../components/custom/InlineLoader";
 import {Alerts} from "../../../plugins/Alerts";
-import {addArticle, deleteArticle, editArticle, getArticleInfo, getArticlesList} from "../../../actions/articles";
-
+import {addArticle, deleteArticle, editArticle, getArticleInfo, getArticlesList, deleteArticleImage} from "../../../actions";
 
 
 const PanelArticles = (props) => {
@@ -50,6 +57,10 @@ const PanelArticles = (props) => {
     const [state, setState] = useReducer((prevState, newState) => {
         return {...prevState, ...newState}
     }, initialState);
+
+    const [file, setFile] = useState("");
+    const [description, setDescription] = useState("");
+    const [images, setImages] = useState([]);
     const history = useHistory();
 
     const refresh = async () => {
@@ -58,7 +69,7 @@ const PanelArticles = (props) => {
 
     useEffect(() => {
         refresh();
-    }, []);
+    }, [state.refreshing]);
 
 
     useEffect(() => {
@@ -66,9 +77,16 @@ const PanelArticles = (props) => {
     }, [state.id]);
 
 
-    const onSave = async () => {
-        await addArticle(state, setState);
-        await refresh();
+    const onSave = async (event) => {
+        // event.preventDefault()
+        await addArticle(state, setState, {file, description});
+        refresh();
+    }
+
+
+    const fileSelected = event => {
+        const file = event.target.files[0]
+        setFile(file)
     }
 
 
@@ -94,12 +112,14 @@ const PanelArticles = (props) => {
                          onSave={onSave}
                 >
                     <form onSubmit={onSave}>
+                        <input className='primary-btn' onChange={(e) => fileSelected(e)} type="file" accept="image/*"/>
+
                         <MyInput label={'Название'}
                                  value={state.addData.title}
                                  containerStyle={{paddingTop: 5}}
                                  onChange={(e) => setState({...state, addData: {...state.addData, title: e.target.value}})}
                         />
-                        <MyInput label={'Количество'}
+                        <MyInput label={'Название (Англ.)'}
                                  value={state.addData.subtitle}
                                  containerStyle={{paddingTop: 15}}
                                  onChange={(e) => setState({...state, addData: {...state.addData, subtitle: e.target.value}})}
@@ -131,6 +151,9 @@ export default PanelArticles;
 
 const ArticleBox = ({article, state, setState, refresh}) => {
 
+    const [file, setFile] = useState();
+    const [description, setDescription] = useState("");
+
     const deleteThisArticle = async () => {
         Alerts.askModal(
             async () => await deleteArticle(state, setState, article._id),
@@ -150,6 +173,18 @@ const ArticleBox = ({article, state, setState, refresh}) => {
         refresh();
     }
 
+    const uploadNewImage = async () => {
+        // await addCategoryImage(state, setState, {file, description})
+
+        await addArticleImage(state, setState, {file, description}, article._id)
+        // await addCategory(state, setState, {file, description});
+    }
+
+    const fileSelected = event => {
+        const file = event.target.files[0]
+        setFile(file)
+    }
+
 
     return(
         <div className='col-lg-6 p-2'>
@@ -161,7 +196,7 @@ const ArticleBox = ({article, state, setState, refresh}) => {
                                 {article.title}
                             </div>
                             <div style={{fontSize: 16, color: article.subtitle ? '#8E8E8E' : '#cdcdcd'}}>
-                                {article.subtitle || 'нет в наличии'}
+                                {article.subtitle}
                             </div>
                             <div style={{fontSize: 16, color: '#cdcdcd'}}>
                                 {article.article_num}
@@ -184,9 +219,51 @@ const ArticleBox = ({article, state, setState, refresh}) => {
                                 contentStyle={{padding: 25, minWidth: 500}}
                                 onSave={editThisArticle}
                             >
-                                {
-                                    state.article_info &&
-                                    <form onSubmit={editThisArticle}>
+                                <form onSubmit={editThisArticle} className='d-flex'>
+                                    <div>
+                                        <div className='d-flex align-items-center justify-content-center'
+                                             style={{width: 170, height: 170, borderRadius: 10, overflow: 'hidden', backgroundColor: '#d9d9d9'}}
+                                        >
+                                            {
+                                                !!state.article_info?.img
+                                                    ?
+                                                    <img src={`/api/article/images/${state.article_info?.img}`} style={{height: 170}}/>
+                                                    :
+                                                    <span className="material-icons" style={{fontSize: 100, color: '#fff'}}>photo</span>
+                                            }
+                                        </div>
+
+                                        {
+                                            !!state.article_info?.img
+                                                ?
+                                                <Button
+                                                    variant="contained"
+                                                    color="secondary"
+                                                    className='d-flex col mt-3'
+                                                    onClick={() =>
+                                                        Alerts.askModal(async () => await deleteArticleImage(state, setState, article._id), () => {})
+                                                    }>
+                                                    <span className="material-icons md-24">delete</span>
+                                                    <div>Удалить</div>
+                                                </Button>
+
+                                                :
+                                                <div>
+                                                    <input onChange={(e) => fileSelected(e)} type="file" accept="image/*"/>
+
+                                                    <Button variant="contained"
+                                                            color="primary"
+                                                            className='d-flex col mt-3'
+                                                            onClick={uploadNewImage}
+                                                    >
+                                                        <div>Загрузить</div>
+                                                    </Button>
+                                                </div>
+                                        }
+
+                                    </div>
+
+                                    <div className='col p-0 ml-4'>
                                         <MyInput label={'Название'}
                                                  defaultValue={state.article_info?.title}
                                                  value={state.article_info?.title}
@@ -195,7 +272,7 @@ const ArticleBox = ({article, state, setState, refresh}) => {
                                                      article_info: {...state.article_info, title: e.target.value}
                                                  })}
                                         />
-                                        <MyInput label={'Количество'}
+                                        <MyInput label={'Название (Англ.)'}
                                                  defaultValue={state.article_info?.subtitle}
                                                  value={state.article_info?.subtitle}
                                                  containerStyle={{paddingTop: 15}}
@@ -212,8 +289,8 @@ const ArticleBox = ({article, state, setState, refresh}) => {
                                                      article_info: {...state.article_info, description: e.target.value}
                                                  })}
                                         />
-                                    </form>
-                                }
+                                    </div>
+                                </form>
                             </MyModal>
 
                             <Button variant="contained"
@@ -231,8 +308,13 @@ const ArticleBox = ({article, state, setState, refresh}) => {
                         <div className='d-flex align-items-center justify-content-center'
                              style={{width: 170, height: 170, borderRadius: 10, overflow: 'hidden', backgroundColor: '#d9d9d9'}}
                         >
-                            {/*<img src={'/assets/xrizantema.png'} style={{height: 170}}/>*/}
-                            <span className="material-icons" style={{fontSize: 100, color: '#fff'}}>photo</span>
+                            {
+                                !!article.img
+                                    ?
+                                    <img src={`/api/article/images/${article.img}`} style={{height: 170}}/>
+                                    :
+                                    <span className="material-icons" style={{fontSize: 100, color: '#fff'}}>photo</span>
+                            }
                         </div>
                     </div>
                 </div>
