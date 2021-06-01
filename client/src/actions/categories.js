@@ -12,27 +12,33 @@ export async function getCategoriesList(state, setState) {
     if (result) {
         setState({
             data: result.data.categories,
-            // count: result.data?.count,
-            // loading: false,
         });
         setTimeout(() => setState({loading: false}), 3000)
     }
 }
 
 
+export async function getCategoryImage(id) {
+    let result = false;
+
+    await axios.get(`/api/category/ims/${id}`)
+        .catch(error => console.log(error))
+        .then(response => result = response.data);
+
+    if(result) return result;
+}
+
+
 
 export async function getCategoryInfo (state, setState) {
     let result = false;
-    // setState({loading: true});
     await axios.get('/api/category/info', {params: {id: state.id}})
         .catch(error => setState({error: error, loading: false}))
         .then(response => result = response)
 
     if (result) {
-        console.log('RESULT', result)
         await setState({
             category_info: result.data?.data,
-            // count: result.data?.count,
             loading: false,
         });
     }

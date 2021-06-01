@@ -10,7 +10,7 @@ const unlinkFile = util.promisify(fs.unlink);
 const multer = require('multer');
 const upload = multer({dest: 'uploads/'})
 
-const {uploadFile, getFileStream, deleteFileStream} = require('../../../s3');
+const {uploadFile, getFileStream, deleteFileStream, getImage} = require('../../../s3');
 
 
 
@@ -22,12 +22,24 @@ router.get(
             const readStream = await getFileStream(key);
 
             readStream.pipe(res);
-            // res.write(readStream,'binary');
         } catch (e) {
             res.status(500).json({description: 'Please wait a few minutes before you try again'});
         }
 
 })
+
+const {Buffer} = require('buffer');
+
+function getImgBuffer(base64) {
+    const base64str = base64.replace(/^data:image\/\w+;base64,/, '');
+    return Buffer.from(base64str, 'base64');
+}
+
+const getImageUrl = async (type, base64Image) => {
+    const buffer = getImgBuffer(base64Image);
+    const currentTime = new Date().getTime();
+    return `${type}/${currentTime}.jpeg`
+}
 
 
 router.get(

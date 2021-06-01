@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -103,6 +103,15 @@ export default function MyNavbar(props) {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+
+    useEffect(() => {
+        for (let index in pageRoutes) {
+            if (pageRoutes[index].route === history.location.pathname) {
+                setValue(parseInt(index));
+            }
+        }
+    }, []);
+
 
     return (
         <div className={classes.root}>

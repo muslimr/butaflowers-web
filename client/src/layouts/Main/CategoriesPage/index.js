@@ -1,12 +1,11 @@
 import React, {useEffect, useReducer} from 'react';
 import {Link} from "react-router-dom";
-import {CATEGORIES} from "../../../arrays/arrays";
-import {getCategoriesList, getCategoryImage} from "../../../actions";
 import InlineLoader from "../../../components/custom/InlineLoader";
+
+import {getCategoriesList} from "../../../actions";
 
 
 const CategoriesPage = () => {
-
     const initialState = {
         loading: false,
         image_loading: false,
@@ -26,21 +25,20 @@ const CategoriesPage = () => {
 
     const refresh = async () => {
         await getCategoriesList(state, setState);
-        // getTest(state, setState);
     }
 
     useEffect(() => {
-        // refresh();
-        getCategoriesList(state, setState);
+        refresh();
+        // getCategoriesList(state, setState);
     }, []);
 
 
     return(
         <div className='row col' style={{padding: '250px 80px'}}>
-            {state.loading && <InlineLoader style={{backgroundColor: 'rgba(255,255,255,0.4)'}}/>}
+            {state.loading && <InlineLoader style={{height: 50, marginTop: 200}}/>}
 
             {
-                !!state.data?.length &&
+                !!state.data?.length && !state.loading &&
                 state.data?.map((category, index) =>
                     <Link className='category-box-container col-4 px-5' style={{textDecoration: 'none', marginBottom: 100}} to={{pathname: `/catalog/category/${category._id}`, data: category}}>
                         <CategoryBox state={state} setState={setState} category={category} onClick={() => {}}/>
@@ -79,7 +77,7 @@ const CategoryBox = (props) => {
     }
 
     // useEffect(() => {
-    //     getCategoryImage(category._id)
+    //     getCategoryImage(category.img)
     // }, []);
 
 
@@ -97,6 +95,7 @@ const CategoryBox = (props) => {
                          style={{top: -50, right: -50, overflow: 'hidden', position: 'absolute'}}
                     >
                         <img src={`/api/category/images/${category.img}`} style={{height: '21rem',}} className='category-image'/>
+                        {/*<img src={getCategoryImage(category.img)} style={{height: '21rem',}} className='category-image'/>*/}
                     </div>
 
                 </div>

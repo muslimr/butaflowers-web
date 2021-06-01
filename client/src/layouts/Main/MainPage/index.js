@@ -15,6 +15,7 @@ import {Link, useLocation} from "react-router-dom";
 import Carousel from 'react-spring-3d-carousel';
 import { config } from "react-spring";
 import uuidv4 from "uuid";
+import {getCategoriesList} from "../../../actions";
 
 
 
@@ -33,7 +34,7 @@ const MainPage = () => {
         },
         listData: [],
         count: 0,
-
+        data: [],
         goToSlide: 0,
         offsetRadius: 1,
         // showNavigation: true,
@@ -61,6 +62,11 @@ const MainPage = () => {
     }, [getCategories]);
 
 
+    useEffect(() => {
+        getCategoriesList(state, setState);
+    }, []);
+
+
     const addCategory = async (state, setState) => {
         try {
             await request('/api/category/add', 'POST', {data: state.addData}, {});
@@ -86,7 +92,27 @@ const MainPage = () => {
     }
 
 
-    let slides = [
+    // [
+    //     {
+    //         key: 1,
+    //         content: '/assets/zelen.png',
+    //         title: 'Зелень',
+    //     },
+    //     {
+    //         key: 2,
+    //         content: '/assets/roza.png',
+    //         title: 'Розы',
+    //     },
+    //     {
+    //         key: 3,
+    //         content: '/assets/xrizantema.png',
+    //         title: 'Хризантемы',
+    //     },
+    // ]
+
+    let slides =
+        // state.data
+    [
         {
             key: 1,
             content: '/assets/zelen.png',
@@ -116,13 +142,13 @@ const MainPage = () => {
                         <div style={{minHeight: 300}}>
                             <img src={slide.content} className='category-image' style={{minHeight: 500, top: -100, left: -150, position: 'absolute'}}/>
                         </div>
-                        <div className='d-flex w-100 flex-column align-items-end justify-content-end pb-4 pr-5'>
+                        <div className='d-flex w-100 flex-column align-items-end justify-content-end pb-5 pr-5'>
                             <div className='mb-0'
                                  style={{fontSize: 26, fontWeight: 500, lineHeight: 1, color: '#8E8E8E'}}
                             >
                                 {slide.title}
                             </div>
-                            <div style={{fontSize: 14, color: '#8E8E8E'}}>54 товара</div>
+                            {/*<div style={{fontSize: 14, color: '#8E8E8E'}}>54 товара</div>*/}
                         </div>
                     </div>
                 </div>
