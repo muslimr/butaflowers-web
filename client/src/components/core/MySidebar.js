@@ -83,10 +83,14 @@ export default function MySidebar(props) {
     return (
         <div>
             <React.Fragment>
-                <Button onClick={toggleDrawer('left', true)}>
+                <Button onClick={toggleDrawer('left', true)} >
                     <MenuIcon />
                 </Button>
                 <Drawer anchor={'left'} open={state.left} onClose={toggleDrawer('left', false)}>
+                    <img src={`/assets/buta_flowers_logo.svg`} className="img_" style={{ width:140, margin: '10px 10px 10px 55px' }} />
+                    <div className="px-2 pt-1" >
+                        <div className="line__sidebar" />
+                    </div>
                     {list('left')}
                 </Drawer>
             </React.Fragment>

@@ -8,6 +8,13 @@
     border-radius: 25px 63px 25px 63px;
     transition: 0.3s ease-in-out;
   }
+
+  .div_ {
+    img {
+      width: 100% !important;
+      position: relative;
+    }
+  }
   .category-image {
     min-height: 320px;
     transition: 0.3s ease-in-out;
@@ -20,7 +27,4 @@
   //  height: 350px;
   //}
 }
-
-
-
 

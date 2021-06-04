@@ -61,15 +61,20 @@ function Main() {
 
                     :
                     <>
-                        <div className='d-flex justify-content-start'>
-                            <div className='nums-box justify-content-between' style={{marginLeft: 40, position: 'absolute'}}>
-                                <div>8 (926) 262 82 82</div>
-                                <div>8 (495) 517 95 95</div>
+                        {
+                            dimensions.width > 1200 &&
+                            <div className='d-flex justify-content-start'>
+                                <div className='nums-box justify-content-between' style={{marginLeft: 40, position: 'absolute'}}>
+                                    <div>8 (926) 262 82 82</div>
+                                    <div>8 (495) 517 95 95</div>
+                                </div>
                             </div>
-                        </div>
-                        <img src={`/assets/buta_flowers_logo.svg`} style={{position: 'absolute', width: 300, marginLeft: 80, marginTop: 70}}/>
-                        <div className='d-flex justify-content-end col p-0' style={{position: 'absolute'}}>
-                            <img src={`/assets/buta_large.svg`} style={{width: 620}}/>
+                        }
+                        <div className="logo_" >
+                            <img src={`/assets/buta_flowers_logo.svg`} className="img_" />
+                            <div className='d-flex justify-content-end col p-0 back_icon' style={{position: 'absolute'}}>
+                                <img src={`/assets/buta_large.svg`} style={{width: 620}}/>
+                            </div>
                         </div>
                         {
                             dimensions.width <= 1200
