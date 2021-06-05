@@ -35,10 +35,10 @@ const CategoriesPage = () => {
 
     return(
         <div className='row col' style={{padding: '250px 80px'}}>
-            {state.loading && <InlineLoader style={{height: 50, marginTop: 200}}/>}
+            {state.loading && <InlineLoader style={{height: 500, marginTop: 200}}/>}
 
             {
-                !!state.data?.length && !state.loading &&
+                !!state.data?.length &&
                 state.data?.map((category, index) =>
                     <Link className='category-box-container col-4 px-5' style={{textDecoration: 'none', marginBottom: 100}} to={{pathname: `/catalog/category/${category._id}`, data: category}}>
                         <CategoryBox state={state} setState={setState} category={category} onClick={() => {}}/>
