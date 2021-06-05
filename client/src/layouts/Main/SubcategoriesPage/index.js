@@ -75,7 +75,7 @@ const SubcategoriesPage = (props) => {
                 {
                     state.data?.map((subCategory, index) =>
                         <Link className='category-box-container col-4 px-5' style={{marginBottom: 100}} to={{pathname: `/catalog/category/${state.category_id}/subCategory/${subCategory._id}`}}>
-                            <CategoryBox category={subCategory} onClick={() => {}}/>
+                            <CategoryBox key={index} category={subCategory} onClick={() => {}}/>
                         </Link>
                     )
                 }
@@ -95,14 +95,14 @@ const CategoryBox = ({category}) => {
     return(
         <div style={{position: 'relative'}}>
             <div className='category-box'>
-                <div className='w-100'
-                     style={{
+                <div className="div_" style={{
+                         width: 300,
                          height: 300,
                          borderRadius: '25px 63px 0 0',
-                         background: category.color
+                         background: category.color,
                      }}
                 >
-                    <img src={category.img} className='category-image' style={{top: -50, right: -50, position: 'absolute'}}/>
+                    <img className="category-image" src={`/api/category/images/${category?.img}`} style={{ position:'realtive' }} />
                 </div>
                 <div className='col d-flex flex-column py-3 px-4'>
                     <div className='mb-0' style={{fontSize: 26, fontWeight: 500, color: '#8E8E8E'}}>{category.title}</div>

@@ -11,3 +11,102 @@
   //background: linear-gradient(90deg, rgba(124, 105, 150, 0) 0%, rgba(124, 105, 150, 0.1) 46.35%, rgba(124, 105, 150, 0) 100%);
   background: rgba(124, 105, 150, 0.1) 46.35%;
 }
+
+.MuiButton-label {
+  svg {
+    position: absolute;
+    top: -13.5rem;
+    font-size: 2.5rem;
+    padding: 0;
+    color: #838383;
+  }
+}
+
+.logo_ {
+  .img_ {
+    position: absolute;
+    width: 300px;
+    margin-left: 80px;
+    margin-top: 70px;
+  }
+}
+
+.slogan_ {
+  margin-top: 120px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  img {
+    width: 100%;
+    object-fit: contain;
+  }
+  .h1_ {
+    font-size: 35px;
+    font-weight: 300;
+    color: #776490;
+    text-align: center;
+  }
+}
+
+.q_buttons {
+  display: flex;
+  padding: 3rem 0 10rem 0;
+}
+
+@media (max-width: 1200px) {
+  .logo_ {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    .img_ {
+      position: relative !important;
+      width: 300px;
+      margin-left: 0;
+      margin-top: 70px;
+    }
+    .back_icon {
+      display: none !important;
+    }
+  }
+
+  .slogan_ {
+    margin-top: 10px;
+    width: 100%;
+    img {
+      position: relative;
+    }
+    .h1_ {
+      font-size: 27px;
+    }
+  }
+
+
+  .q_buttons {
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    button {
+      width: 100% !important;
+      font-size: 17px;
+      margin: .6rem 0;
+    }
+    .buta-btn {
+      width: 100% !important;
+      font-size: 17px;
+      margin: .6rem 0;
+      display: flex;
+      justify-content: center;
+    }
+  }
+}
+
+@media (max-width: 450px) {
+  .slogan_ {
+    margin-top: -10px;
+    .h1_ {
+      font-size: 17px;
+    }
+  }
+
+}
