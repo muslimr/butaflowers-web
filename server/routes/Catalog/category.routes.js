@@ -23,27 +23,14 @@ router.get(
     async (req, res) => {
         try {
             const key = req.params.key;
-            const readStream = await getFileStream(key);
+            const getFilePromise = await getFileStream(key).promise();
+            const readStream = await getFileStream(key).createReadStream();
 
-
-            // let buffer = new Buffer(readStream.Body);
-            // // console.log('$$$$$', readStream.Body)
-            //
-            // let base64data = buffer.toString('base64');
-
-            await readStream.pipe(res)
-
-
-            // let file = await sharp(readStream.Body)
-            //     .resize(320, 240)
-            //     .toFile(`${key}.png`, (err, info) => { console.log('ERROR', err) })
-            //     .then(response => console.log('@@@@', response))
-
-            // res.status(200).json({file})
+            if (!!getFilePromise) readStream.pipe(res);
+            return null;
         } catch (e) {
             res.status(500).json({description: 'Please wait a few minutes before you try again'});
         }
-
 });
 
 const {Buffer} = require('buffer');

@@ -103,6 +103,18 @@ export default ArticlesPage;
 
 const CategoryBox = ({category}) => {
 
+    async function getImageFromS3() {
+        let result = false;
+        return await fetch(`/api/article/images/${category?.img}`)
+            .catch(error => console.log(error))
+            .then((response) => (result = response));
+
+        if (result) {
+            console.log(result)
+            return result
+        };
+    }
+
     return(
         <div style={{position: 'relative'}}>
             <div className='category-box'>
@@ -113,7 +125,7 @@ const CategoryBox = ({category}) => {
                          background: category.color
                      }}
                 >
-                    <img src={category.img} className='category-image' style={{top: -50, right: -50, position: 'absolute'}}/>
+                    <img src={`/api/article/images/${category?.img}`} className='category-image' style={{top: -50, right: -50, position: 'absolute'}}/>
                 </div>
                 <div className='col d-flex flex-column py-3 px-4'>
                     <div className='mb-0' style={{fontSize: 26, fontWeight: 500, color: '#8E8E8E'}}>{category.title}</div>

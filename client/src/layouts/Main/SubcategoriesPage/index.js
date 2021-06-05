@@ -28,7 +28,6 @@ const SubcategoriesPage = (props) => {
 
     const history = useHistory();
 
-
     const refresh = async () => {
         setState({loading: true})
         await getCategoryInfo(state, setState)
@@ -75,7 +74,7 @@ const SubcategoriesPage = (props) => {
                 {
                     state.data?.map((subCategory, index) =>
                         <Link className='category-box-container col-4 px-5' style={{marginBottom: 100}} to={{pathname: `/catalog/category/${state.category_id}/subCategory/${subCategory._id}`}}>
-                            <CategoryBox key={index} category={subCategory} onClick={() => {}}/>
+                            <CategoryBox key={index} index={index} category={subCategory} onClick={() => {}}/>
                         </Link>
                     )
                 }
@@ -88,21 +87,72 @@ const SubcategoriesPage = (props) => {
 export default SubcategoriesPage;
 
 
+let status;
+// let src = '/assets/buta_flowers_logo.svg';
+
+const CategoryBox = ({category, index}) => {
 
 
-const CategoryBox = ({category}) => {
+
+    async function getImageFromS3(ID) {
+        status =  await fetch(`/api/subcategory/images/${ID}`)
+            .catch(error => console.log('ERROR', error))
+            .then((response) => {
+                    if (response.ok === true) {
+                        // status = result.ok;
+                        return `/api/subcategory/images/${ID}`;
+                    } else {
+                        return '/assets/buta_flowers_logo.svg'
+                    }
+            }
+
+
+
+                // response
+            );
+
+
+        // status = result
+        // if (result.ok === true) {
+        //     status = result.ok;
+        //     src = `/api/subcategory/images/${ID}`;
+        // } else {
+        //     status = '/assets/buta_flowers_logo.svg'
+        // }
+
+
+        // console.log('@@@@@@', result)
+
+        // status = result;
+    }
+
+    useEffect(() =>{
+        getImageFromS3(category.img)
+    }, []);
+
 
     return(
         <div style={{position: 'relative'}}>
             <div className='category-box'>
                 <div className="div_" style={{
-                         width: 300,
+                         // width: 300,
                          height: 300,
                          borderRadius: '25px 63px 0 0',
-                         background: category.color,
+                         background: 'gray',
                      }}
                 >
-                    <img className="category-image" src={`/api/category/images/${category?.img}`} style={{ position:'realtive' }} />
+                    {
+                        // status &&
+                        // //     ?
+                        <img className="category-image" src={`/api/subcategory/images/${category.img}`} style={{ position:'realtive' }} />
+                        //     :
+                        //     <div className='d-flex align-items-center justify-content-center'
+                        //          style={{width: 170, height: 170, borderRadius: 10, overflow: 'hidden', backgroundColor: '#d9d9d9'}}
+                        //     >
+                        //         <span className="material-icons" style={{fontSize: 100, color: '#fff'}}>photo</span>
+                        //     </div>
+
+                    }
                 </div>
                 <div className='col d-flex flex-column py-3 px-4'>
                     <div className='mb-0' style={{fontSize: 26, fontWeight: 500, color: '#8E8E8E'}}>{category.title}</div>

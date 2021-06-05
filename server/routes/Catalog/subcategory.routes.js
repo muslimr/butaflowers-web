@@ -18,22 +18,21 @@ router.get(
     async (req, res) => {
         try {
             const key = req.params.key;
-            const readStream = await getFileStream(key);
+            const getFilePromise = await getFileStream(key).promise();
+            let readStream;
 
-            await readStream.pipe(res);
+            if (getFilePromise !== undefined) {
+                readStream = await getFileStream(key).createReadStream();
+            } else {
+                readStream = await getFileStream('Group 16.png')
+            }
 
-            // console.log('$$$$$', readStream)
+            console.log('###############', readStream)
 
-            // let file = await sharp(readStream.Body)
-            //     .resize(320, 240)
-            //     .toFile(`${key}.png`, (err, info) => { console.log('ERROR', err) })
-            //     .then(response => console.log('@@@@', response))
-
-            // res.status(200).json({file})
+            readStream.pipe(res)
         } catch (e) {
             res.status(500).json({description: 'Please wait a few minutes before you try again'});
         }
-
     }
 );
 

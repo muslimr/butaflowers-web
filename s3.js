@@ -50,8 +50,23 @@ function getFileStream(fileKey) {
     //
     // return data;
 
+    // s3.headObject(downloadParams, function (err, metadata) {
+    //     if (err && err.code === 'NotFound') {
+    //         // Handle no object on cloud here
+    //         console.log('$$$$$$$$$$$$$$$', err)
+    //     } else {
+    //         console.log('ggggggggggggggggggggggg', s3.getSignedUrl('getObject', do))
+    //         // return s3.getSignedUrl('getObject', downloadParams, () => {});
+    //     }
+    // });
 
-    return s3.getObject(downloadParams).createReadStream();
+    // let fileObj = s3.getObject(downloadParams).promise()
+    //     .catch((err) => console.log('ERROR', err))
+    //     .then((res) => res)
+
+    // console.log('@@@@@@@@@@', )
+
+    return s3.getObject(downloadParams);
 }
 exports.getFileStream = getFileStream;
 
