@@ -16,7 +16,6 @@ import {
     editCategory,
     getCategoriesList,
     getCategoryInfo,
-    getTest
 } from "../../../actions";
 import Swal from 'sweetalert2';
 import {Alerts} from "../../../plugins/Alerts";
@@ -130,7 +129,7 @@ const PanelCategories = () => {
 
             <div className='row col p-0 m-0'>
                 {
-                    state.data?.map((category, index) =>
+                    state.data.map((category, index) =>
                         <CategoryBox key={index}
                                      state={state}
                                      category={category}

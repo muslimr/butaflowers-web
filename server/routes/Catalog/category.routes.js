@@ -11,6 +11,8 @@ const multer = require('multer');
 const upload = multer({dest: 'uploads/'});
 const sharp = require('sharp');
 
+const { saveAs } = require('file-saver');
+
 
 const {uploadFile, getFileStream, deleteFileStream, getImage} = require('../../../s3');
 
@@ -23,9 +25,14 @@ router.get(
             const key = req.params.key;
             const readStream = await getFileStream(key);
 
-            readStream.pipe(res)
 
-            // console.log('$$$$$', readStream)
+            // let buffer = new Buffer(readStream.Body);
+            // // console.log('$$$$$', readStream.Body)
+            //
+            // let base64data = buffer.toString('base64');
+
+            await readStream.pipe(res)
+
 
             // let file = await sharp(readStream.Body)
             //     .resize(320, 240)

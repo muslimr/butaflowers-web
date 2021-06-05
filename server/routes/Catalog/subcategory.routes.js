@@ -20,7 +20,7 @@ router.get(
             const key = req.params.key;
             const readStream = await getFileStream(key);
 
-            readStream.pipe(res)
+            await readStream.pipe(res);
 
             // console.log('$$$$$', readStream)
 

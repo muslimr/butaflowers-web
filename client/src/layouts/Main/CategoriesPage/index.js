@@ -2,7 +2,7 @@ import React, {useEffect, useReducer} from 'react';
 import {Link} from "react-router-dom";
 import InlineLoader from "../../../components/custom/InlineLoader";
 
-import {getCategoriesList} from "../../../actions";
+import {getCategoriesList, getCategoryImage} from "../../../actions";
 
 
 const CategoriesPage = () => {
@@ -76,9 +76,9 @@ const CategoryBox = (props) => {
         }
     }
 
-    // useEffect(() => {
-    //     getCategoryImage(category.img)
-    // }, []);
+    useEffect(() => {
+        getCategoryImage(category.img)
+    }, []);
 
 
     return(
@@ -94,7 +94,7 @@ const CategoryBox = (props) => {
                     <div className='d-flex align-items-center justify-content-center col'
                          style={{top: -50, right: -50, overflow: 'hidden', position: 'absolute'}}
                     >
-                        <img src={`/api/category/images/${category.img}`} style={{height: '21rem',}} className='category-image'/>
+                        {/*<img src={`/api/category/images/${category.img}`} style={{height: '21rem',}} className='category-image'/>*/}
                         {/*<img src={getCategoryImage(category.img)} style={{height: '21rem',}} className='category-image'/>*/}
                     </div>
 

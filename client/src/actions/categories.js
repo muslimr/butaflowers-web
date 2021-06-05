@@ -21,9 +21,9 @@ export async function getCategoriesList(state, setState) {
 export async function getCategoryImage(id) {
     let result = false;
 
-    await axios.get(`/api/category/ims/${id}`)
+    await axios.get(`/api/category/images/${id}`)
         .catch(error => console.log(error))
-        .then(response => result = response.data);
+        .then(response => result = response.url);
 
     if(result) return result;
 }
