@@ -5,8 +5,6 @@ import {useAuth, useWindowDimensions} from "./hooks";
 import {AuthContext} from "./context/AuthContext";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Loader} from "./components/Loader";
-import MySidebar from "./components/core/MySidebar";
-import MyNavbar from "./components/core/MyNavbar";
 import "./assets/index.scss";
 import Main from "./layouts/App/App";
 

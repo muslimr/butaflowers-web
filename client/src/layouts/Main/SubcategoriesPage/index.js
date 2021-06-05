@@ -6,10 +6,12 @@ import {getCategoryInfo} from "../../../actions";
 import InlineLoader from "../../../components/custom/InlineLoader";
 import {Alerts} from "../../../plugins/Alerts";
 import Button from "@material-ui/core/Button";
+import {useWindowDimensions} from "../../../hooks";
 
 
 const SubcategoriesPage = (props) => {
 
+    const dimensions = useWindowDimensions()
     const initialState = {
         loading: false,
         refreshing: false,
@@ -44,10 +46,10 @@ const SubcategoriesPage = (props) => {
 
 
     return(
-        <div className='col' style={{padding: '0 80px'}}>
+        <div className='col' style={{padding: dimensions.width > 992 ? '0 80px' : '0 50px'}}>
             {state.loading && <InlineLoader />}
-            <div className='row mb-5'>
-                <div className='col d-flex flex-column align-items-end' style={{paddingTop: 180, color: '#8D8D8D'}}>
+            <div className='info_ row mb-5'>
+                <div className='back_ col d-flex flex-column align-items-end' style={{color: '#8D8D8D'}}>
                     <Button
                         className='d-flex m-2 px-4 mr-auto'
                         style={{minHeight: 45}}
@@ -56,19 +58,23 @@ const SubcategoriesPage = (props) => {
                         <span className="material-icons md-24">arrow_back_ios</span>
                         <div>Назад</div>
                     </Button>
-
-                    <div style={{marginTop: 20, fontSize: 50, fontWeight: 500}}>{state.category_info?.title}</div>
-                    <p style={{fontSize: 20, textAlign: 'right'}}>
-                        {state.category_info?.description}
-                    </p>
                 </div>
-                {
-                    !!state.category_info?.img
-                        ?
-                        <img src={`/api/category/images/${state.category_info?.img}`} className='category-image' style={{minHeight: 450}}/>
-                        :
-                        <div className='category-image' style={{minWidth: 400, minHeight: 450}}/>
-                }
+                <div className="image__section" >
+                    <div className="d-flex flex-column justify-content-center " >
+                        <div className="title_" style={{marginTop: 20, fontSize: 50, fontWeight: 500}}>{state.category_info?.title}</div>
+                        <p style={{fontSize: 20, textAlign: 'right'}}>
+                        </p>
+                    </div>
+                    <div className="img_" >
+                        {
+                            !!state.category_info?.img
+                                ?
+                                <img src={`/api/category/images/${state.category_info?.img}`} className='category-image' style={{minHeight: 450}}/>
+                                :
+                                <div className='category-image' style={{minWidth: 400, minHeight: 450}}/>
+                        }
+                    </div>
+                </div>
             </div>
             <div className='row'>
                 {

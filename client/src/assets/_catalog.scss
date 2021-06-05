@@ -1,7 +1,11 @@
+.parent__category {
+  padding: 250px 80px;
+}
 
 .category-box-container {
   text-decoration: none !important;
-
+  width: 33.33333%;
+  padding: 0 40px;
   .category-box {
     background: #FFFFFF;
     box-shadow: 0px 10px 20px rgba(220, 220, 220, 0.4);
@@ -28,3 +32,189 @@
   //}
 }
 
+@media (max-width: 1374px) {
+  .category-box-container {
+    text-decoration: none !important;
+    width: 33.33333%;
+    padding: 0 40px;
+    .category-box {
+      .w-100 {
+        height: 250px !important;
+      }
+    }
+    .category-image {
+      width: 17.5rem;
+      min-height: 270px !important;
+      transition: 0.3s ease-in-out;
+    }
+  }
+}
+
+@media (max-width: 850px) {
+  .parent__category {
+    padding: 90px 40px !important;
+  }
+
+  .category-box-container {
+    text-decoration: none !important;
+    width: 33.33333%;
+    padding: 0 30px !important;
+    .category-box {
+      .w-100 {
+        height: 250px !important;
+      }
+    }
+    .category-image {
+      width: 17.5rem;
+      min-height: 270px !important;
+      transition: 0.3s ease-in-out;
+    }
+  }
+}
+
+
+
+
+@media (max-width: 1200px) {
+  .parent__category {
+    padding: 90px 70px;
+  }
+  .category-box-container {
+    text-decoration: none !important;
+    width: 50%;
+    padding: 0 50px;
+    .category-box {
+      .w-100 {
+        height: 250px !important;
+      }
+    }
+    .category-image {
+      width: 17.5rem;
+      min-height: 270px !important;
+      transition: 0.3s ease-in-out;
+    }
+  }
+}
+
+
+
+@media (max-width: 1040px) {
+  .category-box-container {
+    text-decoration: none !important;
+    width: 50%;
+    padding: 0 50px;
+    .category-box {
+      .w-100 {
+        height: 180px !important;
+      }
+    }
+    .category-image {
+      width: 13.5rem;
+      min-height: 200px !important;
+      transition: 0.3s ease-in-out;
+    }
+  }
+}
+
+@media (max-width: 667px) {
+  .parent__category {
+    padding: 90px 35px;
+  }
+
+  .category-box-container {
+    text-decoration: none !important;
+    width: 50%;
+    padding: 0 15px !important;
+    margin-bottom: 50px !important;
+
+    .category-box {
+      .w-100 {
+        height: 100px !important;
+        border-radius: 10px 20px 10px 20px !important;
+        .col {
+          top: -8% !important;
+          right: -15% !important;
+        }
+      }
+      .touchable-title {
+        font-size: 17px !important;
+      }
+      .touchable-subtitle {
+        font-size: 17px !important;
+      }
+    }
+    .category-image {
+      width: 7.5rem;
+      min-height: 105px !important;
+      transition: 0.3s ease-in-out;
+    }
+  }
+}
+
+
+@media (max-width: 487px) {
+  .parent__category {
+    padding: 90px 35px !important;
+  }
+
+  .category-box-container {
+    text-decoration: none !important;
+    width: 50%;
+    padding: 0 15px !important;
+    .category-box {
+      .w-100 {
+        height: 100px !important;
+        border-radius: 10px 20px 10px 20px !important;
+        .col {
+          top: -8% !important;
+          right: -15% !important;
+        }
+      }
+      .touchable-title {
+        font-size: 15px !important;
+      }
+      .touchable-subtitle {
+        font-size: 15px !important;
+      }
+    }
+    .category-image {
+      width: 7.5rem;
+      min-height: 105px !important;
+      transition: 0.3s ease-in-out;
+    }
+  }
+}
+
+
+@media (max-width: 390px) {
+  .parent__category {
+    padding: 90px 35px;
+  }
+
+  .category-box-container {
+    text-decoration: none !important;
+    width: 100% ;
+    padding: 0 25px !important;
+    .category-box {
+      .w-100 {
+        height: 100px !important;
+        border-radius: 10px 20px 10px 20px !important;
+        .col {
+          top: -8% !important;
+          right: -15% !important;
+        }
+      }
+      .touchable-title {
+        font-size: 15px !important;
+      }
+      .touchable-subtitle {
+        font-size: 15px !important;
+      }
+    }
+    .category-image {
+      width: 8rem;
+      min-height: 105px !important;
+      transition: 0.3s ease-in-out;
+    }
+  }
+}

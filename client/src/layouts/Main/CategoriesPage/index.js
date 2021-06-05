@@ -3,9 +3,12 @@ import {Link} from "react-router-dom";
 import InlineLoader from "../../../components/custom/InlineLoader";
 
 import {getCategoriesList, getCategoryImage} from "../../../actions";
+import {useWindowDimensions} from "../../../hooks";
 
 
 const CategoriesPage = () => {
+
+
     const initialState = {
         loading: false,
         image_loading: false,
@@ -34,13 +37,13 @@ const CategoriesPage = () => {
 
 
     return(
-        <div className='row col' style={{padding: '250px 80px'}}>
+        <div className='parent__category row w-100 m-0' >
             {state.loading && <InlineLoader style={{height: 50, marginTop: 200}}/>}
 
             {
                 !!state.data?.length && !state.loading &&
                 state.data?.map((category, index) =>
-                    <Link className='category-box-container col-4 px-5' style={{textDecoration: 'none', marginBottom: 100}} to={{pathname: `/catalog/category/${category._id}`, data: category}}>
+                    <Link className='category-box-container' style={{textDecoration: 'none', marginBottom: 100}} to={{pathname: `/catalog/category/${category._id}`, data: category}}>
                         <CategoryBox state={state} setState={setState} category={category} onClick={() => {}}/>
                     </Link>
                 )
@@ -55,6 +58,8 @@ export default CategoriesPage;
 
 
 const CategoryBox = (props) => {
+
+    const dimensions = useWindowDimensions()
 
     let {category, state, setState} = props;
 
@@ -94,7 +99,7 @@ const CategoryBox = (props) => {
                     <div className='d-flex align-items-center justify-content-center col'
                          style={{top: -50, right: -50, overflow: 'hidden', position: 'absolute'}}
                     >
-                        <img src={`/api/category/images/${category.img}`} style={{height: '21rem',}} className='category-image'/>
+                        <img src={`/api/category/images/${category.img}`}  className='category-image'/>
                         {/*<img src={getCategoryImage(category.img)} style={{height: '21rem',}} className='category-image'/>*/}
                     </div>
 
@@ -110,7 +115,7 @@ const CategoryBox = (props) => {
                         {
                             !!category.articles_count
                                 ? `${getArticlesCountText()}`
-                                : 'нет в наличии'
+                                : `нет в наличии`
                         }
                     </div>
                 </div>
