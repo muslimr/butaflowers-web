@@ -18,6 +18,8 @@ import {AuthContext} from "../../context/AuthContext";
 const useStyles = makeStyles((theme) =>({
     list: {
         width: 250,
+        height: '100%',
+        backgroundColor: '#efeaf1',
     },
     fullList: {
         width: 'auto',
@@ -25,6 +27,12 @@ const useStyles = makeStyles((theme) =>({
     link: {
         textDecoration: 'none !important' ,
         color: '#7744BD',
+    },
+    textItemFontSize: {
+        color: '#8F73B6',
+        fontSize: '1.5rem',
+        marginTop: 10,
+        marginLeft: 15,
     }
 }));
 
@@ -71,7 +79,7 @@ export default function MySidebar(props) {
                     pageRoutes.map((page, index) =>
                         <Link to={page.route} className={classes.link}>
                             <ListItem button>
-                                <ListItemText primary={page.label} />
+                                <ListItemText classes={{secondary: classes.textItemFontSize}} secondary={page.label} />
                             </ListItem>
                         </Link>
                     )
@@ -87,7 +95,7 @@ export default function MySidebar(props) {
                     <MenuIcon />
                 </Button>
                 <Drawer anchor={'left'} open={state.left} onClose={toggleDrawer('left', false)}>
-                    <img src={`/assets/buta_flowers_logo.svg`} className="img_" style={{ width:140, margin: '10px 10px 10px 55px' }} />
+                    <img src={`/assets/buta_flowers_logo.svg`} className="img_" style={{ width:140, margin: '30px 10px 30px 55px' }} />
                     <div className="px-2 pt-1" >
                         <div className="line__sidebar" />
                     </div>
