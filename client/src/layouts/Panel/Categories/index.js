@@ -3,12 +3,12 @@ import Container from '@material-ui/core/Container';
 import {useHttp} from "../../../hooks";
 import {AuthContext} from "../../../context/AuthContext";
 import Button from "@material-ui/core/Button";
-import MyTable from "../../../components/custom/MyTable";
-import {Loader} from "../../../components/Loader";
 import MyModal from "../../../components/modals/MyModal";
 import MyInput from "../../../components/custom/MyInput";
-import {Snackbar} from "@material-ui/core";
 import {Link} from "react-router-dom";
+import {Alerts} from "../../../plugins/Alerts";
+import InlineLoader from "../../../components/custom/InlineLoader";
+
 import {
     addCategory, addCategoryImage,
     deleteCategory,
@@ -17,54 +17,38 @@ import {
     getCategoriesList,
     getCategoryInfo,
 } from "../../../actions";
-import Swal from 'sweetalert2';
-import {Alerts} from "../../../plugins/Alerts";
-import InlineLoader from "../../../components/custom/InlineLoader";
-import axios from "axios";
-
-
-// async function postImage({image, description}) {
-//     const formData = new FormData();
-//     formData.append("image", image)
-//     formData.append("description", description)
-//
-//     const result = await axios.post('/images', formData, { headers: {'Content-Type': 'multipart/form-data'}})
-//     return result.data
-// }
 
 
 const PanelCategories = () => {
 
-    const initialState = {
-        loading: false,
-        refreshing: false,
-        success: false,
-        error: false,
-        id: '',
-        addData: {
-            img: '',
-            title: '',
-            subtitle: '',
-            description: '',
+    const [state, setState] = useReducer(
+        (prevState, newState) => {
+            return {...prevState, ...newState}
         },
-        data: [],
-        category_info: false,
-        count: 0
-    }
+        {
+            loading: false,
+            refreshing: false,
+            success: false,
+            error: false,
+            id: '',
+            addData: {
+                img: '',
+                title: '',
+                subtitle: '',
+                description: '',
+            },
+            data: [],
+            category_info: false,
+            count: 0
+        }
+    );
 
-    const [state, setState] = useReducer((prevState, newState) => {
-        return {...prevState, ...newState}
-    }, initialState);
+    const [file, setFile] = useState("");
+    const [description, setDescription] = useState("");
 
-    const [file, setFile] = useState("")
-    const [description, setDescription] = useState("")
-    const [images, setImages] = useState([])
-
-    const {token} = useContext(AuthContext);
 
     const refresh = () => {
         getCategoriesList(state, setState);
-        // getTest(state, setState);
     }
 
     useEffect(() => {
@@ -77,7 +61,6 @@ const PanelCategories = () => {
 
 
     const onSave = async (event) => {
-        // event.preventDefault()
         await addCategory(state, setState, {file, description});
         refresh();
     }
@@ -162,8 +145,7 @@ const CategoryBox = (props) => {
     const deleteThisCategory = async () => {
         Alerts.askModal(
             async () => await deleteCategory(state, setState, category._id),
-            () => {
-            },
+            () => {},
             {
                 title: 'Точно хотите удалить ???',
                 confirmButtonText: 'Да, точно !!',
@@ -179,17 +161,13 @@ const CategoryBox = (props) => {
     }
 
     const uploadNewImage = async () => {
-        // await addCategoryImage(state, setState, {file, description})
-
-        await addCategoryImage(state, setState, {file, description}, category._id)
-        // await addCategory(state, setState, {file, description});
+        await addCategoryImage(state, setState, {file, description}, category._id);
     }
 
     const fileSelected = event => {
-        const file = event.target.files[0]
-        setFile(file)
+        const file = event.target.files[0];
+        setFile(file);
     }
-
 
     const getArticlesCountText = () => {
         let count = category.articles_count;
@@ -210,18 +188,6 @@ const CategoryBox = (props) => {
     }
 
 
-    // const getImage = async () => {
-    //     await axios.get(`/api/category/images/${category.img}`)
-    //         .catch(error => setState({error: error, loading: false}))
-    //         .then(response => console.log('REEEEEEEEES', response));
-    // }
-    //
-    //
-    // useEffect(() => {
-    //     getImage();
-    // }, [])
-
-
     return(
         <div className='col-lg-6 p-2'>
             <div className='card p-3' style={{borderRadius: 10}}>
@@ -235,11 +201,7 @@ const CategoryBox = (props) => {
                                 {category.subtitle}
                             </div>
                             <div className='touchable-subtitle' style={{fontSize: 16}}>
-                                {
-                                    !!category.articles_count
-                                        ? `${getArticlesCountText()}`
-                                        : 'нет в наличии'
-                                }
+                                {!!category.articles_count ? `${getArticlesCountText()}` : 'нет в наличии'}
                             </div>
                             <div className='touchable-subtitle' style={{fontSize: 14, overflow: 'hidden', maxHeight: 35, wordBreak: 'break-all', color: '#cdcdcd'}}>
                                 {!!category.description && category.description}
@@ -280,9 +242,8 @@ const CategoryBox = (props) => {
                                                     variant="contained"
                                                     color="secondary"
                                                     className='d-flex col mt-3'
-                                                    onClick={() =>
-                                                        Alerts.askModal(async () => await deleteCategoryImage(state, setState, category._id), () => {})
-                                                    }>
+                                                    onClick={() => Alerts.askModal(async () => await deleteCategoryImage(state, setState, category._id), () => {})}
+                                                >
                                                     <span className="material-icons md-24">delete</span>
                                                     <div>Удалить</div>
                                                 </Button>
@@ -291,10 +252,11 @@ const CategoryBox = (props) => {
                                                 <div>
                                                     <input onChange={(e) => fileSelected(e)} type="file" accept="image/*"/>
 
-                                                    <Button variant="contained"
-                                                            color="primary"
-                                                            className='d-flex col mt-3'
-                                                            onClick={uploadNewImage}
+                                                    <Button
+                                                        variant="contained"
+                                                        color="primary"
+                                                        className='d-flex col mt-3'
+                                                        onClick={uploadNewImage}
                                                     >
                                                         <div>Загрузить</div>
                                                     </Button>
@@ -308,26 +270,20 @@ const CategoryBox = (props) => {
                                                  defaultValue={state.category_info?.title}
                                                  value={state.category_info?.title}
                                                  containerStyle={{paddingTop: 5}}
-                                                 onChange={(e) => setState({...state,
-                                                     category_info: {...state.category_info, title: e.target.value}
-                                                 })}
+                                                 onChange={(e) => setState({...state, category_info: {...state.category_info, title: e.target.value}})}
                                         />
                                         <MyInput label={'Название (Англ.)'}
                                                  defaultValue={state.category_info?.subtitle}
                                                  value={state.category_info?.subtitle}
                                                  containerStyle={{paddingTop: 15}}
-                                                 onChange={(e) => setState({...state,
-                                                     category_info: {...state.category_info, subtitle: e.target.value}
-                                                 })}
+                                                 onChange={(e) => setState({...state, category_info: {...state.category_info, subtitle: e.target.value}})}
                                         />
                                         <MyInput label={'Описание'}
                                                  multiline={true}
                                                  defaultValue={state.category_info?.description}
                                                  value={state.category_info?.description}
                                                  containerStyle={{paddingTop: 15}}
-                                                 onChange={(e) => setState({...state,
-                                                     category_info: {...state.category_info, description: e.target.value}
-                                                 })}
+                                                 onChange={(e) => setState({...state, category_info: {...state.category_info, description: e.target.value}})}
                                         />
                                     </div>
                                 </form>
@@ -359,8 +315,6 @@ const CategoryBox = (props) => {
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
     );

@@ -26,10 +26,10 @@ const useStyles = makeStyles((theme) =>({
     },
     link: {
         textDecoration: 'none !important' ,
-        color: '#7744BD',
+        color: '#39BBA9',
     },
     textItemFontSize: {
-        color: '#8F73B6',
+        color: '#39BBA9',
         fontSize: '1.5rem',
         marginTop: 10,
         marginLeft: 15,
