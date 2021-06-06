@@ -64,7 +64,7 @@ const StyledTabs = withStyles({
 const StyledTab = withStyles((theme) => ({
     root: {
         textTransform: 'none',
-        color: '#000',
+        color: '#fff',
         fontWeight: theme.typography.fontWeightRegular,
         fontSize: theme.typography.pxToRem(18),
         marginRight: theme.spacing(1),
@@ -79,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
         justifyContent: 'flex-end',
-        // backgroundColor: 'red'
+        backgroundColor: '#000'
     },
     padding: {
         padding: theme.spacing(1),

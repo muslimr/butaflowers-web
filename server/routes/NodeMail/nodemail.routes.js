@@ -39,12 +39,16 @@ router.post(
         try {
             let {name, phone, email} = req.body.params;
 
+            let isUserExists = await NodeMail.find({email});
+
             let nodemail = new NodeMail({
                 name: name,
                 phone: phone,
                 email: email,
             });
 
+            if (!isUserExists)
+                await nodemail.save();
 
             const options = {
                 from: "info.butaflowers@gmail.com",
@@ -60,6 +64,13 @@ router.post(
                 ]
             }
 
+            const ownOptions = {
+                from: "info.butaflowers@gmail.com",
+                to: "info.butaflowers@gmail.com",
+                subject: `${name} запросил(а) Ваш Прайс-лист`,
+                text: `Имя: ${name}, Email: ${email}, Номер: ${phone}`,
+            }
+
             transporter.sendMail(options, function(err, info) {
                 if(err) {
                     console.log(err);
@@ -67,9 +78,16 @@ router.post(
                 }
 
                 console.log("Sent: " + info.response);
-            })
+            });
 
-            await nodemail.save();
+            transporter.sendMail(ownOptions, function(err, info) {
+                if(err) {
+                    console.log(err);
+                    return;
+                }
+
+                console.log("Sent: " + info.response);
+            });
 
             res.status(200).json({description: 'Прайс-Лист Отправлен!'});
         } catch(e) {

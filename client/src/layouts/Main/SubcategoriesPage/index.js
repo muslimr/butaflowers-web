@@ -61,9 +61,8 @@ const SubcategoriesPage = (props) => {
                 </div>
                 <div className="image__section" >
                     <div className="d-flex flex-column justify-content-center " >
-                        <div className="title_" style={{marginTop: 20, fontSize: 50, fontWeight: 500}}>{state.category_info?.title}</div>
-                        <p style={{fontSize: 20, textAlign: 'right'}}>
-                        </p>
+                        <div className="title_" style={{marginTop: 20, fontSize: 50, fontWeight: 500, textAlign: 'right'}}>{state.category_info?.title}</div>
+                        <p style={{fontSize: 20, textAlign: 'right'}}>{state.category_info?.description}</p>
                     </div>
                     <div className="img_" >
                         {

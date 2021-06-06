@@ -8,6 +8,7 @@ import "../../assets/index.scss";
 import {AuthContext} from "../../context/AuthContext";
 import {useRoutes} from "../../config/routes";
 import MyStaticSidebar from "../../components/core/MyStaticSidebar";
+import MyModal from "../../components/modals/MyModal";
 
 
 function Main() {
@@ -70,12 +71,51 @@ function Main() {
                                 </div>
                             </div>
                         }
+
+                        {
+                            dimensions.width < 768 &&
+                            <div
+                                className='d-flex justify-content-between align-items-center'
+                                style={{
+                                    padding: "0px 70px",
+                                zIndex: 100,
+                                width: '100%',
+                                position: 'fixed',
+                                height: 70,
+                                marginTop: dimensions.height - 70,
+                                color: '#fff',
+                                backgroundColor: '#000'
+                            }}>
+                                <MyModal
+                                    label={'Позвонить'}
+                                    button={
+                                        <div className="back" >
+                                            <img src="/assets/phone.svg" alt='' />
+                                        </div>
+                                    }
+                                    hideBtn={true}
+                                    contentStyle={{padding: 20, minWidth: 400}}
+                                >
+                                    <div className='d-flex flex-column'>
+                                        <a href="tel:+789262628282" style={{fontSize: 20, marginBottom: 20}}>8 (926) 262 82 82</a>
+                                        <a href="tel:+784955179595" style={{fontSize: 20}}>8 (495) 517 95 95</a>
+                                    </div>
+                                </MyModal>
+                                <div className="back" >
+                                    <img src="/assets/location.svg" alt='' />
+                                </div>
+                            </div>
+                        }
+
+
                         <div className="logo_" >
                             <img src={`/assets/buta_flowers_logo.svg`} className="img_" />
                             <div className='d-flex justify-content-end col p-0 back_icon' style={{position: 'absolute'}}>
                                 <img src={`/assets/buta_large.svg`} style={{width: 620}}/>
                             </div>
                         </div>
+
+
                         {
                             dimensions.width <= 1200
                                 ? <MySidebar pageRoutes={pageRoutes}/>

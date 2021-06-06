@@ -80,10 +80,7 @@ const MainPage = () => {
             key: index,
             content:
                 <div className="c__item">
-                    <div className='d-flex' style={{
-                        boxShadow: '0px 42px 84px #DDDCE0',
-                        borderRadius: '150px 150px 67px 150px'
-                    }}>
+                    <div className='d-flex' style={{boxShadow: '0px 42px 84px #DDDCE0', borderRadius: '150px 150px 67px 150px'}}>
                         <div className="images">
                             <img src={slide.content} className='category-image' />
                         </div>
@@ -91,7 +88,6 @@ const MainPage = () => {
                             <div className='mb-0 title'>
                                 {slide.title}
                             </div>
-                            {/*<div style={{fontSize: 14, color: '#8E8E8E'}}>54 товара</div>*/}
                         </div>
                     </div>
                 </div>
@@ -104,17 +100,8 @@ const MainPage = () => {
     return(
         <div className='d-flex p-4 justify-content-center' style={{minHeight: '100vh'}}>
             <div className="slogan_">
-                <div className='d-flex justify-content-center h1_'>
-                    ДОСТАВКА В ДЕНЬ ЗАКАЗА
-                </div>
-
+                <div className='d-flex justify-content-center h1_'>ДОСТАВКА В ДЕНЬ ЗАКАЗА</div>
                 <img src={`/assets/Butaflowers_main.png`} />
-
-                {/*<div className='nums-box'>*/}
-                {/*    <div className='mr-4'>8 (926) 262 82 82</div>*/}
-                {/*    <div className='ml-4'>8 (495) 517 95 95</div>*/}
-                {/*</div>*/}
-
                 <div className='d-flex justify-content-center align-items-center flex-column'>
                     <div className='d-flex justify-content-center col p-0' style={{position: 'absolute', zIndex: -10, overflow:'hidden'}}>
                         <img src={`/assets/buta_group.svg`} style={{width: 600}}/>
@@ -150,30 +137,6 @@ const MainPage = () => {
                         </Link>
                     </div>
                 </div>
-
-                <div className="bm_buttons" >
-                    <MyModal
-                        label={'Позвонить'}
-                        button={
-                            <div className="back" >
-                                <img src="/assets/phone.svg" alt='' />
-                            </div>
-                        }
-                        hideBtn={true}
-                        contentStyle={{padding: 20, minWidth: 400}}
-                    >
-                        <div className='d-flex flex-column'>
-                            <a href="tel:+789262628282" style={{fontSize: 20, marginBottom: 20}}>8 (926) 262 82 82</a>
-                            <a href="tel:+784955179595" style={{fontSize: 20}}>8 (495) 517 95 95</a>
-                        </div>
-                    </MyModal>
-
-                    <div className="back" >
-                        <img src="/assets/location.svg" alt='' />
-                    </div>
-                </div>
-
-
 
                 <div className='carousel_' >
                     <Carousel slides={slides}

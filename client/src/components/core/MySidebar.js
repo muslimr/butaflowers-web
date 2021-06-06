@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) =>({
     list: {
         width: 250,
         height: '100%',
-        backgroundColor: '#efeaf1',
+        backgroundColor: '#000',
     },
     fullList: {
         width: 'auto',
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) =>({
         color: '#000',
     },
     textItemFontSize: {
-        color: '#000',
+        color: '#fff',
         fontSize: '1.5rem',
         marginTop: 10,
         marginLeft: 15,
