@@ -62,9 +62,9 @@ const ArticlesPage = (props) => {
 
 
     return(
-        <div className='col' style={{padding: '0 80px'}}>
-            <div className='row mb-5'>
-                <div className='col d-flex flex-column align-items-end' style={{paddingTop: 180, color: '#8D8D8D'}}>
+        <div className='parent__category'>
+            <div className='info_ row mb-5'>
+                <div className='back_ col d-flex flex-column align-items-end' style={{ color: '#8D8D8D'}}>
                     <Button
                         className='d-flex m-2 px-4 mr-auto'
                         style={{minHeight: 45}}
@@ -85,7 +85,7 @@ const ArticlesPage = (props) => {
             <div className='row'>
                 {
                     state.data?.map((category, index) =>
-                        <Link className='category-box-container col-4 px-5' style={{marginBottom: 100}} to={{pathname: '/catalog/category/'}}>
+                        <Link className='category-box-container' to={{pathname: '/catalog/category/'}}>
                             <CategoryBox category={category} onClick={() => {}}/>
                         </Link>
                     )
@@ -118,19 +118,17 @@ const CategoryBox = ({category}) => {
     return(
         <div style={{position: 'relative'}}>
             <div className='category-box'>
-                <div className='w-100'
+                <div className='div_'
                      style={{
-                         height: 300,
-                         borderRadius: '25px 63px 0 0',
-                         background: category.color
+                         background: category.color ? category.color : 'gray',
                      }}
                 >
-                    <img src={`/api/article/images/${category?.img}`} className='category-image' style={{top: -50, right: -50, position: 'absolute'}}/>
+                    <img src={`/api/article/images/${category?.img}`} className='category-image' />
                 </div>
-                <div className='col d-flex flex-column py-3 px-4'>
-                    <div className='mb-0' style={{fontSize: 26, fontWeight: 500, color: '#8E8E8E'}}>{category.title}</div>
-                    <div className='mb-0' style={{fontSize: 26, fontWeight: 500, lineHeight: 1, color: '#C1C9A9'}}>{category.title2}</div>
-                    <div className='d-flex w-100 justify-content-end' style={{fontSize: 16, color: category.subtitle ? '#8E8E8E' : '#cdcdcd'}}>{category.subtitle || 'нет в наличии'}</div>
+                <div className='col d-flex flex-column py-3 px-4 div_'>
+                    <div className='mb-0' style={{ fontWeight: 500, color: '#8E8E8E'}}>{category.title}</div>
+                    <div className='mb-0' style={{ fontWeight: 500, lineHeight: 1, color: '#C1C9A9'}}>{category.title2}</div>
+                    <div className='d-flex justify-content-end' style={{ color: category.subtitle ? '#8E8E8E' : '#cdcdcd'}}>{category.subtitle || 'нет в наличии'}</div>
                 </div>
             </div>
         </div>

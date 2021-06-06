@@ -161,7 +161,7 @@ const MainPage = () => {
                 {/*    <div className='ml-4'>8 (495) 517 95 95</div>*/}
                 {/*</div>*/}
 
-                <div className='d-flex justify-content-center'>
+                <div className='d-flex justify-content-center align-items-center flex-column'>
                     <div className='d-flex justify-content-center col p-0' style={{position: 'absolute', zIndex: -10, overflow:'hidden'}}>
                         <img src={`/assets/buta_group.svg`} style={{width: 600}}/>
                     </div>
@@ -196,6 +196,16 @@ const MainPage = () => {
                         </Link>
                     </div>
                 </div>
+
+                <div className="bm_buttons" >
+                    <div className="back" >
+                        <img src="/assets/phone.svg" alt='' />
+                    </div>
+                    <div className="back" >
+                        <img src="/assets/location.svg" alt='' />
+                    </div>
+                </div>
+
 
 
                 <div className='carousel_' >

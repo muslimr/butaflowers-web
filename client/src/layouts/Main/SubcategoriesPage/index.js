@@ -46,7 +46,7 @@ const SubcategoriesPage = (props) => {
 
 
     return(
-        <div className='col' style={{padding: dimensions.width > 992 ? '0 80px' : '0 50px'}}>
+        <div className='parent__category'>
             {state.loading && <InlineLoader />}
             <div className='info_ row mb-5'>
                 <div className='back_ col d-flex flex-column align-items-end' style={{color: '#8D8D8D'}}>
@@ -79,7 +79,7 @@ const SubcategoriesPage = (props) => {
             <div className='row'>
                 {
                     state.data?.map((subCategory, index) =>
-                        <Link className='category-box-container col-4 px-5' style={{marginBottom: 100}} to={{pathname: `/catalog/category/${state.category_id}/subCategory/${subCategory._id}`}}>
+                        <Link className='category-box-container' to={{pathname: `/catalog/category/${state.category_id}/subCategory/${subCategory._id}`}}>
                             <CategoryBox key={index} index={index} category={subCategory} onClick={() => {}}/>
                         </Link>
                     )
@@ -141,16 +141,15 @@ const CategoryBox = ({category, index}) => {
         <div style={{position: 'relative'}}>
             <div className='category-box'>
                 <div className="div_" style={{
-                         // width: 300,
-                         height: 300,
-                         borderRadius: '25px 63px 0 0',
                          background: 'gray',
                      }}
                 >
                     {
                         // status &&
                         // //     ?
-                        <img className="category-image" src={`/api/subcategory/images/${category.img}`} style={{ position:'realtive' }} />
+                        <div className="category-image_container" >
+                            <img className="category-image_diff" src={`/api/subcategory/images/${category.img}`} style={{ position:'realtive' }} />
+                        </div>
                         //     :
                         //     <div className='d-flex align-items-center justify-content-center'
                         //          style={{width: 170, height: 170, borderRadius: 10, overflow: 'hidden', backgroundColor: '#d9d9d9'}}
@@ -160,10 +159,10 @@ const CategoryBox = ({category, index}) => {
 
                     }
                 </div>
-                <div className='col d-flex flex-column py-3 px-4'>
-                    <div className='mb-0' style={{fontSize: 26, fontWeight: 500, color: '#8E8E8E'}}>{category.title}</div>
-                    <div className='mb-0' style={{fontSize: 26, fontWeight: 500, lineHeight: 1, color: '#C1C9A9'}}>{category.title2}</div>
-                    <div className='d-flex w-100 justify-content-end' style={{fontSize: 16, color: category.subtitle ? '#8E8E8E' : '#cdcdcd'}}>{category.subtitle || 'нет в наличии'}</div>
+                <div className='col d-flex flex-column py-3 px-4 div_'>
+                    <div className='mb-0' style={{ fontWeight: 500, color: '#8E8E8E'}}>{category.title}</div>
+                    <div className='mb-0' style={{ fontWeight: 500, lineHeight: 1, color: '#C1C9A9'}}>{category.title2}</div>
+                    <div className='d-flex justify-content-end p' style={{ color: category.subtitle ? '#8E8E8E' : '#cdcdcd'}}>{category.subtitle || 'нет в наличии'}</div>
                 </div>
             </div>
         </div>
