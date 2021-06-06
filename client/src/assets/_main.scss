@@ -53,39 +53,6 @@
   margin: 3rem 0 1rem 0;
 }
 
-.bm_buttons {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 10rem;
-  .back {
-    width: 50px;
-    height: 50px;
-    display: flex;
-    margin: 0 30px;
-    justify-content: center;
-    align-items: center;
-    border-radius: 500rem;
-    background-color: #8F73B6;
-    transition: all .3s ease;
-    img {
-      width: 1.5rem;
-      transition: all .3s ease;
-    }
-    &:first-child {
-      img {
-        width: 1.7rem !important;
-      }
-    }
-    &:hover {
-      cursor: pointer;
-      background-color: #a57cde;
-      img {
-        transform: scale(1.1);
-      }
-    }
-  }
-
-}
 
 @media (max-width: 1200px) {
   .logo_ {
@@ -135,16 +102,52 @@
   }
 
   .bm_buttons {
-    margin-top: 3rem;
+    //margin-top: 3rem;
+    display: none;
   }
 }
 
-@media (max-width: 450px) {
+@media (max-width: 768px) {
   .slogan_ {
-    margin-top: -60px;
+    margin-top: -250px;
     .h1_ {
       font-size: 17px;
     }
   }
+
+  .bm_buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.2rem;
+    .back {
+      width: 50px;
+      height: 50px;
+      display: flex;
+      margin: 0 30px;
+      justify-content: center;
+      align-items: center;
+      border-radius: 500rem;
+      background-color: #8F73B6;
+      transition: all .3s ease;
+      img {
+        width: 1.5rem;
+        transition: all .3s ease;
+      }
+      &:first-child {
+        img {
+          width: 1.7rem !important;
+        }
+      }
+      &:hover {
+        cursor: pointer;
+        background-color: #a57cde;
+        img {
+          transform: scale(1.1);
+        }
+      }
+    }
+
+  }
+
 
 }

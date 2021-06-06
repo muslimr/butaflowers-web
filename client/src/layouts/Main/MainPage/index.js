@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useEffect, useReducer, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useReducer} from 'react';
 import {useHttp} from "../../../hooks";
 import {AuthContext} from "../../../context/AuthContext";
 import MyModal from "../../../components/modals/MyModal";
@@ -7,34 +7,31 @@ import {Link, useLocation} from "react-router-dom";
 import Carousel from 'react-spring-3d-carousel';
 import { config } from "react-spring";
 import {getCategoriesList} from "../../../actions";
-
-
+import {sendPriceList} from "../../../actions/nodemail";
 
 
 const MainPage = () => {
 
-    const initialState = {
-        loading: false,
-        refreshing: false,
-        success: false,
-        error: false,
-        addData: {
-            name: '',
-            phone: '',
-            email: '',
-        },
-        listData: [],
-        count: 0,
-        data: [],
-        goToSlide: 0,
-        offsetRadius: 1,
-        // showNavigation: true,
-        config: config.gentle
-    }
-
     const [state, setState] = useReducer((prevState, newState) => {
-        return {...prevState, ...newState}
-    }, initialState);
+            return {...prevState, ...newState}
+        }, {
+            loading: false,
+            refreshing: false,
+            success: false,
+            error: false,
+            dataToSend: {
+                name: "",
+                phone: "",
+                email: "",
+            },
+            listData: [],
+            count: 0,
+            data: [],
+            goToSlide: 0,
+            offsetRadius: 1,
+            config: config.gentle
+        }
+    );
 
 
     const {loading, request} = useHttp();
@@ -57,49 +54,6 @@ const MainPage = () => {
         getCategoriesList(state, setState);
     }, []);
 
-
-    const addCategory = async (state, setState) => {
-        try {
-            await request('/api/category/add', 'POST', {data: state.addData}, {});
-        } catch (e) {
-
-        }
-    }
-
-    const editCategory = async (state, setState) => {
-        try {
-            await request('/api/category/add', 'POST', {data: state.addData}, {});
-        } catch (e) {
-
-        }
-    }
-
-    const deleteCategory = async (state, setState) => {
-        try {
-            await request('/api/category/add', 'POST', {data: state.addData}, {});
-        } catch (e) {
-
-        }
-    }
-
-
-    // [
-    //     {
-    //         key: 1,
-    //         content: '/assets/zelen.png',
-    //         title: 'Зелень',
-    //     },
-    //     {
-    //         key: 2,
-    //         content: '/assets/roza.png',
-    //         title: 'Розы',
-    //     },
-    //     {
-    //         key: 3,
-    //         content: '/assets/xrizantema.png',
-    //         title: 'Хризантемы',
-    //     },
-    // ]
 
     let slides =
         // state.data
@@ -170,22 +124,22 @@ const MainPage = () => {
                             label={'Получить прайс'}
                             saveBtnLabel={'Отправить'}
                             button={<button className='buta-btn text-center'>Получить Прайс</button>}
-                            contentStyle={{padding: 20, minWidth: 500}}
-                            onSave={() => {}}
+                            contentStyle={{padding: 20, minWidth: 400}}
+                            onSave={() => sendPriceList(state, setState)}
                         >
                             <MyInput label={'Имя'}
-                                     value={state.addData.name}
-                                     onChange={(e) => setState({...state, addData: {...state.addData, name: e.target.value}})}
+                                     value={state.dataToSend.name}
+                                     onChange={(e) => setState({...state, dataToSend: {...state.dataToSend, name: e.target.value}})}
                             />
                             <MyInput label={'Телефон'}
-                                     value={state.addData.phone}
+                                     value={state.dataToSend.phone}
                                      containerStyle={{paddingTop: 15}}
-                                     onChange={(e) => setState({...state, addData: {...state.addData, phone: e.target.value}})}
+                                     onChange={(e) => setState({...state, dataToSend: {...state.dataToSend, phone: e.target.value}})}
                             />
                             <MyInput label={'Email'}
-                                     value={state.addData.email}
+                                     value={state.dataToSend.email}
                                      containerStyle={{paddingTop: 15}}
-                                     onChange={(e) => setState({...state, addData: {...state.addData, email: e.target.value}})}
+                                     onChange={(e) => setState({...state, dataToSend: {...state.dataToSend, email: e.target.value}})}
                             />
                         </MyModal>
                         <form method="get" action={'https://www.instagram.com/butaflowers24/'}>
@@ -198,9 +152,22 @@ const MainPage = () => {
                 </div>
 
                 <div className="bm_buttons" >
-                    <div className="back" >
-                        <img src="/assets/phone.svg" alt='' />
-                    </div>
+                    <MyModal
+                        label={'Позвонить'}
+                        button={
+                            <div className="back" >
+                                <img src="/assets/phone.svg" alt='' />
+                            </div>
+                        }
+                        hideBtn={true}
+                        contentStyle={{padding: 20, minWidth: 400}}
+                    >
+                        <div className='d-flex flex-column'>
+                            <a href="tel:+789262628282" style={{fontSize: 20, marginBottom: 20}}>8 (926) 262 82 82</a>
+                            <a href="tel:+784955179595" style={{fontSize: 20}}>8 (495) 517 95 95</a>
+                        </div>
+                    </MyModal>
+
                     <div className="back" >
                         <img src="/assets/location.svg" alt='' />
                     </div>

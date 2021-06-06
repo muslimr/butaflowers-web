@@ -11,6 +11,7 @@ app.use('/api/auth', require('./server/routes/Auth/auth.routes'));
 app.use('/api/category', require('./server/routes/Catalog/category.routes'));
 app.use('/api/subcategory', require('./server/routes/Catalog/subcategory.routes'));
 app.use('/api/article', require('./server/routes/Catalog/article.routes'));
+app.use('/api/nodemail', require('./server/routes/NodeMail/nodemail.routes'));
 
 
 
