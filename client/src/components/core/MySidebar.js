@@ -13,13 +13,14 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
 import {AuthContext} from "../../context/AuthContext";
+import DehazeIcon from '@material-ui/icons/Dehaze';
 
 
 const useStyles = makeStyles((theme) =>({
     list: {
         width: 250,
         height: '100%',
-        backgroundColor: '#000',
+        backgroundColor: '#00c6ab',
     },
     fullList: {
         width: 'auto',
@@ -92,10 +93,10 @@ export default function MySidebar(props) {
         <div>
             <React.Fragment>
                 <Button onClick={toggleDrawer('left', true)} >
-                    <MenuIcon />
+                    <DehazeIcon />
                 </Button>
-                <Drawer anchor={'left'} open={state.left} onClose={toggleDrawer('left', false)}>
-                    <img src={`/assets/buta_flowers_logo.svg`} className="img_" style={{ width:140, margin: '30px 10px 30px 55px' }} />
+                <Drawer anchor={'left'} open={state.left} onClose={toggleDrawer('left', false)} >
+                    <img src={`/assets/logo_westflora.svg`} className="img_" style={{ width:140, margin: '30px 10px 30px 55px' }} />
                     <div className="px-2 pt-1" >
                         <div className="line__sidebar" />
                     </div>

@@ -14,8 +14,8 @@
 
 .MuiButton-label {
   svg {
-    position: absolute;
-    top: -13.5rem;
+    position: fixed;
+    //top: 0;
     font-size: 2.5rem;
     padding: 0;
     color: #838383;
@@ -25,9 +25,9 @@
 .logo_ {
   .img_ {
     position: absolute;
-    width: 300px;
+    width: 250px;
     margin-left: 80px;
-    margin-top: 70px;
+    //margin-top: 70px;
   }
 }
 

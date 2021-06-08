@@ -88,6 +88,8 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.background.paper,
     },
     demo2: {
+        // display: "flex",
+        marginTop: 40,
         padding: theme.spacing(2),
         // backgroundColor: '#2e1534',
     },
@@ -115,6 +117,8 @@ export default function MyNavbar(props) {
 
     return (
         <div className={classes.root}>
+            <img src={`/assets/logo_westflora.svg`} style={{marginRight: 100, marginTop: 20, marginBottom: 20, width: 200}}/>
+
             <div className={classes.demo2}>
                 {/*<Typography className={classes.padding} />*/}
                 {/*<div className='d-flex justify-content-end'>*/}
@@ -123,6 +127,8 @@ export default function MyNavbar(props) {
                 {/*        <div className='ml-4'>8 (495) 517 95 95</div>*/}
                 {/*    </div>*/}
                 {/*</div>*/}
+
+
 
                 <StyledTabs value={value} onChange={handleChange} aria-label="styled tabs example right">
                     {
