@@ -114,10 +114,8 @@ export default function MySidebar(props) {
 
                 <Drawer anchor={'left'} open={state.left} onClose={toggleDrawer('left', false)}>
                     <div style={{height: 150, backgroundColor: '#000'}}>
-                        <img src={`/assets/logo_westflora.svg`} className="img_"
-                             style={{width: 170, margin: '30px 10px 30px 40px'}}/>
+                        <img src={`/assets/logo_westflora.svg`} className="img_" style={{width: 170, margin: '30px 10px 30px 40px'}}/>
                     </div>
-
                     <div className="px-2 pt-1">
                         <div className="line__sidebar"/>
                     </div>
