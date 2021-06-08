@@ -117,7 +117,7 @@ export default function MyNavbar(props) {
 
     return (
         <div className={classes.root}>
-            <img src={`/assets/logo_westflora.svg`} style={{marginRight: 100, marginTop: 20, marginBottom: 20, width: 200}}/>
+            {/*<img src={`/assets/logo_westflora.svg`} style={{marginRight: 100, marginTop: 20, marginBottom: 20, width: 200}}/>*/}
 
             <div className={classes.demo2}>
                 {/*<Typography className={classes.padding} />*/}

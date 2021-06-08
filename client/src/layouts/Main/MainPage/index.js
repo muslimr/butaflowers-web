@@ -1,5 +1,5 @@
 import React, {useCallback, useContext, useEffect, useReducer} from 'react';
-import {useHttp} from "../../../hooks";
+import {useHttp, useWindowDimensions} from "../../../hooks";
 import {AuthContext} from "../../../context/AuthContext";
 import MyModal from "../../../components/modals/MyModal";
 import MyInput from "../../../components/custom/MyInput";
@@ -36,6 +36,7 @@ const MainPage = () => {
 
     const {loading, request} = useHttp();
     const {token} = useContext(AuthContext);
+    const dimensions = useWindowDimensions();
 
     const getCategories = useCallback( async () => {
         try {
@@ -99,8 +100,8 @@ const MainPage = () => {
 
     return(
         <div className='d-flex p-4 justify-content-center' style={{minHeight: '100vh'}}>
-            <div className="slogan_">
-                <div className='d-flex justify-content-center h1_'>ДОСТАВКА В ДЕНЬ ЗАКАЗА</div>
+            <div className="slogan_" style={{marginTop: dimensions.width <= 768 && 30}}>
+                <div className='d-flex justify-content-center h1_' style={{color: '#00c6ab', fontWeight: '400'}}>ДОСТАВКА В ДЕНЬ ЗАКАЗА</div>
                 <img src={`/assets/Butaflowers_main.png`} />
                 <div className='d-flex justify-content-center align-items-center flex-column'>
                     <div className='d-flex justify-content-center col p-0' style={{position: 'absolute', zIndex: -10, overflow:'hidden'}}>
@@ -111,8 +112,9 @@ const MainPage = () => {
                             label={'Получить прайс'}
                             saveBtnLabel={'Отправить'}
                             button={<button className='buta-btn text-center'>Получить Прайс</button>}
-                            contentStyle={{padding: 20, minWidth: 400}}
+                            contentStyle={{padding: 20, width: '80vw', maxWidth: 500}}
                             onSave={() => sendPriceList(state, setState)}
+                            onClose={() => setState({...state, dataToSend: {...state.dataToSend, name: '', phone: '', email: ''}})}
                         >
                             <MyInput label={'Имя'}
                                      value={state.dataToSend.name}
@@ -138,7 +140,7 @@ const MainPage = () => {
                     </div>
                 </div>
 
-                <div className='carousel_' >
+                <div className='carousel_' style={{marginTop: 300}}>
                     <Carousel slides={slides}
                               goToSlide={state.goToSlide}
                               offsetRadius={state.offsetRadius}

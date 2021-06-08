@@ -62,16 +62,6 @@ function Main() {
 
                     :
                     <>
-                        {/*{*/}
-                        {/*    dimensions.width > 1200 &&*/}
-                        {/*    <div className='d-flex justify-content-start'>*/}
-                        {/*        <div className='nums-box justify-content-between' style={{marginLeft: 40, position: 'absolute'}}>*/}
-                        {/*            <div>8 (926) 262 82 82</div>*/}
-                        {/*            <div>8 (495) 517 95 95</div>*/}
-                        {/*        </div>*/}
-                        {/*    </div>*/}
-                        {/*}*/}
-
                         {
                             dimensions.width < 768 &&
                             <div
@@ -84,7 +74,7 @@ function Main() {
                                 height: 70,
                                 marginTop: dimensions.height - 70,
                                 color: '#fff',
-                                backgroundColor: '#000'
+                                backgroundColor: '#00c6ab'
                             }}>
                                 <MyModal
                                     label={'Позвонить'}
@@ -95,10 +85,11 @@ function Main() {
                                     }
                                     hideBtn={true}
                                     contentStyle={{padding: 20, minWidth: 400}}
+                                    onClose={() => {}}
                                 >
                                     <div className='d-flex flex-column'>
-                                        <a href="tel:+789262628282" style={{fontSize: 20, marginBottom: 20}}>8 (926) 262 82 82</a>
-                                        <a href="tel:+784955179595" style={{fontSize: 20}}>8 (495) 517 95 95</a>
+                                        <a href="tel:+789262628282" style={{color: '#00c6ab', fontSize: 20, fontWeight: 500, marginBottom: 20}}>8 (926) 262 82 82</a>
+                                        <a href="tel:+784955179595" style={{color: '#00c6ab', fontSize: 20, fontWeight: 500,}}>8 (495) 517 95 95</a>
                                     </div>
                                 </MyModal>
                                 <div className="back" >
@@ -107,14 +98,15 @@ function Main() {
                             </div>
                         }
 
-
                         <div className="logo_" >
-                            <img src={`/assets/logo_westflora.svg`} className="img_" />
+                            {
+                                dimensions.width > 768 &&
+                                <img src={`/assets/logo_westflora.svg`} className="img_" />
+                            }
                             <div className='d-flex justify-content-end col p-0 back_icon' style={{position: 'absolute'}}>
                                 <img src={`/assets/buta_large.svg`} style={{width: 620}}/>
                             </div>
                         </div>
-
 
                         {
                             dimensions.width <= 1200

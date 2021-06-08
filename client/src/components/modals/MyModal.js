@@ -64,7 +64,7 @@ const DialogActions = withStyles((theme) => ({
 
 
 export default function MyModal(props) {
-    let {children, label, saveBtnLabel, button, hideBtn, buttonTitle, contentStyle, onSave} = props;
+    let {children, label, saveBtnLabel, button, hideBtn, buttonTitle, contentStyle, onSave, onClose} = props;
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
@@ -85,7 +85,7 @@ export default function MyModal(props) {
             </div>
 
             <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
-                <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+                <DialogTitle id="customized-dialog-title" onClose={() => {handleClose(); onClose()}}>
                     {label}
                 </DialogTitle>
                 <DialogContent dividers style={contentStyle} >
@@ -95,8 +95,11 @@ export default function MyModal(props) {
                     !hideBtn &&
                     <DialogActions>
                         <Button autoFocus
-                                color="primary"
-                                onClick={() => {onSave(); handleClose()}}
+                                variant={"contained"}
+                                size={'medium'}
+                                style={{color: '#fff', backgroundColor: '#00c6ab'}}
+                                className='col py-2 m-2'
+                                onClick={() => {onSave(); handleClose(); onClose()}}
                         >
                             {saveBtnLabel || 'Save changes'}
                         </Button>

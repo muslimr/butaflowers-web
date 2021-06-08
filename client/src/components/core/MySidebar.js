@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) =>({
     },
     textItemFontSize: {
         color: '#fff',
-        fontSize: '1.5rem',
+        fontSize: '1.4rem',
         marginTop: 10,
         marginLeft: 15,
     }
@@ -89,16 +89,37 @@ export default function MySidebar(props) {
         </div>
     );
 
+
     return (
         <div>
             <React.Fragment>
-                <Button onClick={toggleDrawer('left', true)} >
-                    <DehazeIcon />
-                </Button>
-                <Drawer anchor={'left'} open={state.left} onClose={toggleDrawer('left', false)} >
-                    <img src={`/assets/logo_westflora.svg`} className="img_" style={{ width:140, margin: '30px 10px 30px 55px' }} />
-                    <div className="px-2 pt-1" >
-                        <div className="line__sidebar" />
+                <div style={{
+                    position: 'fixed',
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    paddingLeft: 20,
+                    paddingRight: 10,
+                    height: 70,
+                    zIndex: 300,
+                    backgroundColor: '#000'
+                }}>
+                    <img src={`/assets/logo_westflora.svg`} style={{width: 80}}/>
+
+                    <Button onClick={toggleDrawer('left', true)}>
+                        <DehazeIcon style={{color: '#fff'}}/>
+                    </Button>
+                </div>
+
+                <Drawer anchor={'left'} open={state.left} onClose={toggleDrawer('left', false)}>
+                    <div style={{backgroundColor: '#000'}}>
+                        <img src={`/assets/logo_westflora.svg`} className="img_"
+                             style={{width: 170, margin: '30px 10px 30px 40px'}}/>
+                    </div>
+
+                    <div className="px-2 pt-1">
+                        <div className="line__sidebar"/>
                     </div>
                     {list('left')}
                 </Drawer>
