@@ -113,7 +113,7 @@ export default function MySidebar(props) {
                 </div>
 
                 <Drawer anchor={'left'} open={state.left} onClose={toggleDrawer('left', false)}>
-                    <div style={{backgroundColor: '#000'}}>
+                    <div style={{height: 150, backgroundColor: '#000'}}>
                         <img src={`/assets/logo_westflora.svg`} className="img_"
                              style={{width: 170, margin: '30px 10px 30px 40px'}}/>
                     </div>
