@@ -80,14 +80,17 @@ router.post(
                 console.log("Sent: " + info.response);
             });
 
-            transporter.sendMail(ownOptions, function(err, info) {
-                if(err) {
-                    console.log(err);
-                    return;
-                }
+            if(!!email) {
+                transporter.sendMail(ownOptions, function(err, info) {
+                    if(err) {
+                        console.log(err);
+                        return;
+                    }
 
-                console.log("Sent: " + info.response);
-            });
+                    console.log("Sent: " + info.response);
+                });
+            }
+
 
             res.status(200).json({description: 'Прайс-Лист Отправлен!'});
         } catch(e) {
