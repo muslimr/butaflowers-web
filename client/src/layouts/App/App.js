@@ -70,7 +70,7 @@ function Main() {
                                     padding: "0px 70px",
                                 zIndex: 100,
                                 width: '100%',
-                                position: 'fixed',
+                                position: 'static',
                                 height: 70,
                                 marginTop: dimensions.height - 70,
                                 color: '#fff',
