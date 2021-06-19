@@ -39,7 +39,7 @@ const CategoriesPage = () => {
             {
                 !!state.data?.length && !state.loading &&
                 state.data?.map((category, index) =>
-                    <Link className='category-box-container' style={{textDecoration: 'none'}} to={{pathname: `/catalog/category/${category._id}`, data: category}}>
+                    <Link className='col-md-3 category-box-container' style={{textDecoration: 'none'}} to={{pathname: `/catalog/category/${category._id}`, data: category}}>
                         <CategoryBox state={state} setState={setState} category={category} onClick={() => {}}/>
                     </Link>
                 )
@@ -80,9 +80,7 @@ const CategoryBox = (props) => {
         <div style={{position: 'relative'}}>
             <div className='category-box'>
                 <div className='w-100'
-                     style={{
-                         background: `linear-gradient(to top, #fff, #EAE5F5)`
-                     }}
+                     style={{backgroundColor: '#e5eceb'}}
                 >
                     <div className='d-flex align-items-center justify-content-center col'
                          style={{top: -50, right: -50, overflow: 'hidden', position: 'absolute'}}

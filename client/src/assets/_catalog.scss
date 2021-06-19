@@ -10,16 +10,16 @@
   .category-box {
 
     .div_ {
-      border-radius: 25px 63px 0px 0px;
+      border-radius: 15px 20px 0 0;
       overflow: hidden;
       .category-image_container {
-        height: 280px;
+        //height: 200px;
         display: flex;
         justify-content: center;
         align-items: center;
         .category-image_diff {
           object-fit: cover;
-          min-height: 210px !important;
+          //min-height: 210px !important;
         }
       }
       div {
@@ -47,7 +47,7 @@
   .category-image {
     width: 100%;
     object-fit: contain;
-    min-height: 320px;
+    min-height: 240px;
     transition: 0.3s ease-in-out;
   }
 
@@ -57,179 +57,4 @@
   //:hover .category-image {
   //  height: 350px;
   //}
-}
-
-@media (max-width: 1200px) {
-  .parent__category {
-    padding: 90px 70px;
-  }
-  .category-box {
-
-    .div_ {
-      overflow: hidden;
-      .category-image_container {
-        height: 200px !important;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        .category-image_diff {
-          object-fit: cover;
-          min-height: 220px !important;
-        }
-      }
-      div {
-        font-size: 17px !important;
-      }
-      .p {
-        font-size: 14px !important;
-      }
-    }
-
-    .w-100 {
-      height: 220px !important;
-    }
-    .touchable-title {
-      font-size: 18px !important;
-    }
-    .touchable-subtitle {
-      font-size: 16px !important;
-    }
-  }
-}
-
-@media (max-width: 1000px) {
-  .parent__category {
-    padding: 10px 30px !important;
-  }
-  .category-box-container {
-    display: flex;
-    justify-content: center;
-    width: 33.3333%;
-    padding: 0;
-    .category-box {
-
-      .div_ {
-        border-radius: 10px 10px 0px 0px !important;
-        overflow: hidden;
-        .category-image_container {
-          height: 130px !important;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          .category-image_diff {
-            object-fit: contain;
-            min-height: 220px !important;
-          }
-        }
-      }
-      width: 10rem;
-      .w-100 {
-        border-radius: 10px 20px 10px 20px;
-        height: 140px !important;
-        .col {
-          top: -3% !important;
-          right: -9% !important;
-        }
-      }
-      .touchable-title {
-        font-size: 16px !important;
-      }
-      .touchable-subtitle {
-        font-size: 14px !important;
-      }
-    }
-    .category-image {
-      width: 10rem !important;
-      min-height: 80px;
-      transition: 0.3s ease-in-out;
-    }
-  }
-}
-
-@media (max-width: 768px) {
-  .parent__category {
-    padding: 10px 25px !important;
-  }
-  .category-box-container {
-    display: flex;
-    justify-content: center;
-    width: 50%;
-    padding: 0;
-    margin-bottom: 50px;
-    .category-box {
-
-      width: 12rem;
-      border-radius: 10px 25px 0px 0px !important;
-      .w-100 {
-        height: 120px !important;
-        .col {
-          top: -6% !important;
-          right: -17% !important;
-        }
-      }
-      .touchable-title {
-        font-size: 12px !important;
-      }
-      .touchable-subtitle {
-        font-size: 10px !important;
-        padding-bottom: 10px;
-      }
-    }
-    .category-image {
-      width: 9rem !important;
-      min-height: 80px;
-      transition: 0.3s ease-in-out;
-    }
-  }
-}
-
-
-@media (max-width: 480px) {
-  .parent__category {
-    padding: 10px 25px !important;
-  }
-  .category-box-container {
-    display: flex;
-    justify-content: center;
-    width: 50%;
-    padding: 0;
-    margin-bottom: 50px;
-    .category-box {
-      .div_ {
-        border-radius: 10px 20px 0px 0px !important;
-        overflow: hidden;
-        .category-image_container {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          .category-image_diff {
-            object-fit: contain;
-            min-height: 220px !important;
-          }
-        }
-      }
-
-      width: 7rem;
-      border-radius: 10px 25px 10px 25px !important;
-      .w-100 {
-        height: 100px !important;
-        .col {
-          top: -3% !important;
-          right: -9% !important;
-        }
-      }
-      .touchable-title {
-        font-size: 12px !important;
-      }
-      .touchable-subtitle {
-        font-size: 10px !important;
-        padding-bottom: 10px;
-      }
-    }
-    .category-image {
-      width: 7rem !important;
-      min-height: 80px;
-      transition: 0.3s ease-in-out;
-    }
-  }
 }
