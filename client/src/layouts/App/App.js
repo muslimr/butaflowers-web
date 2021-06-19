@@ -68,14 +68,15 @@ function Main() {
                                 className='d-flex justify-content-between align-items-center'
                                 style={{
                                     padding: "0px 70px",
-                                zIndex: 100,
-                                width: '100%',
-                                position: 'fixed',
-                                height: 70,
-                                bottom: 0,
-                                color: '#fff',
-                                backgroundColor: '#00c6ab'
-                            }}>
+                                    zIndex: 100,
+                                    width: '100%',
+                                    position: 'fixed',
+                                    height: 70,
+                                    bottom: 0,
+                                    color: '#fff',
+                                    backgroundColor: '#00c6ab'
+                                }}
+                            >
                                 <MyModal
                                     label={'Позвонить'}
                                     button={
@@ -98,21 +99,21 @@ function Main() {
                             </div>
                         }
 
-                        <div className="logo_" >
-                            {
-                                dimensions.width > 768 &&
-                                <img src={`/assets/logo_westflora.svg`} className="img_" />
-                            }
-                            <div className='d-flex justify-content-end col p-0 back_icon' style={{position: 'absolute'}}>
-                                <img src={`/assets/buta_large.svg`} style={{width: 620}}/>
+                        <div style={{width: '100%', zIndex: 100, position: "fixed"}}>
+                            <div className="logo_" >
+                                {
+                                    dimensions.width > 768 &&
+                                    <img src={`/assets/logo_westflora.svg`} className="img_" />
+                                }
                             </div>
+
+                            {
+                                dimensions.width <= 1200
+                                    ? <MySidebar pageRoutes={pageRoutes}/>
+                                    : <MyNavbar pageRoutes={pageRoutes}/>
+                            }
                         </div>
 
-                        {
-                            dimensions.width <= 1200
-                                ? <MySidebar pageRoutes={pageRoutes}/>
-                                : <MyNavbar pageRoutes={pageRoutes}/>
-                        }
                     </>
             }
         </div>

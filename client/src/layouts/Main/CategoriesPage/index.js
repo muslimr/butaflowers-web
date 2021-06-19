@@ -29,7 +29,6 @@ const CategoriesPage = () => {
 
     useEffect(() => {
         refresh();
-        // getCategoriesList(state, setState);
     }, []);
 
 
@@ -75,10 +74,6 @@ const CategoryBox = (props) => {
             case '0': return `${count} товаров`;
         }
     }
-
-    // useEffect(() => {
-    //     getCategoryImage(category.img)
-    // }, []);
 
 
     return(

@@ -78,6 +78,7 @@ const StyledTab = withStyles((theme) => ({
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
+        width: "100%",
         justifyContent: 'flex-end',
         backgroundColor: '#000'
     },
@@ -117,19 +118,7 @@ export default function MyNavbar(props) {
 
     return (
         <div className={classes.root}>
-            {/*<img src={`/assets/logo_westflora.svg`} style={{marginRight: 100, marginTop: 20, marginBottom: 20, width: 200}}/>*/}
-
             <div className={classes.demo2}>
-                {/*<Typography className={classes.padding} />*/}
-                {/*<div className='d-flex justify-content-end'>*/}
-                {/*    <div className='nums-box ml-5' style={{position: 'absolute'}}>*/}
-                {/*        <div className='mr-4'>8 (926) 262 82 82</div>*/}
-                {/*        <div className='ml-4'>8 (495) 517 95 95</div>*/}
-                {/*    </div>*/}
-                {/*</div>*/}
-
-
-
                 <StyledTabs value={value} onChange={handleChange} aria-label="styled tabs example right">
                     {
                         pageRoutes.map((page, index) =>

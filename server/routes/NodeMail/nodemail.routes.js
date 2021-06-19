@@ -67,7 +67,7 @@ router.post(
             const ownOptions = {
                 from: "info.butaflowers@gmail.com",
                 to: "info.butaflowers@gmail.com",
-                subject: `${name} запросил(а) Ваш Прайс-лист`,
+                subject: !!name ? `${name} запросил(а) Ваш Прайс-лист` : 'Запросили Ваш Прайст-лист',
                 text: `Имя: ${name}, Email: ${email}, Номер: ${phone}`,
             }
 
