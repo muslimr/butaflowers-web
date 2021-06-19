@@ -21,14 +21,20 @@ const Article = (props) => {
                 </div>
                 <img src={SUBCATEGORIES[category].img} className='category-image' style={{minHeight: 550}}/>
             </div>
-            <div className='row'>
+            <div className='category' >
+                <div className='in_side' >
+                    <div>
+                        <div className='row' >
                 {
                     SUBCATEGORIES[category].list.map((category, index) =>
-                        <Link className='category-box-container col-4 px-5' style={{marginBottom: 100}} to={{pathname: '/catalog/category/'}}>
+                        <Link className='col-sm-6 col-md-3 col-lg-3 col-6 category-box-container col-4 px-5' style={{marginBottom: 100}} to={{pathname: '/catalog/category/'}}>
                             <CategoryBox category={category} onClick={() => {}}/>
                         </Link>
                     )
                 }
+                </div>
+                    </div>
+                </div>
             </div>
 
         </div>

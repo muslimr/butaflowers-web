@@ -82,14 +82,20 @@ const ArticlesPage = (props) => {
                 {/*<img src={state.article_info?.img} className='category-image' style={{minHeight: 550}}/>*/}
                 <div className='category-image' style={{minWidth: 400, minHeight: 550}}/>
             </div>
-            <div className='row'>
-                {
-                    state.data?.map((category, index) =>
-                        <Link className='category-box-container' to={{pathname: '/catalog/category/'}}>
-                            <CategoryBox category={category} onClick={() => {}}/>
-                        </Link>
-                    )
-                }
+            <div className='sub_category' >
+                <div className='in_side' >
+                    <div>
+                        <div className='row' >
+                        {
+                            state.data?.map((category, index) =>
+                                <Link className='col-sm-6 col-md-3 col-lg-3 col-6 text-decoration-none' to={{pathname: '/catalog/category/'}}>
+                                    <CategoryBox category={category} onClick={() => {}}/>
+                                </Link>
+                            )
+                        }
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -117,18 +123,24 @@ const CategoryBox = ({category}) => {
 
     return(
         <div style={{position: 'relative'}}>
-            <div className='category-box'>
-                <div className='div_'
+            <div className='sub-category-box'>
+                <div className='w-100 item_'
                      style={{
                          background: category.color ? category.color : 'gray',
                      }}
                 >
-                    <img src={`/api/article/images/${category?.img}`} className='category-image' />
+                    <div className='d-flex align-items-center justify-content-center col'
+                    >
+                        {
+                            <img className="category-image" src={`/api/subcategory/images/${category.img}`} style={{position: 'realtive'}}/>
+                        }
+                        {/*<img src={getCategoryImage(category.img)} style={{height: '21rem',}} className='category-image'/>*/}
+                    </div>
                 </div>
-                <div className='col d-flex flex-column py-3 px-4 div_'>
-                    <div className='mb-0' style={{ fontWeight: 500, color: '#8E8E8E'}}>{category.title}</div>
+                <div className='topic'>
+                    <div className='title m-0' style={{ fontWeight: 500, color: '#8E8E8E'}}>{category.title}</div>
                     <div className='mb-0' style={{ fontWeight: 500, lineHeight: 1, color: '#C1C9A9'}}>{category.title2}</div>
-                    <div className='d-flex justify-content-end' style={{ color: category.subtitle ? '#8E8E8E' : '#cdcdcd'}}>{category.subtitle || 'нет в наличии'}</div>
+                    <div className='p m-0' style={{ color: category.subtitle ? '#8E8E8E' : '#cdcdcd'}}>{category.subtitle || 'нет в наличии'}</div>
                 </div>
             </div>
         </div>

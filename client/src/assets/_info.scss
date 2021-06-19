@@ -1,62 +1,79 @@
-.info_ {
+.sub-info {
+  width: 100%;
+  padding: 10rem 0;
+  //border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  .back_btn-container {
+  }
   .image__section {
     display: flex;
     justify-content: center;
+    align-items: center;
     flex-direction: row;
-  }
-  .back_ {
-    padding-top: 180px;
+    .title_section {
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-end;
+      flex-direction: column;
+      .title {
+        font-size: 50px;
+        font-weight: 600;
+      }
+      .p {
+        font-size: 16px;
+      }
+    }
+    .img_ {
+      img {
+        width: 100%;
+      }
+      .category-image {
+
+      }
+    }
   }
 }
 
 
-@media (max-width: 992px) {
-  .info_ {
-    .title_ {
-      display: flex;
-      justify-content: flex-end;
-      font-size: 28px !important;
-    }
-    p {
-      font-size: 16px !important;
+
+@media (max-width: 768px) {
+  .sub-info {
+    width: 100%;
+    padding: 10rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    .back_btn-container {
     }
     .image__section {
       display: flex;
-      justify-content: flex-end !important;
-      flex-direction: column-reverse;
+      justify-content: center;
+      flex-direction: column-reverse !important;
+      .title_section {
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+        flex-direction: column-reverse;
+        .title {
+          font-size: 50px;
+          font-weight: 600;
+        }
+        .p {
+          font-size: 16px;
+        }
+      }
       .img_ {
         img {
           width: 100%;
-          object-fit: contain;
-          min-height: 100px !important;
         }
-        div {
-          width: 100%;
-          object-fit: contain;
+        .category-image {
+
         }
       }
-
-    }
-  }
-  .back_ {
-    padding-top: 0px !important;
-    margin-left: -1.2rem;
-  }
-}
-
-
-@media (max-width: 465px) {
-  .info_ {
-    .image__section {
-      margin-left: 6rem;
-    }
-  }
-}
-
-@media (max-width:600px) {
-  .info_ {
-    .image__section {
-      margin-left: 6rem;
     }
   }
 }

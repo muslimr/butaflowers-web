@@ -33,24 +33,26 @@ const CategoriesPage = () => {
 
 
     return(
-        <div className='parent__category row w-100 m-0'>
-            {state.loading && <InlineLoader style={{height: 50, marginTop: 200}}/>}
-
-            {
-                !!state.data?.length && !state.loading &&
-                state.data?.map((category, index) =>
-                    <Link className='col-md-3 category-box-container' style={{textDecoration: 'none'}} to={{pathname: `/catalog/category/${category._id}`, data: category}}>
-                        <CategoryBox state={state} setState={setState} category={category} onClick={() => {}}/>
-                    </Link>
-                )
-            }
+        <div className='category' >
+            <div className='in_side' >
+                <div>
+                    <div className='row' >
+                    {
+                        !!state.data?.length && !state.loading &&
+                        state.data?.map((category, index) =>
+                            <Link className='col-sm-6 col-md-3 col-lg-3 col-6' style={{textDecoration: 'none'}} to={{pathname: `/catalog/category/${category._id}`, data: category}}>
+                                <CategoryBox state={state} setState={setState} category={category} onClick={() => {}}/>
+                            </Link>
+                        )
+                    }
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }
 
 export default CategoriesPage;
-
-
 
 
 const CategoryBox = (props) => {
@@ -79,7 +81,7 @@ const CategoryBox = (props) => {
     return(
         <div style={{position: 'relative'}}>
             <div className='category-box'>
-                <div className='w-100'
+                <div className='w-100 item_'
                      style={{backgroundColor: '#e5eceb'}}
                 >
                     <div className='d-flex align-items-center justify-content-center col'
