@@ -54,7 +54,7 @@ router.post(
                 from: "info.butaflowers@gmail.com",
                 to: email,
                 subject: "Ваш ПРАЙС-ЛИСТ",
-                text: "test test test",
+                text: " ",
                 attachments: [
                     {
                         filename: 'price-list.pdf', // <= Here: made sure file name match
