@@ -1,4 +1,4 @@
-.sub-info {
+.sub-category-info {
   width: 100%;
   padding: 10rem 0;
   display: flex;
@@ -13,15 +13,17 @@
   .image__section {
     display: flex;
     justify-content: flex-end;
-    align-items: flex-end;
+    align-items: center;
     flex-direction: row;
+    padding: 0 40px;
     .title_section {
+      width: 100%;
       display: flex;
-      justify-content: flex-end;
+      justify-content: center;
       align-items: flex-end;
       flex-direction: column;
       .title {
-        font-size: 20px;
+        font-size: 30px;
         font-weight: 600;
         color: #8D8D8D;
       }
@@ -33,8 +35,11 @@
       }
     }
     .img_ {
+      display: flex;
+      justify-content: flex-end;
       img {
-        width: 100%;
+        width: 70%;
+        border-radius: 30px;
       }
       .category-image {
 
@@ -47,7 +52,7 @@
 
 
 @media (max-width: 768px) {
-  .sub-info {
+  .sub-category-info {
     width: 100%;
     padding: 6rem 0;
     display: flex;
@@ -56,7 +61,7 @@
     flex-direction: column;
     .back_btn-container {
       position: absolute;
-      top: 7rem;
+      top: 6rem;
       left: -.7rem;
       .MuiButtonBase-root {
         width: 6rem;
@@ -77,16 +82,17 @@
       display: flex;
       justify-content: center;
       flex-direction: column-reverse !important;
-      padding: 0 20px;
-      overflow: hidden;
+      padding: 0 !important;
       .title_section {
+        margin-top: 2rem;
         display: flex;
         justify-content: flex-end;
         align-items: flex-end;
         flex-direction: column-reverse;
-        margin: 0 !important;
+        padding: 0 20px;
+        margin: 0;
         .title {
-          font-size: 25px;
+          font-size: 30px;
           font-weight: 600;
         }
         .p {
@@ -96,10 +102,11 @@
         }
       }
       .img_ {
-        display: flex;
-        justify-content: flex-end;
+        height: 185px;
         img {
-          width: 80%;
+          object-fit: cover;
+          border-radius: 0px;
+          width: 100%;
         }
         .category-image {
 

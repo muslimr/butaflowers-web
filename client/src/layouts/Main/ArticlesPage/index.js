@@ -62,9 +62,9 @@ const ArticlesPage = (props) => {
 
 
     return(
-        <div className='parent__category'>
-            <div className='info_ row mb-5'>
-                <div className='back_ col d-flex flex-column align-items-end' style={{ color: '#8D8D8D'}}>
+        <div>
+            <div className='sub-category-info row m-0'>
+                <div className='back_btn-container col d-flex flex-column align-items-end' style={{ color: '#8D8D8D'}}>
                     <Button
                         className='d-flex m-2 px-4 mr-auto'
                         style={{minHeight: 45}}
@@ -73,14 +73,24 @@ const ArticlesPage = (props) => {
                         <span className="material-icons md-24">arrow_back_ios</span>
                         <div>Назад</div>
                     </Button>
-
-                    <div style={{marginTop: 20, fontSize: 50, fontWeight: 500}}>{state.subcategory_info?.title}</div>
-                    <p style={{fontSize: 20, textAlign: 'right'}}>
-                        {state.subcategory_info?.description}
-                    </p>
+                </div>
+                <div className="image__section" >
+                    <div className="title_section d-flex flex-column justify-content-end" >
+                        <div className="title" >{state.subcategory_info?.title}</div>
+                        <p className='p' >{state.subcategory_info?.description}</p>
+                    </div>
+                    <div className="img_" >
+                        {
+                            !state.category_info?.img
+                                ?
+                                <img src={`/api/category/images/${state.subcategory_info?.img}`} />
+                                :
+                                <div className='category-image' />
+                        }
+                    </div>
                 </div>
                 {/*<img src={state.article_info?.img} className='category-image' style={{minHeight: 550}}/>*/}
-                <div className='category-image' style={{minWidth: 400, minHeight: 550}}/>
+                {/*<div className='category-image' style={{minWidth: 400, minHeight: 550}}/>*/}
             </div>
             <div className='sub_category' >
                 <div className='in_side' >

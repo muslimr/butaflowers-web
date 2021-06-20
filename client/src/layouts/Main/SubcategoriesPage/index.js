@@ -48,7 +48,7 @@ const SubcategoriesPage = (props) => {
     return(
         <div>
             {state.loading && <InlineLoader />}
-            <div className='sub-info row mb-5'>
+            <div className='sub-info row m-0'>
                 <div className='back_btn-container col d-flex flex-column align-items-end' style={{color: '#8D8D8D'}}>
                     <Button
                         className='d-flex m-2 px-4 mr-auto'
