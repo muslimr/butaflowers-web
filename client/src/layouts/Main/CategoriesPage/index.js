@@ -85,7 +85,7 @@ const CategoryBox = (props) => {
                      style={{backgroundColor: '#e5eceb'}}
                 >
                     <div className='d-flex align-items-center justify-content-center col'
-                         style={{top: -50, right: -50, overflow: 'hidden', position: 'absolute'}}
+                         style={{top: -50, right: -20, overflow: '', position: 'absolute'}}
                     >
                         <img src={`/api/category/images/${category.img}`} className='category-image'/>
                         {/*<img src={getCategoryImage(category.img)} style={{height: '21rem',}} className='category-image'/>*/}

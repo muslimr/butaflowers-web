@@ -37,6 +37,19 @@
 }
 
 
+.price__button {
+  background: #F2F2F2 !important;
+  border-radius: 5px !important;
+  font-size: 17px !important;
+  color: #7C7C7C !important;
+  padding: 15px 10px !important;
+  &:hover {
+    background: #00C6AB !important;
+    color: #fff !important;
+  }
+}
+
+
 .touchable-text {
   text-decoration: none !important;
   .touchable-title {
@@ -82,4 +95,14 @@
   background-color: #eeeeee;
 }
 
+
+@media (max-width: 767px) {
+  .price__button {
+    background: #F2F2F2 !important;
+    border-radius: 5px !important;
+    font-size: 15px !important;
+    color: #7C7C7C !important;
+    padding: 10px 10px !important;
+  }
+}
 
