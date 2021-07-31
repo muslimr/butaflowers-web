@@ -15,6 +15,7 @@
     "react-dom": "^16.7.0",
     "react-icons": "^4.2.0",
     "react-router-dom": "^5.2.0",
+    "pigeon-maps": "^0.19.7",
     "react-scripts": "4.0.3",
     "react-spring-3d-carousel": "^1.2.1",
     "sweetalert2": "^11.0.11",

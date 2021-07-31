@@ -104,9 +104,6 @@ const MainPage = () => {
                 <div className='d-flex justify-content-center h1_' style={{color: '#00c6ab', fontWeight: '400'}}>ДОСТАВКА В ДЕНЬ ЗАКАЗА</div>
                 <img src={`/assets/Butaflowers_main.png`} />
                 <div className='d-flex justify-content-center align-items-center flex-column'>
-                    <div className='d-flex justify-content-center col p-0' style={{position: 'absolute', zIndex: -10, overflow:'hidden'}}>
-                        <img src={`/assets/buta_group.svg`} style={{width: 600}}/>
-                    </div>
                     <div className='q_buttons' >
                         <MyModal
                             label={'Получить прайс'}

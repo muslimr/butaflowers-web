@@ -1,9 +1,12 @@
 import React from 'react';
+import MyMap from "./components/MyMap";
 
 
 const ContactsPage = () => {
     return(
-        <div></div>
+        <div style={{paddingTop: 200}}>
+            <MyMap />
+        </div>
     );
 }
 
