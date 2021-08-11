@@ -131,6 +131,11 @@ const MainPage = () => {
                         <form method="get" action={'https://www.instagram.com/westfloraexport/'}>
                             <button className='buta-btn' type="submit">Букеты</button>
                         </form>
+
+                        <a href="instagram://user?username={westfloraexport}">Букеты</a>
+                        {/*<a href="instagram://westfloraexport/">*/}
+                        {/*    Букеты*/}
+                        {/*</a>*/}
                         <Link className='buta-btn text-center' to={{pathname: `/catalog`}}>
                             Перейти в Каталог
                         </Link>
