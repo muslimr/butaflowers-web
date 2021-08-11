@@ -57,8 +57,10 @@ router.post(
                 text: " ",
                 attachments: [
                     {
-                        filename: 'price-list.pdf', // <= Here: made sure file name match
-                        path: path.join(__dirname, '../../../price-list.pdf'), // <= Here
+                        filename: 'icaze-1.pdf', // <= Here: made sure file name match
+                        // path: path.join(__dirname, '../../../price-list.pdf'), // <= Here
+                        // path: path.join(__dirname, '../../../price-list.pdf'), // <= Here
+                        href: 'https://drive.google.com/file/d/1qvOLZgdLKIGvNWu8RgqrMgJwhbo_nF07/view?usp=sharing',
                         contentType: 'application/pdf'
                     }
                 ]
