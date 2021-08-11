@@ -128,9 +128,6 @@ const MainPage = () => {
                                      onChange={(e) => setState({...state, dataToSend: {...state.dataToSend, email: e.target.value}})}
                             />
                         </MyModal>
-                        {/*<form method="get" action={'https://www.instagram.com/westfloraexport/'}>*/}
-                        {/*    <button className='buta-btn' type="submit">Букеты</button>*/}
-                        {/*</form>*/}
 
                         <a href="instagram://user?username=westfloraexport">
                             <button className='buta-btn' type="submit">Букеты</button>

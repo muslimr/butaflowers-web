@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {BrowserRouter as Router, useHistory, useLocation} from 'react-router-dom';
+import {BrowserRouter as Router, useHistory, Link, useLocation} from 'react-router-dom';
 import {useAuth, useWindowDimensions} from "../../hooks";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import MySidebar from "../../components/core/MySidebar";
@@ -27,7 +27,7 @@ function Main() {
         {label: 'Главная', route: '/main'},
         {label: 'Каталог', route: '/catalog'},
         {label: 'Прайс-Лист', route: '/price_list'},
-        {label: 'Доставка', route: '/delivery'},
+        // {label: 'Доставка', route: '/delivery'},
         {label: 'Контакты', route: '/contacts'},
         {label: 'О нас', route: '/about'},
     ];
@@ -93,9 +93,11 @@ function Main() {
                                         <a href="tel:+784955179595" style={{color: '#00c6ab', fontSize: 20, fontWeight: 500,}}>8 (495) 517 95 95</a>
                                     </div>
                                 </MyModal>
-                                <div className="back" >
-                                    <img src="/assets/location.svg" alt='' />
-                                </div>
+                                <Link to={'/contacts'}>
+                                    <div className="back" >
+                                        <img src="/assets/location.svg" alt='' />
+                                    </div>
+                                </Link>
                             </div>
                         }
 
