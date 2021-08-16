@@ -106,7 +106,9 @@ export default function MySidebar(props) {
                     zIndex: 300,
                     backgroundColor: '#000'
                 }}>
-                    <img src={`/assets/logo_westflora.svg`} style={{width: 80}}/>
+                    <Link to={'/main'}>
+                        <img src={`/assets/logo_westflora.svg`} style={{width: 80}}/>
+                    </Link>
 
                     <Button onClick={toggleDrawer('left', true)}>
                         <DehazeIcon style={{color: '#fff'}}/>

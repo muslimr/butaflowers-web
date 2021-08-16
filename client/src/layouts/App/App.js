@@ -102,12 +102,12 @@ function Main() {
                         }
 
                         <div style={{width: '100%', zIndex: 100, position: "fixed"}}>
-                            <div className="logo_" >
+                            <Link className="logo_" to={'/main'}>
                                 {
                                     dimensions.width > 1200 &&
                                     <img src={`/assets/logo_westflora.svg`} className="img_" />
                                 }
-                            </div>
+                            </Link>
 
                             {
                                 dimensions.width <= 1200

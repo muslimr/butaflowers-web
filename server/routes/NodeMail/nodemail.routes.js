@@ -25,8 +25,8 @@ const path = require('path');
 const transporter = nodemailer.createTransport({
     service: "Gmail",
     auth: {
-        user: "info.butaflowers@gmail.com",
-        pass: "But@Flower$3113"
+        user: "westflorarussia@gmail.com",
+        pass: "Designer2020"
     },
 });
 
@@ -47,28 +47,27 @@ router.post(
                 email: email,
             });
 
-            if (!isUserExists)
-                await nodemail.save();
+            // if (!isUserExists)
+            //     await nodemail.save();
 
             const options = {
-                from: "info.butaflowers@gmail.com",
+                from: "westflorarussia@gmail.com",
                 to: email,
                 subject: "Ваш ПРАЙС-ЛИСТ",
                 text: " ",
                 attachments: [
                     {
-                        filename: 'icaze-1.pdf', // <= Here: made sure file name match
-                        // path: path.join(__dirname, '../../../price-list.pdf'), // <= Here
-                        // path: path.join(__dirname, '../../../price-list.pdf'), // <= Here
-                        href: 'https://drive.google.com/file/d/1qvOLZgdLKIGvNWu8RgqrMgJwhbo_nF07/view?usp=sharing',
+                        filename: 'price-list.pdf', // <= Here: made sure file name match
+                        path: path.join(__dirname, '../../../price-list.pdf'), // <= Here
+                        // href: 'https://drive.google.com/file/d/1qvOLZgdLKIGvNWu8RgqrMgJwhbo_nF07/view?usp=sharing',
                         contentType: 'application/pdf'
                     }
                 ]
             }
 
             const ownOptions = {
-                from: "info.butaflowers@gmail.com",
-                to: "info.butaflowers@gmail.com",
+                from: "westflorarussia@gmail.com",
+                to: "westflorarussia@gmail.com",
                 subject: !!name ? `${name} запросил(а) Ваш Прайс-лист` : 'Запросили Ваш Прайст-лист',
                 text: `Имя: ${name}, Email: ${email}, Номер: ${phone}`,
             }
@@ -92,7 +91,6 @@ router.post(
                     console.log("Sent: " + info.response);
                 });
             }
-
 
             res.status(200).json({description: 'Прайс-Лист Отправлен!'});
         } catch(e) {

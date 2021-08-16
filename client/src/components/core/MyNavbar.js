@@ -113,7 +113,7 @@ export default function MyNavbar(props) {
                 setValue(parseInt(index));
             }
         }
-    }, []);
+    }, [history.location.pathname]);
 
 
     return (

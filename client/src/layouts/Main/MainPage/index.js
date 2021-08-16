@@ -37,6 +37,7 @@ const MainPage = () => {
     const {loading, request} = useHttp();
     const {token} = useContext(AuthContext);
     const dimensions = useWindowDimensions();
+    const {breakpoint} = useWindowDimensions();
 
     const getCategories = useCallback( async () => {
         try {
@@ -129,9 +130,17 @@ const MainPage = () => {
                             />
                         </MyModal>
 
-                        <a href="instagram://user?username=westfloraexport">
-                            <button className='buta-btn' type="submit">Букеты</button>
-                        </a>
+                        {
+                            breakpoint === "sm"
+                                ?
+                                <a href="instagram://user?username=westfloraexport">
+                                    <button className='buta-btn' type="submit">Букеты</button>
+                                </a>
+                                :
+                                <form method="get" action={'https://www.instagram.com/westfloraexport/'}>
+                                    <button className='buta-btn' type="submit">Букеты</button>
+                                </form>
+                        }
 
                         <Link className='buta-btn text-center' to={{pathname: `/catalog`}}>
                             Перейти в Каталог
