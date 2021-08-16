@@ -103,8 +103,35 @@ const MainPage = () => {
         <div className='d-flex p-4 justify-content-center' style={{minHeight: '100vh'}}>
             <div className="slogan_" style={{marginTop: dimensions.width <= 768 && 30}}>
                 <div className='d-flex justify-content-center h1_' style={{color: '#00c6ab', fontWeight: '400'}}>ДОСТАВКА В ДЕНЬ ЗАКАЗА</div>
-                <img src={`/assets/Butaflowers_main.png`} />
-                <div className='d-flex justify-content-center align-items-center flex-column'>
+                <img src={`/assets/Butaflowers_main.png`}/>
+
+                {
+                    breakpoint === "sm"
+                        ?
+                        <div style={{
+                            // width: "100%",
+                            display: "flex",
+                            position: "absolute",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            opacity: 0.5
+                        }}>
+                            <img src={`/assets/lotus.svg`} style={{width: 500}}/>
+                        </div>
+                        :
+                        <div style={{
+                            width: "100%",
+                            display: "flex",
+                            position: "absolute",
+                            justifyContent: "flex-end",
+                            opacity: 0.5
+                        }}>
+                            <img src={`/assets/lotus.svg`} style={{marginRight: 100, width: 300}}/>
+                            <img src={`/assets/lotus.svg`} style={{width: 500}}/>
+                        </div>
+                }
+
+                <div className='d-flex justify-content-center align-items-center flex-column' style={{zIndex: 5}}>
                     <div className='q_buttons' >
                         <MyModal
                             label={'Получить прайс'}
